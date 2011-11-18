@@ -1,0 +1,31 @@
+sketchit (0.9.8) unstable; urgency=low
+
+  * Pinch to zoom.
+  * Inverted theme.
+  * Some performance improvements.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 08 Sep 2011 21:54:42 +0200
+
+sketchit (0.9.7) unstable; urgency=low
+
+  * Changed color picker icon in the toolbar.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 08 Sep 2011 21:54:42 +0200
+
+sketchit (0.9.6) unstable; urgency=low
+
+  * New icons.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 08 Sep 2011 17:51:42 +0200
+
+sketchit (0.9.5) unstable; urgency=low
+
+  * Almost final release.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 08 Sep 2011 15:25:42 +0200
+
+sketchit (0.0.2) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 08 Sep 2011 15:25:42 +0200
