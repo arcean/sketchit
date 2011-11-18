@@ -28,7 +28,6 @@ public:
         QVariant data = index.data(Qt::DisplayRole);
         QStringList rowData = data.value<QStringList>();
         contentItem->setTitle(rowData[0]);
-       // contentItem->setSubtitle(rowData[1]);
     }
 };
 

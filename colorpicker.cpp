@@ -53,18 +53,12 @@ ColorPicker::ColorPicker(QGraphicsWidget *parent)
     layout->setPortraitPolicy(policy_portrait);
     layout->setLandscapePolicy(policy_landscape);
 
-
-    //this = new MDialog();
     this->setCentralWidget(centralColorWidget);
-   // addButton(M::CancelButton);
-
-  //  connect(dialog, SIGNAL(disappeared()), SLOT(processDialogResult()));
-  //  this->appear(MSceneWindow::DestroyWhenDismissed);
 }
 
 void ColorPicker::colorClicked(QColor color)
 {
     emit this->colorSelected(color);
-    //qDebug() << "Selected color: " << color.name();
+
     this->disappear();
 }

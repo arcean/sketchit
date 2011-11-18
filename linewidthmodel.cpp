@@ -13,12 +13,10 @@ QVariant LineWidthModel::data(const QModelIndex &index, int role) const
   if (role == Qt::DisplayRole) {
       QStringList rowData;
       if(index.row() == 0) {
-        rowData << "Small"; // first name
-        //rowData << "Joli"; // last name
+        rowData << "Small";
       }
       else if (index.row() == 1){
-          rowData << "Medium"; // first name
-         // rowData << "Joli2"; // last name
+          rowData << "Medium";
       }
       else {
           rowData << "Large";

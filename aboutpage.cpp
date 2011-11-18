@@ -34,7 +34,6 @@ void AboutPage::createContent()
     app_name->setStyleName("CommonTitleInverted");
     app_name->setAlignment(Qt::AlignCenter);
     QFont label_font;
-   // label_font.setBold(true);
     label_font.setPointSize(32);
     app_name->setFont(label_font);
 
@@ -71,26 +70,16 @@ void AboutPage::createContent()
 
     MLabel *titleSpacer = new MLabel(" ");
 
-
-   /* MTextEdit *license = new MTextEdit(MTextEditModel::MultiLine, license_string);
-    license->setStyleName("CommonSingleInputFieldInverted");
-    license->setReadOnly(true);
-    license->setAutoSelectionEnabled(false);
-    license->setFont(license_font);*/
-
-
     landscapePolicy->addItem(titleSpacer, Qt::AlignCenter);
     landscapePolicy->addItem(image, Qt::AlignCenter);
     landscapePolicy->addItem(app_name, Qt::AlignCenter);
     landscapePolicy->addItem(copyright_title, Qt::AlignCenter);
-    //landscapePolicy->addItem(license, Qt::AlignCenter);
     landscapePolicy->addItem(copyrightTextLabel, Qt::AlignCenter);
 
     portraitPolicy->addItem(titleSpacer, Qt::AlignCenter);
     portraitPolicy->addItem(image, Qt::AlignCenter);
     portraitPolicy->addItem(app_name, Qt::AlignCenter);
     portraitPolicy->addItem(copyright_title, Qt::AlignCenter);
-    //portraitPolicy->addItem(license, Qt::AlignCenter);
     portraitPolicy->addItem(copyrightTextLabel, Qt::AlignCenter);
 
 }

@@ -56,13 +56,10 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
     addButton("Save", M::ActionRole);
     if(exitApp)
         addButton(M::CloseButton);
-    //addButton(M::OkButton);
-    //addButton(M::CancelButton);
 
     connect(this, SIGNAL(accepted()), SLOT(processDialogResult()));
     if(exitApp)
         connect(this, SIGNAL(rejected()), SLOT(processDialogRejected()));
-    //dialog->appear(myScene);
 }
 
 void SaveDialog::processDialogResult()
@@ -78,14 +75,11 @@ void SaveDialog::processDialogResult()
     }
     else
         emit savedWithName("");
-
-    //if(exitApp)
-     //   MApplication::quit();
 }
 
 void SaveDialog::processDialogRejected()
 {
-  //  MApplication::quit();
+
 }
 
 QString SaveDialog::getNewFileName()

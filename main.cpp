@@ -16,15 +16,11 @@ int main(int argc, char *argv[]){
     application.setOrganizationName("arcean");
     application.setOrganizationDomain("arcean.com");
     application.setApplicationName("SketchIt");
-    //application.setStyleSheet("color2");
-   // application.setQuitOnLastWindowClosed(false);
-    Window window;// = new Window();
+
+    Window window;
     MainPage *mainPage = new MainPage();
     mainPage->connect(&window, SIGNAL(needToSave()), mainPage, SLOT(wantsToCloseWindow()));
     window.setMainPage(mainPage);
-   // new MButton("Hello", page.centralWidget());
-   // page.appear(&window);
-    //window.setCloseOnLazyShutdown(false);
     mainPage->appear(&window);
 
     window.show();

@@ -26,7 +26,6 @@ void SettingsPage::createContent()
 
     MLabel *labelSize = new MLabel("Image size");
     labelSize->setStyleName("CommonFieldLabelInverted");
-    //labelSize->setColor("black");
 
     /* Button group, exclusive for image size selection */
     MLayout *imageSizeLayout = new MLayout;
@@ -72,10 +71,6 @@ void SettingsPage::createContent()
     MLabel *labelNote = new MLabel("   Changes will be visible after creating a new image.");
     labelNote->setStyleName("CommonFieldLabelInverted");
     labelNote->setFont(fFont);
-  //  MLabel *labelNote1 = new MLabel("   Changes will be visible after creating");
-   // MLabel *labelNote2 = new MLabel("   a new image.");
-   // labelNote1->setFont(fFont);
-   // labelNote2->setFont(fFont);
 
     QGraphicsLinearLayout *switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
     switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -113,7 +108,6 @@ void SettingsPage::createContent()
     portraitPolicy->addItem(labelNote, Qt::AlignCenter);
     portraitPolicy->addItem(spacer, Qt::AlignCenter);
     portraitPolicy->addItem(switchLayout, Qt::AlignCenter);
-   // portraitPolicy->addItem(labelNote2, Qt::AlignCenter);
 }
 
 void SettingsPage::dismissEvent(MDismissEvent *event)

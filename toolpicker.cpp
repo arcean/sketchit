@@ -30,24 +30,11 @@ ToolPicker::ToolPicker(QGraphicsWidget *parent)
     policy_landscape->setSpacing(16);
 
     ToolWidget *fingerButton = new ToolWidget(0, "icon-l-gallery");
-  //  fingerButton->setViewType(ToolWidget::iconType);
- //   fingerButton->setIconID("icon-l-gallery");
     ToolWidget *rectangleButton = new ToolWidget(2, "icon-l-gallery");
-  //  rectangleButton->setViewType(ToolWidget::iconType);
-  //  rectangleButton->setIconID("icon-l-gallery");
     ToolWidget *elipseButton = new ToolWidget(3, "icon-l-gallery");
- //   elipseButton->setViewType(ToolWidget::iconType);
-  //  elipseButton->setIconID("icon-l-gallery");
     ToolWidget *lineButton = new ToolWidget(4, "icon-l-gallery");
-  //  lineButton->setViewType(ToolWidget::iconType);
- //   lineButton->setIconID("icon-l-gallery");
     ToolWidget *penButton = new ToolWidget(1, "icon-l-gallery");
-  //  penButton->setViewType(ToolWidget::iconType);
- //   penButton->setIconID("icon-l-gigfinder");
-   // penButton->setGeometry(QRectF(0, 0, WIDTH, HEIGHT));
     ToolWidget *rubberButton = new ToolWidget(5, "icon-l-gallery");
-  //  rubberButton->setViewType(ToolWidget::iconType);
- //   rubberButton->setIconID("icon-l-gallery");
 
     policy_portrait->addItem(fingerButton, 0, 0, Qt::AlignCenter);
     policy_portrait->addItem(rectangleButton, 0, 1, Qt::AlignCenter);
@@ -83,14 +70,12 @@ ToolPicker::ToolPicker(QGraphicsWidget *parent)
     layout->setPortraitPolicy(policy_portrait);
     layout->setLandscapePolicy(policy_landscape);
 
-
-    //this = new MDialog();
     this->setCentralWidget(centralWidget);
 }
 
 void ToolPicker::toolSelected(int tool)
 {
     emit selectedTool(tool);
-   // qDebug() << "Selected " << tool;
+
     this->disappear();
 }

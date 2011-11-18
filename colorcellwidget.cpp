@@ -10,9 +10,7 @@ ColorCellWidget::ColorCellWidget(QColor color, int width, int height, QGraphicsW
     this->width = width;
     this->height = height;
     this->resize(width, height);
-   // this->setMinimumHeight(48);
     this->setMinimumWidth(96);
-   // this->setMaximumHeight(48);
     this->setMaximumWidth(96);
 }
 
@@ -24,9 +22,7 @@ ColorCellWidget::~ColorCellWidget()
 void ColorCellWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
 {
     QSizeF size = event->newSize();
-    //this->width = 48;
     this->height = size.height();
-    //qDebug() << "new size width: " << this->width << " height: " << this->height;
 }
 
 QRectF ColorCellWidget::boundingRect() const

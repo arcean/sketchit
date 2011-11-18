@@ -57,8 +57,6 @@ void MainPage::createContent()
     rectangleAction->setLocation(MAction::ToolBarLocation);
     MAction *colorAction = new MAction("icon-m-image-edit-color", "Color", this);
     colorAction->setLocation(MAction::ToolBarLocation);
-    //notifyAction = new MAction("icon-m-common-teal", "Status", this);
-    //notifyAction->setLocation(MAction::ToolBarLocation);
     MAction *lineWidth = new MAction("sketchit_linewidth", "Line width", this);
     lineWidth->setLocation(MAction::ToolBarLocation);
     MAction *panningAction = new MAction("sketchit_pannable", "Panning", this);
@@ -70,59 +68,34 @@ void MainPage::createContent()
     colorWidgetAction->setWidget(colorWidget);
 
 
-    //this->addAction(colorAction);
     this->addAction(colorWidgetAction);
     this->addAction(rectangleAction);
-  //  this->addAction(notifyAction);
     this->addAction(lineWidth);
     this->addAction(panningAction);
 
     QGraphicsLinearLayout *paintArea = new QGraphicsLinearLayout(Qt::Vertical);
 
-   // paintingArea = new PaintingArea(this->geometry().width(),this->geometry().height());
-    //paintArea->addItem(paintingArea);
-
     paintingArea = new PaintingArea(1024, 1024, this);
     paintArea->addItem(paintingArea);
-   // paintArea->addItem(new MButton());
-   /* MPannableViewport *view = new MPannableViewport(this);
-    view->setWidget(paintingArea);
-    view->setPanDirection(Qt::Horizontal | Qt::Vertical);
-    view->setAutoRange(true);
-    paintArea->addItem(view);*/
-
-    //ColorCell *cell = new ColorCell(QColor("green"), 80, 80);
-    //colorPicker = new ColorPicker(this);
-  //  paintArea->addItem(colorPicker);
-  //  connect(colorPicker, SIGNAL(colorSelected(QColor)), this, SLOT(changeBrushColor(QColor)));
 
     MLinearLayoutPolicy *landscapePolicy = new MLinearLayoutPolicy(layout, Qt::Horizontal);
     landscapePolicy->addItem(paintArea);
-//    landscapePolicy->addItem(songsLayout);
     layout->setLandscapePolicy(landscapePolicy);
 
     MLinearLayoutPolicy *portraitPolicy = new MLinearLayoutPolicy(layout, Qt::Vertical);
     portraitPolicy->addItem(paintArea);
- //   portraitPolicy->addItem(songsLayout);
     layout->setPortraitPolicy(portraitPolicy);
 
-    //connect(button, SIGNAL(clicked()), this, SLOT(clickAction()));
     connect(colorWidget, SIGNAL(signalClicked(QColor)), this, SLOT(showColorPicker()));
     connect(lineWidth, SIGNAL(triggered()), this, SLOT(showLineWidthDialog()));
     connect(panningAction, SIGNAL(triggered()), this, SLOT(togglePanningMode()));
     connect(rectangleAction, SIGNAL(triggered()), this, SLOT(showToolPicker()));
-    //connect(cp, SIGNAL(signalClicked(QColor)), this, SLOT(createColorDialog()));
 
     connect(menuOpenDialog, SIGNAL(triggered()), this, SLOT(showOpenDialog()));
     connect(menuSaveDialog, SIGNAL(triggered()), this, SLOT(showSaveDialog()));
     connect(menuSettingsDialog, SIGNAL(triggered()), this, SLOT(showSettingsPage()));
     connect(newImageMenu, SIGNAL(triggered()), this, SLOT(createNewImage()));
     connect(menuAboutDialog, SIGNAL(triggered()), this, SLOT(showAboutPage()));
-
-   // connect(paintingArea, SIGNAL(setSaveNotification(bool)), this, SLOT(setSaveNotifier(bool)));
-  /* MButton *button = new MButton("DASDASDAS");
-    button->setStyleName("color2");
-    portraitPolicy->addItem(button);*/
 
     this->actualFileName = "";
 
@@ -156,9 +129,6 @@ void MainPage::showSettingsPage()
 
 void MainPage::showToolPicker()
 {
-    /*ToolPicker *tp = new ToolPicker();
-    connect(tp, SIGNAL(selectedTool(int)), this, SLOT(setTool(int)));
-    tp->appear(MSceneWindow::DestroyWhenDismissed);*/
     ToolPickerDialog *tp = new ToolPickerDialog();
     connect(tp, SIGNAL(toolTypeChanged(int)), this, SLOT(setTool(int)));
     tp->appear(MSceneWindow::DestroyWhenDismissed);
@@ -198,7 +168,6 @@ void MainPage::processOpenDialog(QString fileName)
     QFile file(fileName);
 
     if (file.exists()) {
-        //qDebug() << "OPEN: FN: " << file.fileName();
         this->paintingArea->openImage(file.fileName());
         this->setActualFileName(file.fileName());
         this->paintingArea->setIsImageModified(false);
@@ -213,10 +182,6 @@ void MainPage::processSaveDialog(QString fileName)
     if(QString::compare(name, "", Qt::CaseInsensitive) == 0)
         name = this->actualFileName;
 
-    //qDebug() << "FN: " << fileName;
-    //qDebug() << "name: " << name;
-    //qDebug() << "ActualFN: " << this->actualFileName;
-
     this->paintingArea->saveImage(name);
     this->setActualFileName(name);
     this->paintingArea->setIsImageModified(false);
@@ -230,7 +195,6 @@ void MainPage::showSaveDialog()
     SaveDialog *op = new SaveDialog(false, true);
     connect(op, SIGNAL(savedWithName(QString)), this, SLOT(processSaveDialog(QString)));
     op->appear(MSceneWindow::DestroyWhenDismissed);
-    //this->paintingArea->setIsImageModified(false);
 }
 
 void MainPage::showSaveDialogKnownFilename()
@@ -240,7 +204,6 @@ void MainPage::showSaveDialogKnownFilename()
     SaveDialog *op = new SaveDialog(true, false);
     connect(op, SIGNAL(savedWithName(QString)), this, SLOT(processSaveDialog(QString)));
     op->appear(MSceneWindow::DestroyWhenDismissed);
-    //this->paintingArea->setIsImageModified(false);
 }
 
 void MainPage::changeBrushColor(QColor color)
@@ -312,23 +275,16 @@ bool MainPage::wantsToSaveFile()
 
 void MainPage::saveOnWindowEvents()
 {
-    //qDebug() << "SAVING ON WINDOW EVENTS! FILE: " << this->actualFileName;
     this->paintingArea->saveImage(this->actualFileName);
     this->paintingArea->setIsImageModified(false);
 }
 
 void MainPage::wantsToCloseWindow()
 {
-    //qDebug() << "THEY WANT TO CLOSE A WINDOW!";
     QString filename = getNewFileName();
-    //qDebug() << "FILENAME RANDOM: " << filename;
     this->setActualFileName(filename);
     this->paintingArea->saveImage(this->actualFileName);
     this->paintingArea->setIsImageModified(false);
-    /*
-    if(this->paintingArea->isImageModified()) {
-        showSaveDialog();
-    }*/
 }
 
 void MainPage::setSaveNotifier(bool saved)
@@ -417,15 +373,12 @@ void MainPage::storeAutoLoadFileName()
     QSettings settings;
 
     settings.setValue("startup/autoload_filename", getActualFileName());
-    //qDebug() << "STORING:: " << getActualFileName();
 }
 
 QString MainPage::getAutoLoadFileName()
 {
     QSettings settings;
     QString value =  settings.value("startup/autoload_filename", "").toString();
-
-    //qDebug() << "LOADING:: " << value;
 
     return value;
 }

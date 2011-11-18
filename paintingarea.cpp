@@ -18,10 +18,6 @@ PaintingArea::PaintingArea(int width, int height, MWidget *parent) :
 
     color = QColor("black");
 
-  /*  image = new QImage(width, height, QImage::Format_RGB16);
-    QPainter painter(image);
-    painter.fillRect(image->rect(), QBrush("white"));
-    painter.end();*/
     createNewImage();
     ok = true;
     panningMode = false;
@@ -48,23 +44,14 @@ void PaintingArea::saveImage (QString filename)
     if(filename.count(".png") < 1) {
         filename += ".png";
     }
-    //qDebug() << "1:";
 
-  // QString path = APP_CATALOG + filename;
     QFile file(filename);
-    if(file.exists()){
+    if(file.exists())
         bool r1 = file.remove();
-        //qDebug() << "R1: " << r1;
-    }
-    else {
-        //qDebug() << "DO NOT EXISTS";
-    }
-   //qDebug() << "2:";
+
     bool ret = image->save(filename, "PNG");
-    //qDebug() << "3:";
+
     setIsImageModified(false);
-    //qDebug() << "4:";
-    //qDebug() << "RET: " << ret;
 }
 
 QRectF PaintingArea::boundingRect() const
@@ -708,7 +695,6 @@ bool PaintingArea::event(QEvent *event)
                         quit = true;
                     }
                     else {
-                      //  qDebug() << "HEJO";
                         if(factor * currentScaleFactor > factor)
                             lastZoomIn = factor * currentScaleFactor;
                         else
@@ -717,35 +703,13 @@ bool PaintingArea::event(QEvent *event)
                         quit = false;
                     }
 
-                    //We need an superb algo.
-                    //Get image size
-
                     if(quit)
                         return true;
 
-                   // int width = image->size().width();
-                  //  int height = image->size().height();
-                 //   qDebug() << "IM width: " << width << " height: " << height;
-                        //scaleFactor *= factor;
-                 //   qDebug() << "OUT: " << factor << " MAX: " << lastZoomIn << " MIN: " << lastZoomIn;
-                 //   qDebug() << "OUT total: " << scaleFactor;
+                    this->setMinimumSize(width * factor, height * factor);
+                    this->setMaximumSize(width * factor, height * factor);
+                    this->setTransform(QTransform().scale(factor, factor));
 
-                    //Get window size:
-                  //  int windowWidth = MApplication::activeWindow()->visibleSceneSize().width();
-                  //  int windowHeight = MApplication::activeWindow()->visibleSceneSize().height();
-
-                   // qDebug() << "Win width: " << windowWidth << " height: " << windowHeight;
-                  //  qDebug() << "Pinch width: " << (width * factor) << " height: " << (height * factor);
-
-                    //Compare image size with window's ones
-                    //if(!blockZooming) {
-                        this->setMinimumSize(width * factor, height * factor);
-                        this->setMaximumSize(width * factor, height * factor);
-                        this->setTransform(QTransform().scale(factor, factor));
-                       // this->resize(width * factor, height * factor);
-                      //  this->setGeometry(0, 0, width * factor, height * factor);
-
-                    //}
 
                     //Let's see if we can still zoom in
                     if((width * factor < windowWidth)
@@ -762,9 +726,6 @@ bool PaintingArea::event(QEvent *event)
                         blockZoomingIn = false;
                         blockZoomingOut = false;
                     }
-                    //setTransform(QTransform().scale(scaleFactor * currentScaleFactor,
-                    //                                scaleFactor * currentScaleFactor));
-                    //this->scaleImage(scaleFactor * currentScaleFactor);
                 }
                 return true;
             }
@@ -880,31 +841,17 @@ void PaintingArea::standardZoom()
 
 void PaintingArea::scaleImage(double factor)
 {
-    //We need an superb algo.
-    //Get image size
     int width = image->size().width();
     int height = image->size().height();
     qDebug() << "IM width: " << width << " height: " << height;
-        //scaleFactor *= factor;
-   // qDebug() << "OUT: " << factor;
-  //  qDebug() << "OUT total: " << scaleFactor;
 
     //Get window size:
     int windowWidth = MApplication::activeWindow()->visibleSceneSize().width();
     int windowHeight = MApplication::activeWindow()->visibleSceneSize().height();
 
-  //  qDebug() << "Win width: " << windowWidth << " height: " << windowHeight;
-  //  qDebug() << "Pinch width: " << (width * factor) << " height: " << (height * factor);
-
-    //Compare image size with window's ones
-    //if(!blockZooming) {
-        this->setMinimumSize(width * factor, height * factor);
-        this->setMaximumSize(width * factor, height * factor);
-        this->setTransform(QTransform().scale(factor, factor));
-       // this->resize(width * factor, height * factor);
-      //  this->setGeometry(0, 0, width * factor, height * factor);
-
-   // }
+    this->setMinimumSize(width * factor, height * factor);
+    this->setMaximumSize(width * factor, height * factor);
+    this->setTransform(QTransform().scale(factor, factor));
 
     //Let's see if we can still zoom in
     if((width * factor < windowWidth)
