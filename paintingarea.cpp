@@ -141,20 +141,20 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
     int targetHeight = target.height();
 
     switch (this->toolTypeSelected) {
-    case rectangle: {
+        case rectangle: {
 
-        break;
-    }
-    case elipse: {
-        target.setTopLeft(QPointF(lowPoint.x() - (targetWidth / 8), lowPoint.y() - (targetWidth / 8)));
-        target.setBottomRight(QPointF(highPoint.x() + (targetWidth / 10), highPoint.y() + (targetWidth / 10)));
-        break;
-    }
-    case line: {
-        target.setTopLeft(QPointF(lowPoint.x() - (targetWidth ), lowPoint.y() - (targetWidth )));
-        target.setBottomRight(QPointF(highPoint.x() + (targetWidth ), highPoint.y() + (targetWidth)));
-        break;
-    }
+            break;
+        }
+        case elipse: {
+            target.setTopLeft(QPointF(lowPoint.x() - (targetWidth / 8), lowPoint.y() - (targetWidth / 8)));
+            target.setBottomRight(QPointF(highPoint.x() + (targetWidth / 10), highPoint.y() + (targetWidth / 10)));
+            break;
+        }
+        case line: {
+         //   target.setTopLeft(QPointF(lowPoint.x() - targetWidth, lowPoint.y() - targetWidth));
+          //  target.setBottomRight(QPointF(highPoint.x() + targetWidth, highPoint.y() + targetWidth));
+         //   break;
+        }
     }
 
 
@@ -165,7 +165,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
 
         switch (this->toolTypeSelected) {
         case line: {
-            painter.drawLine(from.x(), from.y(), to.x(), to.y() );
+            painter.drawLine(from.x(), from.y(), to.x(), to.y());
             break;
         }
         case rectangle: {
@@ -185,7 +185,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
 
         switch (this->toolTypeSelected) {
         case line: {
-            painter.drawLine(from.x(), from.y(), to.x(), to.y() );
+            painter.drawLine(from.x(), from.y(), to.x(), to.y());
             break;
         }
         case rectangle: {
@@ -205,7 +205,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
 
         switch (this->toolTypeSelected) {
         case line: {
-            painter.drawLine(from.x(), from.y(), to.x(), to.y() );
+            painter.drawLine(from.x(), from.y(), to.x(), to.y());
             break;
         }
         case rectangle: {
@@ -225,7 +225,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
 
         switch (this->toolTypeSelected) {
         case line: {
-            painter.drawLine(from.x(), from.y(), to.x(), to.y() );
+            painter.drawLine(from.x(), from.y(), to.x(), to.y());
             break;
         }
         case rectangle: {

@@ -29,13 +29,11 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
 
     MWidget *centralWidget = new MWidget;
     MLayout *layout = new MLayout();
-    //layout->setContentsMargins(0,0,0,0);
 
     MLinearLayoutPolicy* landscapePolicy = new MLinearLayoutPolicy(layout, Qt::Vertical);
     MLinearLayoutPolicy* portraitPolicy = new MLinearLayoutPolicy(layout, Qt::Vertical);
     landscapePolicy->setSpacing(8);
     portraitPolicy->setSpacing(8);
-    //landscapePolicy->set
 
     this->exitApp = exitApp;
     this->saveAs = saveAs;
@@ -51,10 +49,10 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
                                                  QString());
         textEdit->setText(getNewFileName());
     }
+    label->setColor("white");
 
     landscapePolicy->addItem(label);
     portraitPolicy->addItem(label);
-    label->setColor("white");
     if(saveAs) {
         landscapePolicy->addItem(textEdit);
         portraitPolicy->addItem(textEdit);
@@ -66,20 +64,6 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
 
     centralWidget->setLayout(layout);
     this->setCentralWidget(centralWidget);
-    /*
-    this->setModal(true);
-    if(saveAs)
-        this->setTitle("Save as...");
-    else
-        this->setTitle("Save...");*/
-
-  /*  addButton("Save", M::ActionRole);
-    if(exitApp)
-        addButton(M::CloseButton);
-
-    connect(this, SIGNAL(accepted()), SLOT(processDialogResult()));
-    if(exitApp)
-        connect(this, SIGNAL(rejected()), SLOT(processDialogRejected()));*/
 }
 
 void SaveDialog::processDialogResult()
