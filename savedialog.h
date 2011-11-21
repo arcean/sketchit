@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <QGraphicsWidget>
 #include <QGraphicsLinearLayout>
-#include <MDialog>
+#include <MSheet>
+#include <MBasicSheetHeader>
 #include <MTextEdit>
 
-class SaveDialog : public MDialog
+class SaveDialog : public MSheet
 {
     Q_OBJECT
 public:
