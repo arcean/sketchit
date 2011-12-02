@@ -66,7 +66,7 @@ contains(MEEGO_EDITION,harmattan) {
     target.path = /opt/sketchit/bin
     INSTALLS += target
 
-    icon.path = /usr/share/themes/base/meegotouch/icons/
+    icon.path = /usr/share/icons/hicolor/80x80/apps
     icon.files = data/sketchit.png
 
     desktop.path = /usr/share/applications

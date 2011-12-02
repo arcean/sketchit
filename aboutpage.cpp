@@ -30,7 +30,7 @@ void AboutPage::createContent()
     layout->setPortraitPolicy(portraitPolicy);
 
     MImageWidget *image = new MImageWidget("sketchit");
-    MLabel *app_name = new MLabel("SketchIt! 0.9.9");
+    MLabel *app_name = new MLabel("SketchIt! 1.0.0");
     app_name->setStyleName("CommonTitleInverted");
     app_name->setAlignment(Qt::AlignCenter);
     QFont label_font;

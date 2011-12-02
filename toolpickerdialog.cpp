@@ -42,7 +42,7 @@ ToolPickerDialog::ToolPickerDialog(QGraphicsWidget *parent)
     layout->setLandscapePolicy(landscapePolicy);
     layout->setPortraitPolicy(portraitPolicy);
 
-    this->setTitle("Select the tool");
+    this->setTitle("Select drawing tool");
     centralWidget->setLayout(layout);
     this->setModal(true);
 
