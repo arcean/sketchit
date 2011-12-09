@@ -72,10 +72,13 @@ contains(MEEGO_EDITION,harmattan) {
     desktop.path = /usr/share/applications
     desktop.files = data/sketchit.desktop
 
-    toolbar_icons.path = /usr/share/themes/base/meegotouch/icons/
+    toolbar_icons.path = /opt/sketchit/data
     toolbar_icons.files += data/sketchit_linewidth.png
+    toolbar_icons.files += data/sketchit_linewidth_dimmed.png
     toolbar_icons.files += data/sketchit_pannable.png
+    toolbar_icons.files += data/sketchit_pannable_dimmed.png
     toolbar_icons.files += data/sketchit_draw.png
+    toolbar_icons.files += data/sketchit_draw_dimmed.png
 
     INSTALLS += icon toolbar_icons desktop
 
@@ -88,6 +91,14 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog
+
+RESOURCES +=
+
+
+
+
+
+
 
 
 

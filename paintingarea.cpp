@@ -151,9 +151,9 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
             break;
         }
         case line: {
-         //   target.setTopLeft(QPointF(lowPoint.x() - targetWidth, lowPoint.y() - targetWidth));
-          //  target.setBottomRight(QPointF(highPoint.x() + targetWidth, highPoint.y() + targetWidth));
-         //   break;
+            target.setTopLeft(QPointF(lowPoint.x() - lineWidthSelected, lowPoint.y() - lineWidthSelected));
+            target.setBottomRight(QPointF(highPoint.x() + lineWidthSelected, highPoint.y() + lineWidthSelected));
+            break;
         }
     }
 

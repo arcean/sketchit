@@ -19,6 +19,7 @@
 #include "linewidthdialog.h"
 #include "toolpickerdialog.h"
 #include "aboutpage.h"
+#include "toolwidget.h"
 
 MainPage::MainPage(QGraphicsItem *parent)
     : MApplicationPage(parent)
@@ -35,6 +36,8 @@ void MainPage::createContent()
     centralWidget()->setLayout(layout);
     this->setPanningDirection(Qt::Horizontal | Qt::Vertical);
     this->setPannable(false);
+
+    paintingArea = new PaintingArea(1024, 1024, this);
 
     MAction *menuOpenDialog = new MAction("Open", this);
     menuOpenDialog->setLocation(MAction::ApplicationMenuLocation);
@@ -53,13 +56,28 @@ void MainPage::createContent()
     this->addAction(menuSaveDialog);
     this->addAction(menuOpenDialog);
 
-    MAction *rectangleAction = new MAction("sketchit_draw", "Paint", this);
+    MWidgetAction *rectangleAction = new MWidgetAction(this);
+    QPixmap rectangleIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_draw.png"));
+    QPixmap rectangleIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_draw_dimmed.png"));
+    ToolWidget *rectangleButton = new ToolWidget(0, rectangleIcon, rectangleIcon_dimmed);
+    rectangleAction->setWidget(rectangleButton);
     rectangleAction->setLocation(MAction::ToolBarLocation);
+
     MAction *colorAction = new MAction("icon-m-image-edit-color", "Color", this);
     colorAction->setLocation(MAction::ToolBarLocation);
-    MAction *lineWidth = new MAction("sketchit_linewidth", "Line width", this);
-    lineWidth->setLocation(MAction::ToolBarLocation);
-    MAction *panningAction = new MAction("sketchit_pannable", "Panning", this);
+
+    MWidgetAction *lineAction = new MWidgetAction(this);
+    QPixmap lineIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth.png"));
+    QPixmap lineIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth_dimmed.png"));
+    ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed);
+    lineAction->setWidget(lineButton);
+    lineAction->setLocation(MAction::ToolBarLocation);
+
+    MWidgetAction *panningAction = new MWidgetAction(this);
+    QPixmap panningIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable.png"));
+    QPixmap panningIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_dimmed.png"));
+    ToolWidget *panningButton = new ToolWidget(0, panningIcon, panningIcon_dimmed);
+    panningAction->setWidget(panningButton);
     panningAction->setLocation(MAction::ToolBarLocation);
 
     colorWidget = new ColorCellWidget("black");
@@ -70,12 +88,11 @@ void MainPage::createContent()
 
     this->addAction(colorWidgetAction);
     this->addAction(rectangleAction);
-    this->addAction(lineWidth);
+    this->addAction(lineAction);
     this->addAction(panningAction);
 
     QGraphicsLinearLayout *paintArea = new QGraphicsLinearLayout(Qt::Vertical);
 
-    paintingArea = new PaintingArea(1024, 1024, this);
     paintArea->addItem(paintingArea);
 
     MLinearLayoutPolicy *landscapePolicy = new MLinearLayoutPolicy(layout, Qt::Horizontal);
@@ -87,9 +104,9 @@ void MainPage::createContent()
     layout->setPortraitPolicy(portraitPolicy);
 
     connect(colorWidget, SIGNAL(signalClicked(QColor)), this, SLOT(showColorPicker()));
-    connect(lineWidth, SIGNAL(triggered()), this, SLOT(showLineWidthDialog()));
-    connect(panningAction, SIGNAL(triggered()), this, SLOT(togglePanningMode()));
-    connect(rectangleAction, SIGNAL(triggered()), this, SLOT(showToolPicker()));
+    connect(lineButton, SIGNAL(clicked(int)), this, SLOT(showLineWidthDialog()));
+    connect(panningButton, SIGNAL(clicked(int)), this, SLOT(togglePanningMode()));
+    connect(rectangleButton, SIGNAL(clicked(int)), this, SLOT(showToolPicker()));
 
     connect(menuOpenDialog, SIGNAL(triggered()), this, SLOT(showOpenDialog()));
     connect(menuSaveDialog, SIGNAL(triggered()), this, SLOT(showSaveDialog()));
@@ -364,8 +381,10 @@ QString MainPage::getNewFileName()
         counter++;
 
         if(counter > 50000)
-            ready = true;
+            return baseName + ".png";
     }
+
+    return baseName + ".png";
 }
 
 void MainPage::storeAutoLoadFileName()

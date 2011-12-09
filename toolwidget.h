@@ -10,6 +10,9 @@ class ToolWidget : public MImageWidget
     Q_OBJECT
 public:
     explicit ToolWidget(int tool, QString id);
+    explicit ToolWidget(int tool, const QPixmap &pixmap, const QPixmap &pixmap_dimmed);
+
+    QRectF boundingRect() const;
 
 signals:
     void clicked(int tool);
@@ -22,6 +25,8 @@ public slots:
 
 private:
     int tool;
+    QPixmap pixmap;
+    QPixmap pixmap_dimmed;
 
 };
 
