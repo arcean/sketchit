@@ -9,7 +9,7 @@ ToolWidget::ToolWidget(int tool, QString id)
     this->setMaximumWidth(96);
 }
 
-ToolWidget::ToolWidget(int tool, const QPixmap &pixmap, const QPixmap &pixmap_dimmed)
+ToolWidget::ToolWidget(int tool, const QPixmap &pixmap, const QPixmap &pixmap_dimmed, bool toggleable, const QPixmap &pixmap_selected, const QPixmap &pixmap_selected_dimmed)
 {
     this->tool = tool;
     this->setPixmap(pixmap);
@@ -19,6 +19,12 @@ ToolWidget::ToolWidget(int tool, const QPixmap &pixmap, const QPixmap &pixmap_di
     this->setMaximumWidth(96);
     this->pixmap = pixmap;
     this->pixmap_dimmed = pixmap_dimmed;
+    this->toggleable = toggleable;
+    if (toggleable) {
+        this->toggled = false;
+        this->pixmap_selected = pixmap_selected;
+        this->pixmap_selected_dimmed = pixmap_selected_dimmed;
+    }
 }
 
 QRectF ToolWidget::boundingRect() const
@@ -28,11 +34,22 @@ QRectF ToolWidget::boundingRect() const
 
 void ToolWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    this->setPixmap(pixmap_dimmed);
+    if(toggleable && toggled)
+        this->setPixmap(pixmap_selected_dimmed);
+    else this->setPixmap(pixmap_dimmed);
 }
 
 void ToolWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     emit clicked(tool);
-    this->setPixmap(pixmap);
+
+    if(toggleable) {
+        toggled = !toggled;
+        if(toggled)
+            this->setPixmap(pixmap_selected);
+        else
+            this->setPixmap(pixmap);
+    }
+    else
+        this->setPixmap(pixmap);
 }

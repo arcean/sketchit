@@ -59,7 +59,7 @@ void MainPage::createContent()
     MWidgetAction *rectangleAction = new MWidgetAction(this);
     QPixmap rectangleIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_draw.png"));
     QPixmap rectangleIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_draw_dimmed.png"));
-    ToolWidget *rectangleButton = new ToolWidget(0, rectangleIcon, rectangleIcon_dimmed);
+    ToolWidget *rectangleButton = new ToolWidget(0, rectangleIcon, rectangleIcon_dimmed, false, NULL, NULL);
     rectangleAction->setWidget(rectangleButton);
     rectangleAction->setLocation(MAction::ToolBarLocation);
 
@@ -69,14 +69,16 @@ void MainPage::createContent()
     MWidgetAction *lineAction = new MWidgetAction(this);
     QPixmap lineIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth.png"));
     QPixmap lineIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth_dimmed.png"));
-    ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed);
+    ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed, false, NULL, NULL);
     lineAction->setWidget(lineButton);
     lineAction->setLocation(MAction::ToolBarLocation);
 
     MWidgetAction *panningAction = new MWidgetAction(this);
     QPixmap panningIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable.png"));
     QPixmap panningIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_dimmed.png"));
-    ToolWidget *panningButton = new ToolWidget(0, panningIcon, panningIcon_dimmed);
+    QPixmap panningIcon_selected(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected.png"));
+    QPixmap panningIcon_selected_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected_dimmed.png"));
+    ToolWidget *panningButton = new ToolWidget(0, panningIcon, panningIcon_dimmed, true, panningIcon_selected, panningIcon_selected_dimmed);
     panningAction->setWidget(panningButton);
     panningAction->setLocation(MAction::ToolBarLocation);
 

@@ -1,3 +1,9 @@
+sketchit (1.0.1) unstable; urgency=low
+
+  * Indicate, when panning mode is enabled.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 02 Dec 2011 17:22:21 +0200
+
 sketchit (1.0.0) unstable; urgency=low
 
   * Final release.

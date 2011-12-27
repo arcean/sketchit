@@ -77,6 +77,8 @@ contains(MEEGO_EDITION,harmattan) {
     toolbar_icons.files += data/sketchit_linewidth_dimmed.png
     toolbar_icons.files += data/sketchit_pannable.png
     toolbar_icons.files += data/sketchit_pannable_dimmed.png
+    toolbar_icons.files += data/sketchit_pannable_selected.png
+    toolbar_icons.files += data/sketchit_pannable_selected_dimmed.png
     toolbar_icons.files += data/sketchit_draw.png
     toolbar_icons.files += data/sketchit_draw_dimmed.png
 

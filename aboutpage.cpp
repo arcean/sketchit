@@ -32,7 +32,7 @@ void AboutPage::createContent()
     QPixmap logo("/usr/share/icons/hicolor/80x80/apps/sketchit.png");
     MImageWidget *image = new MImageWidget();
     image->setPixmap(logo);
-    MLabel *app_name = new MLabel("SketchIt! 1.0.0");
+    MLabel *app_name = new MLabel("SketchIt! 1.0.1");
     app_name->setStyleName("CommonTitleInverted");
     app_name->setAlignment(Qt::AlignCenter);
     QFont label_font;
