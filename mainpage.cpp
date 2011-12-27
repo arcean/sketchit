@@ -382,7 +382,7 @@ QString MainPage::getNewFileName()
 
         counter++;
 
-        if(counter > 50000)
+        if(counter > 500000)
             return baseName + ".png";
     }
 
