@@ -496,19 +496,26 @@ void PaintingArea::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
+/* Commented out in 1.0.2 */
+/*
 void PaintingArea::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if(!panningMode) {
         switch (this->toolTypeSelected) {
             case line:
             case elipse:
-            case rectangle: {
-            touchBegin = event->pos();
-            lowPoint = event->pos();
-            highPoint = event->pos();
+            case rectangle: { */
+            //touchBegin = event->pos();
+            //lowPoint = event->pos();
+            //highPoint = event->pos();
+
+            /* Do not clear backup one more time. */
+            /*
             if(backup_image)
                  backup_image->~QImage();
              backup_image = new QImage(*image);
+             */
+/*
             }
             default: {
 
@@ -516,7 +523,10 @@ void PaintingArea::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
     }
 }
+*/
 
+/* Commented out in 1.0.2 */
+/*
 void PaintingArea::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if(!panningMode) {
@@ -533,6 +543,7 @@ void PaintingArea::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         }
     }
 }
+*/
 
 bool PaintingArea::event(QEvent *event)
 {
@@ -553,8 +564,8 @@ bool PaintingArea::event(QEvent *event)
                        damageCount = 0;
                        if(backup_image)
                             backup_image->~QImage();
-                        backup_image = new QImage(*image);
-                        setIsImageModified(true);
+                       backup_image = new QImage(*image);
+                       //setIsImageModified(true);
                     }
                 }
                 default: {
@@ -575,7 +586,7 @@ bool PaintingArea::event(QEvent *event)
                             currPoint = touchPoints[0].pos();
                             drawFinal(touchBegin, touchPoints[0].pos());
                         }
-                        setIsImageModified(true);
+                        //setIsImageModified(true);
                     }
                     default: {
 
@@ -585,6 +596,7 @@ bool PaintingArea::event(QEvent *event)
             case QEvent::TouchEnd:
             {
                 setIsImageModified(true);
+
                 QList<QTouchEvent::TouchPoint> touchPoints = static_cast<QTouchEvent *>(event)->touchPoints();
                 foreach (const QTouchEvent::TouchPoint &touchPoint, touchPoints) {
                     switch (touchPoint.state()) {

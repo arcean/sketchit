@@ -113,8 +113,10 @@ QString SaveDialog::getNewFileName()
 
         counter++;
 
-        if(counter > 50000)
+        if(counter > 500000)
             ready = true;
     }
+
+    return file.fileName();
 }
 
