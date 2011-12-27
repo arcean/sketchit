@@ -52,8 +52,8 @@ private:
 
     int width;
     int height;
-    QImage *image;
-    QImage *backup_image;
+    QPixmap *image;
+    QPixmap *backup_image;
     bool ok;
     QColor color;
     enum toolType {finger, pencil, rectangle, elipse, line, rubber};

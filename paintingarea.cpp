@@ -63,7 +63,7 @@ void PaintingArea::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
 {
     QRect rect = QRect(0, 0, this->width, this->height);
 
-    painter->drawImage(rect.topLeft(), *image);
+    painter->drawPixmap(rect.topLeft(), *image);
 }
 
 void PaintingArea::drawLineFromTo(QPointF from, QPointF to)
@@ -146,8 +146,8 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
             break;
         }
         case elipse: {
-            target.setTopLeft(QPointF(lowPoint.x() - (targetWidth / 8), lowPoint.y() - (targetWidth / 8)));
-            target.setBottomRight(QPointF(highPoint.x() + (targetWidth / 10), highPoint.y() + (targetWidth / 10)));
+            target.setTopLeft(QPointF(lowPoint.x() - (targetWidth / 8), lowPoint.y() - (targetHeight / 8)));
+            target.setBottomRight(QPointF(highPoint.x() + (targetWidth / 10), highPoint.y() + (targetHeight / 10)));
             break;
         }
         case line: {
@@ -161,7 +161,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
     if (from.x() < to.x() && from.y() < to.y())
     {
         if(target.width() > 1 && target.height() > 1)
-            painter.drawImage(target, *backup_image, target);
+            painter.drawPixmap(target, *backup_image, target);
 
         switch (this->toolTypeSelected) {
         case line: {
@@ -181,7 +181,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
     else if (from.x() < to.x() && from.y() > to.y())
     {
         if(target.width() > 1 && target.height() > 1)
-            painter.drawImage(target, *backup_image, target);
+            painter.drawPixmap(target, *backup_image, target);
 
         switch (this->toolTypeSelected) {
         case line: {
@@ -201,7 +201,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
     else if (from.x() > to.x() && from.y() < to.y())
     {
         if(target.width() > 1 && target.height() > 1)
-            painter.drawImage(target, *backup_image, target);
+            painter.drawPixmap(target, *backup_image, target);
 
         switch (this->toolTypeSelected) {
         case line: {
@@ -221,7 +221,7 @@ void PaintingArea::drawFinal(QPointF from, QPointF to)
     else if (from.x() > to.x() && from.y() > to.y())
     {
         if(target.width() > 1 && target.height() > 1)
-            painter.drawImage(target, *backup_image, target);
+            painter.drawPixmap(target, *backup_image, target);
 
         switch (this->toolTypeSelected) {
         case line: {
@@ -286,7 +286,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
                 highPoint.setY(from.y());
                 QRectF ereaseTargetDirection1(lowPoint, highPoint);
 
-                painter.drawImage(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
+                painter.drawPixmap(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
                 qDebug() << "CRI DONE";
             }
             else if(previousDirection == 4) {
@@ -296,7 +296,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
                 highPoint.setY(lastPoint.y());
                 QRectF ereaseTargetDirection1(lowPoint, highPoint);
 
-                painter.drawImage(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
+                painter.drawPixmap(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
             }
 
             /* Erease the right part of the region */
@@ -307,7 +307,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             QRectF ereaseTarget(lowPoint, highPoint);
 
             if(ereaseTarget.width() >= 1 && ereaseTarget.height() >= 1)
-                painter.drawImage(ereaseTarget, *backup_image, ereaseTarget);
+                painter.drawPixmap(ereaseTarget, *backup_image, ereaseTarget);
 
             /* Erease the bottom part of the region */
             lowPoint.setX(from.x());
@@ -319,7 +319,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             ereaseTarget2.setBottomRight(highPoint);
 
             if(ereaseTarget2.width() >= 1 && ereaseTarget2.height() >= 1)
-                painter.drawImage(ereaseTarget2, *backup_image, ereaseTarget2);
+                painter.drawPixmap(ereaseTarget2, *backup_image, ereaseTarget2);
             painter.end();
             previousDirection = 1;
             return;
@@ -345,7 +345,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
                 highPoint.setY(lastPoint.y());
                 QRectF ereaseTargetDirection1(lowPoint, highPoint);
 
-                painter.drawImage(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
+                painter.drawPixmap(ereaseTargetDirection1, *backup_image, ereaseTargetDirection1);
                 qDebug() << "CRI DONE";
             }
 
@@ -357,7 +357,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             QRectF ereaseTarget(lowPoint, highPoint);
 
             if(ereaseTarget.width() >= 1 && ereaseTarget.height() >= 1)
-                painter.drawImage(ereaseTarget, *backup_image, ereaseTarget);
+                painter.drawPixmap(ereaseTarget, *backup_image, ereaseTarget);
 
             /* Erease the upper part of the region */
             lowPoint.setX(from.x()-1);
@@ -369,7 +369,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             ereaseTarget2.setBottomRight(highPoint);
 
             if(ereaseTarget2.width() >= 1 && ereaseTarget2.height() >= 1)
-                painter.drawImage(ereaseTarget2, *backup_image, ereaseTarget2);
+                painter.drawPixmap(ereaseTarget2, *backup_image, ereaseTarget2);
             painter.end();
             previousDirection = 2;
             return;
@@ -395,7 +395,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             QRectF ereaseTarget(lowPoint, highPoint);
 
             if(ereaseTarget.width() >= 1 && ereaseTarget.height() >= 1)
-                painter.drawImage(ereaseTarget, *backup_image, ereaseTarget);
+                painter.drawPixmap(ereaseTarget, *backup_image, ereaseTarget);
 
             /* Erease the bottom part of the region */
             lowPoint.setX(to.x());
@@ -407,7 +407,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             ereaseTarget2.setBottomRight(highPoint);
 
             if(ereaseTarget2.width() >= 1 && ereaseTarget2.height() >= 1)
-                painter.drawImage(ereaseTarget2, *backup_image, ereaseTarget2);
+                painter.drawPixmap(ereaseTarget2, *backup_image, ereaseTarget2);
             painter.end();
             previousDirection = 3;
             return;
@@ -433,7 +433,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             QRectF ereaseTarget(lowPoint, highPoint);
 
             if(ereaseTarget.width() > 1 && ereaseTarget.height() > 1)
-                painter.drawImage(ereaseTarget, *backup_image, ereaseTarget);
+                painter.drawPixmap(ereaseTarget, *backup_image, ereaseTarget);
 
             /* Erease the upper part of the region */
             lowPoint.setX(to.x());
@@ -445,7 +445,7 @@ void PaintingArea::setActualEreasingAreaRectangle(QPointF from, QPointF to, int 
             ereaseTarget2.setBottomRight(highPoint);
 
             if(ereaseTarget2.width() >= 1 && ereaseTarget2.height() >= 1)
-                painter.drawImage(ereaseTarget2, *backup_image, ereaseTarget2);
+                painter.drawPixmap(ereaseTarget2, *backup_image, ereaseTarget2);
             painter.end();
             previousDirection = 4;
             return;
@@ -563,8 +563,8 @@ bool PaintingArea::event(QEvent *event)
                        highPoint = touchPoints[0].lastPos();
                        damageCount = 0;
                        if(backup_image)
-                            backup_image->~QImage();
-                       backup_image = new QImage(*image);
+                            backup_image->~QPixmap();
+                       backup_image = new QPixmap(*image);
                        //setIsImageModified(true);
                     }
                 }
@@ -821,8 +821,8 @@ void PaintingArea::createNewImage()
 
 
     if(image)
-        image->~QImage();
-    image = new QImage(sWidth, sHeight, QImage::Format_RGB16);
+        image->~QPixmap();
+    image = new QPixmap(sWidth, sHeight);
 
     QPainter painter(image);
     painter.fillRect(image->rect(), QBrush("white"));
