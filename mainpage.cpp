@@ -139,7 +139,7 @@ void MainPage::createContent()
 
 void MainPage::undoAction(int count_undo)
 {
-    qDebug() << "UNDO" << count_undo;
+    //qDebug() << "UNDO" << count_undo;
     if (count_undo == 0)
         menuUndo->setLocation(MAction::NoLocation);
     else
@@ -148,7 +148,7 @@ void MainPage::undoAction(int count_undo)
 
 void MainPage::redoAction(int count_redo)
 {
-    qDebug() << "REDO" << count_redo;
+    //qDebug() << "REDO" << count_redo;
     if (count_redo == 0)
         menuRedo->setLocation(MAction::NoLocation);
     else

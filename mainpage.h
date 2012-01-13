@@ -17,6 +17,9 @@
 #define APP_NAME "SketchIt"
 #define APP_CATALOG "/home/user/MyDocs/Pictures/SketchIt/"
 
+/* To enable debug msgs: */
+/* -output-level debug */
+
 class MainPage : public MApplicationPage {
     Q_OBJECT
 public:

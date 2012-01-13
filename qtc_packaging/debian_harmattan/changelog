@@ -1,7 +1,8 @@
-sketchit (1.0.9) unstable; urgency=low
+sketchit (1.1.0) unstable; urgency=low
 
   * New functionality: undo and redo.
   * Show ToolButton "Line width" only with line or pencil tools.
+  * Toolbar with nice opacity.
 
  -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Fri, 13 Jan 2012 19:21:51 +0200
 

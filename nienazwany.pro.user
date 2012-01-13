@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.4.0, 2012-01-13T22:13:44. -->
+<!-- Written by Qt Creator 2.4.0, 2012-01-13T23:14:40. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -401,7 +401,7 @@
        <value type="QDateTime">2011-12-02T19:13:28</value>
        <value type="QDateTime">2011-12-27T21:04:12</value>
        <value type="QDateTime">2011-12-28T00:13:53</value>
-       <value type="QDateTime">2012-01-13T22:12:57</value>
+       <value type="QDateTime">2012-01-13T22:29:21</value>
        <value type="QDateTime">2011-12-27T20:31:54</value>
       </valuelist>
      </valuemap>
@@ -483,7 +483,7 @@
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">nienazwany (na zdalnym urządzeniu)</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MaemoRunConfiguration</value>
-    <value type="QString" key="Qt4ProjectManager.MaemoRunConfiguration.Arguments">-output-level debug</value>
+    <value type="QString" key="Qt4ProjectManager.MaemoRunConfiguration.Arguments"></value>
     <value type="int" key="Qt4ProjectManager.MaemoRunConfiguration.BaseEnvironmentBase">1</value>
     <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.ExportedLocalDirs"/>
     <value type="QString" key="Qt4ProjectManager.MaemoRunConfiguration.ProFile">nienazwany.pro</value>
