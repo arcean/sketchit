@@ -24,6 +24,11 @@ PaintingArea::PaintingArea(int width, int height, MWidget *parent) :
     setIsImageModified(false);
     this->parent = parent;
     scaleFactor = 1.0;
+    /* There's no undo images yet. */
+    undo_indi = -1;
+    redo_indi = -1;
+    count_redo = 0;
+    count_undo = 0;
 }
 
 void PaintingArea::openImage (QString newImage)
@@ -47,9 +52,9 @@ void PaintingArea::saveImage (QString filename)
 
     QFile file(filename);
     if(file.exists())
-        bool r1 = file.remove();
+        file.remove();
 
-    bool ret = image->save(filename, "PNG");
+    image->save(filename, "PNG");
 
     setIsImageModified(false);
 }
@@ -551,6 +556,9 @@ bool PaintingArea::event(QEvent *event)
         switch (event->type()) {
         case QEvent::TouchBegin:
         {
+            /* Be ready for undo operation. */
+            undoPush();
+
             switch (this->toolTypeSelected) {
                 case line:
                 case elipse:
@@ -880,5 +888,109 @@ void PaintingArea::scaleImage(double factor)
         blockZoomingIn = false;
         blockZoomingOut = false;
     }
+}
 
+void PaintingArea::undoPush()
+{
+    undo_indi = (undo_indi + 1) % MAX_UNDO;
+
+    if(undo_image[undo_indi])
+         undo_image[undo_indi]->~QPixmap();
+    undo_image[undo_indi] = new QPixmap(*image);
+
+    redo_indi = -1;
+    qDebug() << "after PUSH undo_indi" << undo_indi;
+    qDebug() << "after PUSH redo_indi" << redo_indi;
+
+    count_undo++;
+    if (count_undo > MAX_UNDO)
+        count_undo = MAX_UNDO;
+
+    count_redo = 0;
+
+    emit this->countRedo(count_redo);
+    emit this->countUndo(count_undo);
+}
+
+void PaintingArea::undoPop()
+{
+    if (undo_indi == -1)
+        return;
+
+    if (!undo_image[undo_indi])
+        return;
+
+    redoPush();
+
+    QPainter painter(image);
+
+    painter.drawPixmap(0, 0, *undo_image[undo_indi]);
+    painter.end();
+    update(0, 0, image->width(), image->height());
+
+    undo_indi--;
+    if (undo_indi < 0)
+        undo_indi = MAX_UNDO - 1;
+
+    count_undo--;
+    if (count_undo < 0)
+        count_undo = 0;
+    else {
+        count_redo++;
+        if (count_redo > MAX_UNDO)
+            count_redo = MAX_UNDO;
+    }
+       // count_redo++;
+
+    emit this->countRedo(count_redo);
+    emit this->countUndo(count_undo);
+}
+
+void PaintingArea::redoPush()
+{
+    redo_indi = (redo_indi + 1) % MAX_UNDO;
+
+    if(redo_image[redo_indi])
+         redo_image[redo_indi]->~QPixmap();
+    redo_image[redo_indi] = new QPixmap(*image);
+}
+
+void PaintingArea::redoPop()
+{
+    if (redo_indi == -1)
+        return;
+
+    if (!redo_image[redo_indi])
+        return;
+
+    QPainter painter(image);
+
+    painter.drawPixmap(0, 0, *redo_image[redo_indi]);
+    painter.end();
+    update(0, 0, image->width(), image->height());
+
+    redo_indi--;
+    if (redo_indi < 0)
+        redo_indi = MAX_UNDO - 1;
+
+    undo_indi = (undo_indi + 1) % MAX_UNDO;
+
+    count_undo++;
+    if (count_undo > MAX_UNDO)
+        count_undo = MAX_UNDO;
+
+    count_redo--;
+    if (count_redo < 0)
+        count_redo = 0;
+
+    emit this->countRedo(count_redo);
+    emit this->countUndo(count_undo);
+}
+
+void PaintingArea::resetUndoRedoCounters()
+{
+    count_redo = 0;
+    count_undo = 0;
+    emit this->countRedo(count_redo);
+    emit this->countUndo(count_undo);
 }

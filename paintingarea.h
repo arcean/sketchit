@@ -10,6 +10,8 @@
 #include <QGraphicsSceneResizeEvent>
 #include <MWidget>
 
+#define MAX_UNDO 3
+
 class PaintingArea : public MWidget
 {
     Q_OBJECT
@@ -34,12 +36,19 @@ protected:
 
 signals:
     void setSaveNotification(bool notification);
+    void countRedo(int count_redo);
+    void countUndo(int count_undo);
 
 public slots:
     void setBrushColor(QColor color);
     void openImage (QString newImage);
     void saveImage (QString filename);
     void createNewImage();
+    void undoPop();
+    void undoPush();
+    void redoPop();
+    void redoPush();
+    void resetUndoRedoCounters();
 
 private:
     bool isDamaged(QPointF from, QPointF to, int direction);
@@ -54,6 +63,12 @@ private:
     int height;
     QPixmap *image;
     QPixmap *backup_image;
+    QPixmap *undo_image[MAX_UNDO];
+    QPixmap *redo_image[MAX_UNDO];
+    int undo_indi;
+    int redo_indi;
+    int count_undo;
+    int count_redo;
     bool ok;
     QColor color;
     enum toolType {finger, pencil, rectangle, elipse, line, rubber};

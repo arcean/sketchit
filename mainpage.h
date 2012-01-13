@@ -5,6 +5,7 @@
 #include <MDialog>
 #include <QColor>
 #include <MAction>
+#include <MWidgetAction>
 
 #include "paintingarea.h"
 #include "colorpicker.h"
@@ -52,6 +53,8 @@ private slots:
     void showLineWidthDialog();
     void createNewImage();
     void showAboutPage();
+    void undoAction(int count_undo);
+    void redoAction(int count_redo);
 
 private:
     void setActualFileName(QString fileName);
@@ -66,6 +69,9 @@ private:
     QString actualFileName;
     MAction *notifyAction;
     ColorCellWidget *colorWidget;
+    MWidgetAction *lineAction;
+    MAction *menuRedo;
+    MAction *menuUndo;
 
 };
 

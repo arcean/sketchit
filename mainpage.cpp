@@ -6,7 +6,6 @@
 #include <MToolBar>
 #include <MAction>
 #include <MTextEdit>
-#include <MWidgetAction>
 #include <MBanner>
 #include <MSceneWindow>
 #include <QDebug>
@@ -31,6 +30,7 @@ void MainPage::createContent()
 {
     applicationWindow()->setStyleName("CommonApplicationWindowInverted");
     this->setStyleName("CommonApplicationPageInverted");
+    applicationWindow()->setNavigationBarOpacity(0.9);
 
     MLayout *layout = new MLayout;
     centralWidget()->setLayout(layout);
@@ -49,12 +49,18 @@ void MainPage::createContent()
     menuSettingsDialog->setLocation(MAction::ApplicationMenuLocation);
     MAction *newImageMenu = new MAction("New image", this);
     newImageMenu->setLocation(MAction::ApplicationMenuLocation);
+    menuUndo = new MAction("Undo", this);
+    menuUndo->setLocation(MAction::NoLocation);
+    menuRedo = new MAction("Redo", this);
+    menuRedo->setLocation(MAction::NoLocation);
 
     this->addAction(menuAboutDialog);
     this->addAction(menuSettingsDialog);
     this->addAction(newImageMenu);
     this->addAction(menuSaveDialog);
     this->addAction(menuOpenDialog);
+    this->addAction(menuRedo);
+    this->addAction(menuUndo);
 
     MWidgetAction *rectangleAction = new MWidgetAction(this);
     QPixmap rectangleIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_draw.png"));
@@ -66,12 +72,12 @@ void MainPage::createContent()
     MAction *colorAction = new MAction("icon-m-image-edit-color", "Color", this);
     colorAction->setLocation(MAction::ToolBarLocation);
 
-    MWidgetAction *lineAction = new MWidgetAction(this);
+    lineAction = new MWidgetAction(this);
     QPixmap lineIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth.png"));
     QPixmap lineIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth_dimmed.png"));
     ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed, false, NULL, NULL);
     lineAction->setWidget(lineButton);
-    lineAction->setLocation(MAction::ToolBarLocation);
+    lineAction->setLocation(MAction::NoLocation);
 
     MWidgetAction *panningAction = new MWidgetAction(this);
     QPixmap panningIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable.png"));
@@ -114,7 +120,12 @@ void MainPage::createContent()
     connect(menuSaveDialog, SIGNAL(triggered()), this, SLOT(showSaveDialog()));
     connect(menuSettingsDialog, SIGNAL(triggered()), this, SLOT(showSettingsPage()));
     connect(newImageMenu, SIGNAL(triggered()), this, SLOT(createNewImage()));
+    connect(menuUndo, SIGNAL(triggered()), paintingArea, SLOT(undoPop()));
+    connect(menuRedo, SIGNAL(triggered()), paintingArea, SLOT(redoPop()));
     connect(menuAboutDialog, SIGNAL(triggered()), this, SLOT(showAboutPage()));
+
+    connect(paintingArea, SIGNAL(countUndo(int)), this, SLOT(undoAction(int)));
+    connect(paintingArea, SIGNAL(countRedo(int)), this, SLOT(redoAction(int)));
 
     this->actualFileName = "";
 
@@ -126,12 +137,31 @@ void MainPage::createContent()
     }
 }
 
+void MainPage::undoAction(int count_undo)
+{
+    qDebug() << "UNDO" << count_undo;
+    if (count_undo == 0)
+        menuUndo->setLocation(MAction::NoLocation);
+    else
+        menuUndo->setLocation(MAction::ApplicationMenuLocation);
+}
+
+void MainPage::redoAction(int count_redo)
+{
+    qDebug() << "REDO" << count_redo;
+    if (count_redo == 0)
+        menuRedo->setLocation(MAction::NoLocation);
+    else
+        menuRedo->setLocation(MAction::ApplicationMenuLocation);
+}
+
 void MainPage::createNewImage()
 {
     /* Let's save the image, before creating a new. */
     decideAndSaveImage();
     paintingArea->createNewImage();
     this->setActualFileName("");
+    paintingArea->resetUndoRedoCounters();
 }
 
 void MainPage::showAboutPage()
@@ -193,6 +223,8 @@ void MainPage::processOpenDialog(QString fileName)
     }
     else
         this->showWarningOpenFileBanner();
+
+    paintingArea->resetUndoRedoCounters();
 }
 
 void MainPage::processSaveDialog(QString fileName)
@@ -233,10 +265,14 @@ void MainPage::changeBrushColor(QColor color)
 void MainPage::setTool(int tool)
 {
     paintingArea->setToolType(tool);
-    if(tool == 5)
+    if (tool == 5)
         paintingArea->setRubberMode(true);
     else
         paintingArea->setRubberMode(false);
+    if (tool == 4 || tool == 1)
+        lineAction->setLocation(MAction::ToolBarLocation);
+    else
+        lineAction->setLocation(MAction::NoLocation);
 
 }
 

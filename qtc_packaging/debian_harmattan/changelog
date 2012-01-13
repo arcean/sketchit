@@ -1,14 +1,33 @@
+sketchit (1.0.9) unstable; urgency=low
+
+  * New functionality: undo and redo.
+  * Show ToolButton "Line width" only with line or pencil tools.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Fri, 13 Jan 2012 19:21:51 +0200
+
+sketchit (1.0.9) unstable; urgency=low
+
+  * Prepare to a new public release.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 29 Dec 2011 00:16:42 +0200
+
+sketchit (1.0.3) unstable; urgency=low
+
+  * Huge performance boost - use hardware acceleration.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 28 Dec 2011 22:31:28 +0200
+
 sketchit (1.0.2) unstable; urgency=low
 
   * Performance improvements.
 
- -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 02 Dec 2011 17:22:21 +0200
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 28 Dec 2011 18:31:16 +0200
 
 sketchit (1.0.1) unstable; urgency=low
 
   * Indicate, when panning mode is enabled.
 
- -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 02 Dec 2011 17:22:21 +0200
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Thu, 28 Dec 2011 17:49:24 +0200
 
 sketchit (1.0.0) unstable; urgency=low
 
