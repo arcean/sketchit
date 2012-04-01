@@ -527,12 +527,14 @@ void PaintingArea::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
 
 void PaintingArea::mousePressEvent(QGraphicsSceneMouseEvent*)
 {
-    feedbackPressSlot();
+    if (!panningMode)
+        feedbackPressSlot();
 }
 
 void PaintingArea::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
 {
-    feedbackReleaseSlot();
+    if (!panningMode)
+        feedbackReleaseSlot();
 }
 
 /* Commented out in 1.0.2 */
