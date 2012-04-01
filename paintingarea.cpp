@@ -8,7 +8,7 @@
 #include "paintingarea.h"
 #include "mainpage.h"
 
-PaintingArea::PaintingArea(int width, int height, MWidget *parent) :
+PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
     MWidget(parent)
 {
     setAttribute(Qt::WA_AcceptTouchEvents);
@@ -29,6 +29,30 @@ PaintingArea::PaintingArea(int width, int height, MWidget *parent) :
     redo_indi = -1;
     count_redo = 0;
     count_undo = 0;
+
+    feedbackPress = new MFeedback();
+    this->feedbackEnabled = feedbackEnabled;
+}
+PaintingArea::~PaintingArea()
+{
+    delete feedbackPress;
+}
+
+void PaintingArea::feedbackPressSlot()
+{
+    if (feedbackEnabled)
+        feedbackPress->play("priority2_static_press");
+}
+
+void PaintingArea::feedbackReleaseSlot()
+{
+    if (feedbackEnabled)
+        feedbackPress->play("priority2_static_release");
+}
+
+void PaintingArea::setFeedbackEnabled(bool enabled)
+{
+    this->feedbackEnabled = enabled;
 }
 
 void PaintingArea::openImage (QString newImage)
@@ -64,7 +88,7 @@ QRectF PaintingArea::boundingRect() const
     return QRectF(0, 0, width, height);
 }
 
-void PaintingArea::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void PaintingArea::paint(QPainter *painter, const QStyleOptionGraphicsItem*, QWidget*)
 {
     QRect rect = QRect(0, 0, this->width, this->height);
 
@@ -494,11 +518,21 @@ qDebug() << "NO DAMAGE";
     return false;
 }
 
-void PaintingArea::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void PaintingArea::mouseDoubleClickEvent(QGraphicsSceneMouseEvent*)
 {
     if(panningMode) {
         standardZoom();
     }
+}
+
+void PaintingArea::mousePressEvent(QGraphicsSceneMouseEvent*)
+{
+    feedbackPressSlot();
+}
+
+void PaintingArea::mouseReleaseEvent(QGraphicsSceneMouseEvent*)
+{
+    feedbackReleaseSlot();
 }
 
 /* Commented out in 1.0.2 */

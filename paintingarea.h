@@ -9,6 +9,7 @@
 #include <QColor>
 #include <QGraphicsSceneResizeEvent>
 #include <MWidget>
+#include <MFeedback>
 
 #define MAX_UNDO 3
 
@@ -16,7 +17,8 @@ class PaintingArea : public MWidget
 {
     Q_OBJECT
 public:
-    explicit PaintingArea(int width, int height, MWidget *parent = 0);
+    explicit PaintingArea(bool feedbackEnabled, MWidget *parent = 0);
+    ~PaintingArea();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setToolType(int type);
@@ -26,18 +28,22 @@ public:
     bool isImageModified();
     void setIsImageModified(bool isModified);
     void scaleImage(double factor);
+    void setFeedbackEnabled(bool enabled);
 
 protected:
     virtual bool event(QEvent *event);
     /* Commented out in 1.0.2 */
-    //void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    //void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 signals:
     void setSaveNotification(bool notification);
     void countRedo(int count_redo);
     void countUndo(int count_undo);
+    void pressed();
+    void released();
+    void moved();
 
 public slots:
     void setBrushColor(QColor color);
@@ -58,6 +64,8 @@ private:
     void updateHighPoint(QPointF point);
     void standardZoom();
     void setActualEreasingAreaRectangle(QPointF from, QPointF to, int direction);
+    void feedbackPressSlot();
+    void feedbackReleaseSlot();
 
     int width;
     int height;
@@ -91,6 +99,9 @@ private:
     bool blockZoomingOut;
     double lastZoomIn;
     double lastZoomOut;
+    bool feedbackEnabled;
+
+    MFeedback *feedbackPress;
 };
 
 #endif // PAINTINGAREA_H

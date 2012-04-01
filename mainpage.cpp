@@ -6,9 +6,7 @@
 #include <MToolBar>
 #include <MAction>
 #include <MTextEdit>
-#include <MBanner>
 #include <MSceneWindow>
-#include <QDebug>
 #include <MApplication>
 #include <MOnDisplayChangeEvent>
 #include <MApplicationWindow>
@@ -28,6 +26,8 @@ MainPage::MainPage(QGraphicsItem *parent)
 
 void MainPage::createContent()
 {
+    MTheme *theme = MTheme::instance();
+    theme->loadCSS("/opt/sketchit/data/sketchit.css");
     applicationWindow()->setStyleName("CommonApplicationWindowInverted");
     this->setStyleName("CommonApplicationPageInverted");
     applicationWindow()->setNavigationBarOpacity(0.9);
@@ -37,7 +37,7 @@ void MainPage::createContent()
     this->setPanningDirection(Qt::Horizontal | Qt::Vertical);
     this->setPannable(false);
 
-    paintingArea = new PaintingArea(1024, 1024, this);
+    paintingArea = new PaintingArea(false, this);
 
     MAction *menuOpenDialog = new MAction("Open", this);
     menuOpenDialog->setLocation(MAction::ApplicationMenuLocation);
@@ -127,6 +127,9 @@ void MainPage::createContent()
     connect(paintingArea, SIGNAL(countUndo(int)), this, SLOT(undoAction(int)));
     connect(paintingArea, SIGNAL(countRedo(int)), this, SLOT(redoAction(int)));
 
+    /* Initialize banner. */
+    infoBanner = new MBanner();
+
     this->actualFileName = "";
 
     /* Auto-load functionality */
@@ -135,6 +138,14 @@ void MainPage::createContent()
         if(!QString::compare(filename, "", Qt::CaseInsensitive) == 0)
             processOpenDialog(filename);
     }
+
+    /* Haptic feedback functionality */
+    paintingArea->setFeedbackEnabled(getFeedback());
+}
+
+void MainPage::changePaintingAreaSettings()
+{
+    paintingArea->setFeedbackEnabled(getFeedback());
 }
 
 void MainPage::undoAction(int count_undo)
@@ -173,6 +184,7 @@ void MainPage::showAboutPage()
 void MainPage::showSettingsPage()
 {
     SettingsPage *settingsPage = new SettingsPage();
+    connect(settingsPage, SIGNAL(settingsChanged()), this, SLOT(changePaintingAreaSettings()));
     settingsPage->appear(scene(), MSceneWindow::DestroyWhenDismissed);
 }
 
@@ -195,7 +207,7 @@ void MainPage::showOpenDialog()
 {
     /* Let's save image before opening a new one. */
     decideAndSaveImage();
-    OpenDialog *op = new OpenDialog();
+    OpenDialog *op = new OpenDialog(this, getActualFileName());
     connect(op, SIGNAL(openImage(QString)), this, SLOT(processOpenDialog(QString)));
     op->appear(MSceneWindow::DestroyWhenDismissed);
 }
@@ -362,29 +374,26 @@ void MainPage::showSaveNotifierBanner()
 
 void MainPage::showPanningModeBanner()
 {
-    MBanner *infoBanner = new MBanner();
     infoBanner->setStyleName(MBannerType::InformationBanner);
     if(this->isPannable())
         infoBanner->setTitle("Panning mode enabled.");
     else
         infoBanner->setTitle("Panning mode disabled.");
-    infoBanner->appear(scene(), MSceneWindow::DestroyWhenDone);
+    infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::showSavedBanner()
 {
-    MBanner *infoBanner = new MBanner();
     infoBanner->setStyleName(MBannerType::InformationBanner);
     infoBanner->setTitle("File saved.");
-    infoBanner->appear(scene(), MSceneWindow::DestroyWhenDone);
+    infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::showWarningOpenFileBanner()
 {
-    MBanner *infoBanner = new MBanner();
     infoBanner->setStyleName(MBannerType::InformationBanner);
     infoBanner->setTitle("Can't open the file.");
-    infoBanner->appear(scene(), MSceneWindow::DestroyWhenDone);
+    infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::changeLineWidth(int size)
@@ -444,6 +453,14 @@ bool MainPage::getAutoLoad()
 {
     QSettings settings;
     bool value =  settings.value("startup/autoload", true).toBool();
+
+    return value;
+}
+
+bool MainPage::getFeedback()
+{
+    QSettings settings;
+    bool value =  settings.value("common/feedback", true).toBool();
 
     return value;
 }

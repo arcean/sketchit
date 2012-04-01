@@ -16,6 +16,8 @@ protected:
 
 private slots:
 
+signals:
+    void settingsChanged();
 
 private:
     int getImageSize();
@@ -23,11 +25,14 @@ private:
     void storeImageSize();
     void storeAutoLoad();
     bool getAutoLoad();
+    void storeFeedback();
+    bool getFeedback();
 
     MButton *largeButton;
     MButton *mediumButton;
     MButton *smallButton;
     MButton *switchAutoLoad;
+    MButton *switchFeedback;
 
 };
 

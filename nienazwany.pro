@@ -82,7 +82,10 @@ contains(MEEGO_EDITION,harmattan) {
     toolbar_icons.files += data/sketchit_draw.png
     toolbar_icons.files += data/sketchit_draw_dimmed.png
 
-    INSTALLS += icon toolbar_icons desktop
+    style.path = /opt/sketchit/data
+    style.files = data/sketchit.css
+
+    INSTALLS += icon toolbar_icons desktop style
 
 }
 

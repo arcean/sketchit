@@ -6,6 +6,7 @@
 #include <QColor>
 #include <MAction>
 #include <MWidgetAction>
+#include <MBanner>
 
 #include "paintingarea.h"
 #include "colorpicker.h"
@@ -31,6 +32,7 @@ public:
     void decideAndSaveImage();
     void storeAutoLoadFileName();
     QString getAutoLoadFileName();
+    QString getActualFileName();
 
 protected:
     virtual void createContent();
@@ -58,14 +60,15 @@ private slots:
     void showAboutPage();
     void undoAction(int count_undo);
     void redoAction(int count_redo);
+    void changePaintingAreaSettings();
 
 private:
     void setActualFileName(QString fileName);
-    QString getActualFileName();
     void showPanningModeBanner();
     void showSavedBanner();
     void showWarningOpenFileBanner();
     bool getAutoLoad();
+    bool getFeedback();
 
     MDialog *colorDialog;
     PaintingArea *paintingArea;
@@ -75,6 +78,7 @@ private:
     MWidgetAction *lineAction;
     MAction *menuRedo;
     MAction *menuUndo;
+    MBanner *infoBanner;
 
 };
 

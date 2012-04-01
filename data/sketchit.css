@@ -1,0 +1,114 @@
+#CommonSheetHeaderButtonAccentInverted {
+    background-image: color10-meegotouch-sheet-button-accent-inverted-background $CORNER_MARGINS;
+}
+#CommonSheetHeaderButtonAccentInverted:pressed {
+    background-image: color10-meegotouch-sheet-button-accent-inverted-background-pressed $CORNER_MARGINS;
+}
+#CommonSheetHeaderButtonAccentInverted:disabled {
+    background-image: color10-meegotouch-sheet-button-accent-inverted-background-disabled $CORNER_MARGINS;
+}
+
+#CommonSheetHeaderButtonAccent {
+    background-image: color10-meegotouch-sheet-button-accent-background $CORNER_MARGINS;
+}
+#CommonSheetHeaderButtonAccent:pressed {
+    background-image: color10-meegotouch-sheet-button-accent-background-pressed $CORNER_MARGINS;
+}
+#CommonSheetHeaderButtonAccent:disabled {
+    background-image: color10-meegotouch-sheet-button-accent-background-disabled $CORNER_MARGINS;
+}
+
+MBasicSheetHeaderStyle {
+    positive-action-style-name: "CommonSheetHeaderButtonAccentInverted";
+    negative-action-style-name: "CommonSheetHeaderButtonInverted";
+    progress-indicator-style-name: "";
+
+    padding-left: $WIDTH_HOMEBUTTON_OFFSET;
+}
+
+#CommonBodyTextInvertedBig {
+    font: $FONT_FAMILY 30px;
+    color: $COLOR_INVERTED_SECONDARY_FOREGROUND;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+MSeparatorStyle {
+    span: 2px;
+}
+
+MSeparatorStyle:horizontal {
+    background-image: "meegotouch-separator-inverted-background-horizontal" 0px 0px 0px 0px;
+    minimum-size: -1 2px;
+    margin-left: 18;
+    margin-right: 18;
+}
+
+MSeparatorStyle:vertical {
+    background-image: "meegotouch-separator-inverted-background-vertical" 0px 0px 0px 0px;
+    minimum-size: 2px -1;
+    margin-left: 18;
+    margin-right: 18;
+}
+
+MButtonStyle#CommonTopSplitButtonInverted.Portrait:selected {
+    background-image : "color10-meegotouch-button-inverted-background-selected-vertical-top" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonTopSplitButtonInverted.Portrait:pressed {
+    background-image : "color10-meegotouch-button-inverted-background-pressed-vertical-top" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonTopSplitButtonInverted.Landscape:selected {
+    background-image : "color10-meegotouch-button-inverted-background-selected-horizontal-left" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonTopSplitButtonInverted.Landscape:pressed {
+    background-image : "color10-meegotouch-button-inverted-background-pressed-horizontal-left" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonBottomSplitButtonInverted.Portrait:selected {
+    background-image : "color10-meegotouch-button-inverted-background-selected-vertical-bottom" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonBottomSplitButtonInverted.Portrait:pressed {
+    background-image : "color10-meegotouch-button-inverted-background-pressed-vertical-bottom" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonBottomSplitButtonInverted.Landscape:selected {
+    background-image : "color10-meegotouch-button-inverted-background-selected-horizontal-right" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonBottomSplitButtonInverted.Landscape:pressed {
+    background-image : "color10-meegotouch-button-inverted-background-pressed-horizontal-right" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonVerticalCenterSplitButtonInverted.Portrait:selected {
+    background-image: "color10-meegotouch-button-inverted-background-selected-vertical-center" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonVerticalCenterSplitButtonInverted.Portrait:pressed {
+    background-image: "color10-meegotouch-button-inverted-background-pressed-vertical-center" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonVerticalCenterSplitButtonInverted.Landscape:selected {
+    background-image: "color10-meegotouch-button-inverted-background-selected-vertical-center" $CORNER_MARGINS;
+}
+
+MButtonStyle#CommonVerticalCenterSplitButtonInverted.Landscape:pressed {
+    background-image: "color10-meegotouch-button-inverted-background-pressed-vertical-center" $CORNER_MARGINS;
+}
+
+#CommonRightSwitchInverted {
+     slider-image-selected: "color10-meegotouch-switch-on-inverted" 32px 32px 20px 20px;
+}
+
+#CommonHeaderPanel {
+    background-image: color10-meegotouch-view-header-fixed $CORNER_MARGINS;
+}
+
+#CommonHeaderPanel:pressed {
+    background-image: color10-meegotouch-view-header-fixed-pressed $CORNER_MARGINS;
+}

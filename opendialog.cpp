@@ -67,7 +67,7 @@ QSizeF ContentItemCreator::cellSize() const
     return m_gridPage->itemSize();
 }
 
-OpenDialog::OpenDialog(QGraphicsWidget *parent)
+OpenDialog::OpenDialog(QGraphicsWidget*, const QString &currentFileName)
 {
     MWidget *centralWidget = new MWidget;
     MLayout *layout = new MLayout();
@@ -94,7 +94,7 @@ OpenDialog::OpenDialog(QGraphicsWidget *parent)
     layout->setPortraitPolicy(portraitPolicy);
 
 
-    int initialWidth = MApplication::activeWindow()->visibleSceneSize().width();
+    //int initialWidth = MApplication::activeWindow()->visibleSceneSize().width();
 
   /*  if(MApplication::activeWindow()->orientation() == M::Portrait) {
         list->setColumns(m_columnsPortrait);
@@ -116,7 +116,7 @@ OpenDialog::OpenDialog(QGraphicsWidget *parent)
     QStringList mediaDirs;
     mediaDirs << APP_CATALOG;
 
-    model = new OpenDialogModel(this, m_itemSize.toSize(), mediaDirs);
+    model = new OpenDialogModel(this, m_itemSize.toSize(), mediaDirs, currentFileName);
     model->setObjectName("gridModel");
     list->setItemModel(model);
 
@@ -125,7 +125,7 @@ OpenDialog::OpenDialog(QGraphicsWidget *parent)
     connect(list, SIGNAL(panningStopped()), this, SLOT(resumeLoaders()));
 
     centralWidget->setLayout(layout);
-    this->setTitle("Choose an image");
+    this->setTitle("Select image");
     this->setModal(true);
     this->setCentralWidget(centralWidget);
 }

@@ -32,7 +32,7 @@ void AboutPage::createContent()
     QPixmap logo("/usr/share/icons/hicolor/80x80/apps/sketchit.png");
     MImageWidget *image = new MImageWidget();
     image->setPixmap(logo);
-    MLabel *app_name = new MLabel("SketchIt! 1.1.0");
+    MLabel *app_name = new MLabel("SketchIt! 1.2.0");
     app_name->setStyleName("CommonTitleInverted");
     app_name->setAlignment(Qt::AlignCenter);
     QFont label_font;
@@ -41,7 +41,7 @@ void AboutPage::createContent()
 
     const QChar CopyrightSymbol(0x00a9);
 
-    QString *copyright_string = new QString("Copyright " + QString(CopyrightSymbol) + QString::fromUtf8(" 2011 Tomasz Pieniążek"));
+    QString *copyright_string = new QString(QString(CopyrightSymbol) + QString::fromUtf8(" 2011, 2012 Tomasz Pieniążek"));
 
     MLabel *copyright_title = new MLabel(*copyright_string);
     copyright_title->setStyleName("CommonFieldLabelInverted");

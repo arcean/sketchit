@@ -7,7 +7,7 @@
 
 #define THREAD_COUNT 5
 
-OpenDialogModel::OpenDialogModel(QObject *parent, const QSize &size, const QStringList &dirs)
+OpenDialogModel::OpenDialogModel(QObject *parent, const QSize &size, const QStringList &dirs, const QString &currentFileName)
     : QAbstractTableModel(parent),
       m_dirs(dirs)
 {
@@ -20,6 +20,7 @@ OpenDialogModel::OpenDialogModel(QObject *parent, const QSize &size, const QStri
         m_loaders.append(loader);
     }
 
+    this->currentFileName = currentFileName;
     createItems();
 }
 
@@ -92,6 +93,13 @@ void OpenDialogModel::resumeLoaders(int offset)
     }
 }
 
+QUrl OpenDialogModel::parameterToUri(const QString &param) {
+    QString tmp(param);
+    if(tmp.startsWith("file://")) return QUrl(tmp);
+    if(tmp.startsWith("/")) return QUrl(QString("file://") + tmp);
+    return QUrl(QString("file://") + QDir::currentPath() + QDir::separator() + tmp);
+}
+
 void OpenDialogModel::createItems()
 {
     int index = 0;
@@ -106,12 +114,25 @@ void OpenDialogModel::createItems()
         foreach (const QFileInfo & file, fileList) {
             const QString path = file.absoluteFilePath();
             MediaType m;
-
             m.type = MediaType::Image;
             m.path = path;
             m.image = QImage();
             Loader *loader = m_loaders[index % THREAD_COUNT];
-            loader->pushImage(path,index);
+
+            if (currentFileName.compare(path) != 0) {
+                QUrl uri = parameterToUri(path);
+                QString hash = QCryptographicHash::hash((uri.toString().toLatin1()),QCryptographicHash::Md5).toHex().constData();
+                QString file = "/home/user/.thumbnails/grid/" + hash + ".jpeg";
+                if (QFile(file).exists()) {
+                    loader->pushImage(file,index);
+                }
+                else {
+                    loader->pushImage(path,index);
+                }
+            }
+            else {
+                loader->pushImage(path,index);
+            }
             m_items[index] = QVariant::fromValue(m);
             index++;
         }

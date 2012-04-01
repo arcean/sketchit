@@ -29,6 +29,8 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include <QAbstractTableModel>
+#include <QUrl>
+#include <QCryptographicHash>
 
 class Loader;
 
@@ -55,7 +57,7 @@ public:
     };
 
 
-    explicit OpenDialogModel(QObject *parent, const QSize &size, const QStringList &dirs);
+    explicit OpenDialogModel(QObject *parent, const QSize &size, const QStringList &dirs, const QString &currentFileName);
     ~OpenDialogModel();
 
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -70,10 +72,12 @@ private slots:
 
 private:
     void createItems();
+    QUrl parameterToUri(const QString &param);
     QMap<int, QVariant> m_items;
 
     QList<Loader*> m_loaders;
     QStringList m_dirs;
+    QString currentFileName;
 };
 
 struct BacklogItem {

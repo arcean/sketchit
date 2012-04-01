@@ -1,3 +1,11 @@
+sketchit (1.2.0) unstable; urgency=low
+
+  * Improved performance.
+  * Improved UI.
+  * New: haptic feedback.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Fri, 01 Apr 2012 15:34:46 +0200
+
 sketchit (1.1.0) unstable; urgency=low
 
   * New functionality: undo and redo.

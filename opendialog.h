@@ -18,7 +18,7 @@ class OpenDialog : public MDialog
 {
     Q_OBJECT
 public:
-    explicit OpenDialog(QGraphicsWidget *parent = 0);
+    explicit OpenDialog(QGraphicsWidget *parent = 0, const QString &currentFileName = "");
 
     QSizeF itemSize() const
     {
