@@ -31,6 +31,8 @@ ColorPicker::ColorPicker(QGraphicsWidget *parent)
     MGridLayoutPolicy *policy_landscape = new MGridLayoutPolicy(layout);
     policy_portrait->setSpacing(6);
     policy_landscape->setSpacing(7);
+    policy_portrait->setContentsMargins(14, 0, 14, 0);
+    policy_landscape->setContentsMargins(14, 0, 14, 0);
 
     for (int i = 0; i < 30; ++i) {
         ColorCell *cell_portrait = new ColorCell(colors.at(i), WIDTH, HEIGHT);

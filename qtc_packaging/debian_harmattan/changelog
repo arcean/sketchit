@@ -1,3 +1,9 @@
+sketchit (1.2.1) unstable; urgency=low
+
+  * Small UI fixes
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Fri, 19 Apr 2012 14:37:38 +0200
+
 sketchit (1.2.0) unstable; urgency=low
 
   * Improved performance.

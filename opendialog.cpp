@@ -90,6 +90,9 @@ OpenDialog::OpenDialog(QGraphicsWidget*, const QString &currentFileName)
     landscapePolicy->addItem(list);
     portraitPolicy->addItem(list);
 
+    landscapePolicy->setContentsMargins(20, 0, 20, 0);
+    portraitPolicy->setContentsMargins(20, 0, 20, 0);
+
     layout->setLandscapePolicy(landscapePolicy);
     layout->setPortraitPolicy(portraitPolicy);
 
