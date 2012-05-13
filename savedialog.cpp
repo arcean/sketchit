@@ -60,6 +60,7 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
     if(saveAs) {
         textEdit = new MTextEdit(MTextEditModel::SingleLine,
                                                  QString());
+        textEdit->setObjectName("TextEditInverted");
         QString data = getNewFileName();
         data.chop(4);
         textEdit->setText(data);
@@ -67,7 +68,7 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
     label->setObjectName("CommonBodyTextInvertedBig");
 
     MLabel *labelExtension = new MLabel("The file extension is <b>.png</b>");
-    labelExtension->setObjectName("CommonBodyTextInverted");
+    labelExtension->setStyleName("CommonBodyTextInverted");
     MSeparator *separator = new MSeparator();
 
     landscapePolicy->addItem(label);

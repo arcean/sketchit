@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by Qt Creator 2.4.1, 2012-04-19T16:38:18. -->
+<!-- Written by Qt Creator 2.4.1, 2012-05-13T14:33:34. -->
 <qtcreator>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -379,6 +379,7 @@
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target_-_QEmu_PR1_0__Qt_SDK__Release/sketchit_1.2.0_armel.deb</value>
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target__Qt_SDK__Release/sketchit_0.9.8_armel.deb</value>
+       <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target_-_QEmu_PR1_0__Qt_SDK__Release/sketchit_1.2.1_armel.deb</value>
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target__Qt_SDK__Release/sketchit_1.0.1_armel.deb</value>
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target__Qt_SDK__Release/sketchit_1.0.2_armel.deb</value>
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target__Qt_SDK__Release/sketchit_1.0.9_armel.deb</value>
@@ -387,6 +388,7 @@
        <value type="QString">/home/Tomek/Dokumenty/Projekty/nienazwany-build-harmattan-Harmattan_Target__Qt_SDK__Release/sketchit_1.1.0_armel.deb</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
+       <value type="QString">192.168.1.121</value>
        <value type="QString">192.168.1.121</value>
        <value type="QString">192.168.1.121</value>
        <value type="QString">192.168.1.121</value>
@@ -405,10 +407,12 @@
        <value type="QString"></value>
        <value type="QString"></value>
        <value type="QString"></value>
+       <value type="QString"></value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
        <value type="QDateTime">2012-04-19T16:36:23</value>
        <value type="QDateTime">2011-12-02T19:13:28</value>
+       <value type="QDateTime">2012-04-19T16:42:42</value>
        <value type="QDateTime">2011-12-27T21:04:12</value>
        <value type="QDateTime">2011-12-28T00:13:53</value>
        <value type="QDateTime">2012-01-13T22:29:21</value>
