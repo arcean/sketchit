@@ -113,6 +113,6 @@ MButtonStyle#CommonVerticalCenterSplitButtonInverted.Landscape:pressed {
     background-image: color10-meegotouch-view-header-fixed-pressed $CORNER_MARGINS;
 }
 
-#TextEditInverted:selected {
+MTextEditStyle#TextEditInverted:selected {
     background-image: color10-meegotouch-textedit-inverted-background-selected $CORNER_MARGINS;
 }
