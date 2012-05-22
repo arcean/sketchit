@@ -69,6 +69,8 @@ private:
     void showWarningOpenFileBanner();
     bool getAutoLoad();
     bool getFeedback();
+    bool getFullscreenMode();
+    void setFullscreenMode();
 
     MDialog *colorDialog;
     PaintingArea *paintingArea;

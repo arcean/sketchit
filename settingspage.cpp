@@ -8,6 +8,7 @@
 #include <MPositionIndicator>
 #include <MSeparator>
 #include <MApplicationWindow>
+#include <MContainer>
 
 #include "settingspage.h"
 
@@ -79,8 +80,11 @@ void SettingsPage::createContent()
 
     ViewHeader *header = new ViewHeader;
     header->setTitle("Settings");
-    MLabel *labelSize = new MLabel("Image size");
-    labelSize->setStyleName("CommonFieldLabelInverted");
+
+    MContainer *imageSizeBox = new MContainer();
+    imageSizeBox->setStyleName("CommonContainerInverted");
+    imageSizeBox->setTitle("Image size");
+    imageSizeBox->setMaximumHeight(260);
 
     /* Button group, exclusive for image size selection */
     MLayout *imageSizeLayout = new MLayout;
@@ -124,7 +128,10 @@ void SettingsPage::createContent()
 
     setImageSize(getImageSize());
 
-    /* End of the button group */
+    QGraphicsLinearLayout *imageSizeLayoutH = new QGraphicsLinearLayout(Qt::Horizontal);
+    imageSizeLayoutH->addStretch();
+    imageSizeLayoutH->addItem(imageSizeLayout);
+    imageSizeLayoutH->addStretch();
 
     QFont fBold;
     QFont fFont;
@@ -138,10 +145,23 @@ void SettingsPage::createContent()
     labelNote->setStyleName("CommonFieldLabelInverted");
     labelNote->setFont(fFont);
 
-    MLabel *spacer = new MLabel(this);
-    QFont fontSpacer;
-    fontSpacer.setPointSize(4);
-    spacer->setFont(fontSpacer);
+    QGraphicsLinearLayout *imageSizeMasterLayout = new QGraphicsLinearLayout(Qt::Vertical);
+    imageSizeMasterLayout->setContentsMargins(0, 0, 0, 0);
+    imageSizeMasterLayout->setSpacing(0);
+    imageSizeMasterLayout->addItem(imageSizeLayoutH);
+    imageSizeMasterLayout->addItem(labelInfo);
+    imageSizeMasterLayout->addItem(labelNote);
+
+    QGraphicsWidget *imageContainerWidget = new QGraphicsWidget();
+    imageContainerWidget->setLayout(imageSizeMasterLayout);
+    imageSizeBox->setCentralWidget(imageContainerWidget);
+
+    /* End of the button group */
+
+    MContainer *otherBox = new MContainer();
+    otherBox->setStyleName("CommonContainerInverted");
+    otherBox->setTitle("Other");
+    QGraphicsLinearLayout *otherLayout = new QGraphicsLinearLayout(Qt::Vertical);
 
     /* Switch for auto-load functionality */
     QGraphicsLinearLayout *switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
@@ -183,20 +203,37 @@ void SettingsPage::createContent()
     switchLayout2->setContentsMargins(0, 0, 0, 0);
     switchLayout2->setAlignment(labelFeedback, Qt::AlignCenter);
     switchLayout2->setAlignment(switchFeedback, Qt::AlignCenter);
+
+    /* Fullscreen mode switch */
+    QGraphicsLinearLayout *switchLayout3 = new QGraphicsLinearLayout(Qt::Horizontal);
+    switchLayout3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    bool fullscreen = getFullscreen();
+    fullscreenButton = new MButton();
+    fullscreenButton->setViewType(MButton::switchType);
+    fullscreenButton->setObjectName("CommonRightSwitchInverted");
+    fullscreenButton->setCheckable(true);
+    fullscreenButton->setChecked(fullscreen);
+    MLabel *labelFullscreen = new MLabel("Enable fullscreen mode");
+    labelFullscreen->setStyleName("CommonFieldLabelInverted");
+    switchLayout3->addItem(labelFullscreen);
+    switchLayout3->addItem(fullscreenButton);
+    switchLayout3->setSpacing(0);
+    switchLayout3->setContentsMargins(0, 0, 0, 0);
+    switchLayout3->setAlignment(labelFullscreen, Qt::AlignCenter);
+    switchLayout3->setAlignment(fullscreenButton, Qt::AlignCenter);
+
+    otherLayout->addItem(switchLayout);
+    otherLayout->addItem(switchLayout2);
+    otherLayout->addItem(switchLayout3);
+
+    QGraphicsWidget *otherBoxWidget = new QGraphicsWidget();
+    otherBoxWidget->setLayout(otherLayout);
+    otherBox->setCentralWidget(otherBoxWidget);
     /* End of feedback functionality */
 
-    MSeparator *separator = new MSeparator();
-
-    viewportLayoutPolicy->addItem(labelSize, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(imageSizeLayout, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(labelInfo, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(labelNote, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(spacer, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(separator, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(spacer, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(switchLayout, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(spacer, Qt::AlignCenter);
-    viewportLayoutPolicy->addItem(switchLayout2, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(imageSizeBox, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(otherBox, Qt::AlignCenter);
 
     policy->addItem(header);
     policy->addItem(pannableCentralViewport, Qt::AlignCenter);
@@ -207,7 +244,29 @@ void SettingsPage::dismissEvent(MDismissEvent*)
     storeImageSize();
     storeAutoLoad();
     storeFeedback();
+    storeFullscreen();
     emit settingsChanged();
+}
+
+void SettingsPage::storeFullscreen()
+{
+    QSettings settings;
+    bool value;
+
+    if(fullscreenButton->isChecked())
+        value = true;
+    else
+        value = false;
+
+    settings.setValue("common/fullscreen", value);
+}
+
+bool SettingsPage::getFullscreen()
+{
+    QSettings settings;
+    bool value =  settings.value("common/fullscreen", false).toBool();
+
+    return value;
 }
 
 void SettingsPage::storeAutoLoad()

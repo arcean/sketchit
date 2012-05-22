@@ -1,3 +1,15 @@
+sketchit (1.2.4) unstable; urgency=low
+  * <Add change description here>
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Tue, 22 May 2012 14:32:08 +0200
+
+sketchit (1.2.3) unstable; urgency=low
+
+  * UI fixes
+  * Faster start-up
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Fri, 14 May 2012 19:29:34 +0200
+
 sketchit (1.2.2) unstable; urgency=low
 
   * UI fixes

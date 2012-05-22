@@ -23,6 +23,8 @@ private:
     int getImageSize();
     void setImageSize(int size);
     void storeImageSize();
+    void storeFullscreen();
+    bool getFullscreen();
     void storeAutoLoad();
     bool getAutoLoad();
     void storeFeedback();
@@ -33,6 +35,7 @@ private:
     MButton *smallButton;
     MButton *switchAutoLoad;
     MButton *switchFeedback;
+    MButton *fullscreenButton;
 
 };
 

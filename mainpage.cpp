@@ -141,10 +141,35 @@ void MainPage::createContent()
 
     /* Haptic feedback functionality */
     paintingArea->setFeedbackEnabled(getFeedback());
+
+    /* Fullscreen mode */
+    setFullscreenMode();
+}
+
+void MainPage::setFullscreenMode()
+{
+    MWindow *window = MApplication::activeWindow();
+
+    if (!window)
+        return;
+
+    if (getFullscreenMode()) {
+        window->showFullScreen();
+    }
+    else {
+        window->showNormal();
+    }
 }
 
 void MainPage::changePaintingAreaSettings()
 {
+    /* Fullscreen mode */
+    MWindow *window = MApplication::activeWindow();
+    if (getFullscreenMode())
+        window->showFullScreen();
+    else
+        window->showNormal();
+
     paintingArea->setFeedbackEnabled(getFeedback());
 }
 
@@ -461,6 +486,14 @@ bool MainPage::getFeedback()
 {
     QSettings settings;
     bool value =  settings.value("common/feedback", true).toBool();
+
+    return value;
+}
+
+bool MainPage::getFullscreenMode()
+{
+    QSettings settings;
+    bool value =  settings.value("common/fullscreen", false).toBool();
 
     return value;
 }
