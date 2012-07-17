@@ -67,6 +67,8 @@ private:
     void feedbackPressSlot();
     void feedbackReleaseSlot();
 
+    void createNewImage_FirstRun();
+
     int width;
     int height;
     QPixmap *image;

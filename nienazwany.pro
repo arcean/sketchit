@@ -53,6 +53,7 @@ HEADERS  += \
 FORMS    +=
 
 CONFIG += meegotouch
+CONFIG += meegotouch-boostable
 
 MOBILITY = 
 

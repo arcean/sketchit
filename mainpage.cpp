@@ -163,13 +163,6 @@ void MainPage::setFullscreenMode()
 
 void MainPage::changePaintingAreaSettings()
 {
-    /* Fullscreen mode */
-    MWindow *window = MApplication::activeWindow();
-    if (getFullscreenMode())
-        window->showFullScreen();
-    else
-        window->showNormal();
-
     paintingArea->setFeedbackEnabled(getFeedback());
 }
 

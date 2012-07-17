@@ -18,7 +18,8 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
 
     color = QColor("black");
 
-    createNewImage();
+    createNewImage_FirstRun();
+
     ok = true;
     panningMode = false;
     setIsImageModified(false);
@@ -840,6 +841,48 @@ void PaintingArea::setIsImageModified(bool isModified)
     emit this->setSaveNotification(isModified);
 }
 
+void PaintingArea::createNewImage_FirstRun()
+{
+    QSettings settings;
+
+    int value =  settings.value("image/size", 1).toInt();
+    if(value > 2 || value < 0)
+        value = 1;
+
+    int sWidth, sHeight;
+
+    if (value == 0) {
+        sWidth = 700;
+        sHeight = 700;
+    }
+    else if (value == 2) {
+        sWidth = 1100;
+        sHeight = 1100;
+    }
+    else {
+        sWidth = 900;
+        sHeight = 900;
+    }
+
+    image = new QPixmap(sWidth, sHeight);
+
+    QPainter painter(image);
+    painter.fillRect(image->rect(), QBrush("white"));
+    painter.end();
+
+    this->width = sWidth;
+    this->height = sHeight;
+    this->resize(sWidth, sHeight);
+    this->setGeometry(0, 0, sWidth, sHeight);
+    this->setMinimumSize(sWidth, sHeight);
+    this->setMaximumSize(sWidth, sHeight);
+    standardZoom();
+    blockZoomingIn = false;
+    blockZoomingOut = false;
+
+    setIsImageModified(false);
+}
+
 void PaintingArea::createNewImage()
 {
     QSettings settings;
@@ -863,9 +906,8 @@ void PaintingArea::createNewImage()
         sHeight = 900;
     }
 
-
     if(image)
-        image->~QPixmap();
+        delete image;
     image = new QPixmap(sWidth, sHeight);
 
     QPainter painter(image);
@@ -935,8 +977,6 @@ void PaintingArea::undoPush()
     undo_image[undo_indi] = new QPixmap(*image);
 
     redo_indi = -1;
-    qDebug() << "after PUSH undo_indi" << undo_indi;
-    qDebug() << "after PUSH redo_indi" << redo_indi;
 
     count_undo++;
     if (count_undo > MAX_UNDO)

@@ -15,6 +15,9 @@ protected:
     virtual void dismissEvent(MDismissEvent *event);
 
 private slots:
+    void fullscreenToggled(bool toggled);
+    void autoLoadToggled(bool toggled);
+    void feedbackToggled(bool toggled);
 
 signals:
     void settingsChanged();

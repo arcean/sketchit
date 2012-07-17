@@ -9,6 +9,7 @@
 #include <MSeparator>
 #include <MApplicationWindow>
 #include <MContainer>
+#include <MApplication>
 
 #include "settingspage.h"
 
@@ -81,6 +82,9 @@ void SettingsPage::createContent()
     ViewHeader *header = new ViewHeader;
     header->setTitle("Settings");
 
+    policy->addItem(header);
+    policy->addItem(pannableCentralViewport, Qt::AlignCenter);
+
     MContainer *imageSizeBox = new MContainer();
     imageSizeBox->setStyleName("CommonContainerInverted");
     imageSizeBox->setTitle("Image size");
@@ -88,10 +92,10 @@ void SettingsPage::createContent()
 
     /* Button group, exclusive for image size selection */
     MLayout *imageSizeLayout = new MLayout;
-    MLinearLayoutPolicy *imageSizePolicy = new MLinearLayoutPolicy(imageSizeLayout, Qt::Horizontal);
-    imageSizePolicy->setContentsMargins(0, 0, 0, 0);
-    imageSizePolicy->setSpacing(0);
-    imageSizePolicy->setNotifyWidgetsOfLayoutPositionEnabled(true);
+    MLinearLayoutPolicy *imageSizePolicyLandscape = new MLinearLayoutPolicy(imageSizeLayout, Qt::Horizontal);
+    imageSizePolicyLandscape->setContentsMargins(0, 0, 0, 0);
+    imageSizePolicyLandscape->setSpacing(0);
+    imageSizePolicyLandscape->setNotifyWidgetsOfLayoutPositionEnabled(true);
 
     MLinearLayoutPolicy *imageSizePolicyPortrait = new MLinearLayoutPolicy(imageSizeLayout, Qt::Vertical);
     imageSizePolicyPortrait->setContentsMargins(0, 0, 0, 0);
@@ -99,7 +103,7 @@ void SettingsPage::createContent()
     imageSizePolicyPortrait->setNotifyWidgetsOfLayoutPositionEnabled(true);
 
     imageSizeLayout->setPortraitPolicy(imageSizePolicyPortrait);
-    imageSizeLayout->setLandscapePolicy(imageSizePolicy);
+    imageSizeLayout->setLandscapePolicy(imageSizePolicyLandscape);
 
     smallButton = new MButton("Small");
     smallButton->setCheckable(true);
@@ -119,9 +123,9 @@ void SettingsPage::createContent()
     imageSizeGroup->addButton(mediumButton);
     imageSizeGroup->addButton(largeButton);
 
-    imageSizePolicy->addItem(smallButton, Qt::AlignCenter);
-    imageSizePolicy->addItem(mediumButton, Qt::AlignCenter);
-    imageSizePolicy->addItem(largeButton, Qt::AlignCenter);
+    imageSizePolicyLandscape->addItem(smallButton, Qt::AlignCenter);
+    imageSizePolicyLandscape->addItem(mediumButton, Qt::AlignCenter);
+    imageSizePolicyLandscape->addItem(largeButton, Qt::AlignCenter);
     imageSizePolicyPortrait->addItem(smallButton, Qt::AlignCenter);
     imageSizePolicyPortrait->addItem(mediumButton, Qt::AlignCenter);
     imageSizePolicyPortrait->addItem(largeButton, Qt::AlignCenter);
@@ -176,17 +180,17 @@ void SettingsPage::createContent()
     switchAutoLoad->setChecked(autoload);
     MLabel *labelAutoLoad = new MLabel("Load recently used image at startup");
     labelAutoLoad->setStyleName("CommonFieldLabelInverted");
+    labelAutoLoad->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     switchLayout->addItem(labelAutoLoad);
     switchLayout->addItem(switchAutoLoad);
-    switchLayout->setSpacing(0);
-    switchLayout->setContentsMargins(0, 0, 0, 0);
-    switchLayout->setAlignment(labelAutoLoad, Qt::AlignCenter);
     switchLayout->setAlignment(switchAutoLoad, Qt::AlignCenter);
+    connect(switchAutoLoad, SIGNAL(toggled(bool)), this, SLOT(autoLoadToggled(bool)));
+    otherLayout->addItem(switchLayout);
     /* End of auto-load functionality */
 
     /* Switch for feedback functionality */
-    QGraphicsLinearLayout *switchLayout2 = new QGraphicsLinearLayout(Qt::Horizontal);
-    switchLayout2->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
+    switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     /* Let's see if we have feedback enabled */
     bool feedback = getFeedback();
@@ -197,16 +201,16 @@ void SettingsPage::createContent()
     switchFeedback->setChecked(feedback);
     MLabel *labelFeedback = new MLabel("Enable haptic feedback");
     labelFeedback->setStyleName("CommonFieldLabelInverted");
-    switchLayout2->addItem(labelFeedback);
-    switchLayout2->addItem(switchFeedback);
-    switchLayout2->setSpacing(0);
-    switchLayout2->setContentsMargins(0, 0, 0, 0);
-    switchLayout2->setAlignment(labelFeedback, Qt::AlignCenter);
-    switchLayout2->setAlignment(switchFeedback, Qt::AlignCenter);
+    labelFeedback->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    switchLayout->addItem(labelFeedback);
+    switchLayout->addItem(switchFeedback);
+    switchLayout->setAlignment(switchFeedback, Qt::AlignCenter);
+    connect(switchFeedback, SIGNAL(toggled(bool)), this, SLOT(feedbackToggled(bool)));
+    otherLayout->addItem(switchLayout);
 
     /* Fullscreen mode switch */
-    QGraphicsLinearLayout *switchLayout3 = new QGraphicsLinearLayout(Qt::Horizontal);
-    switchLayout3->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
+    switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     bool fullscreen = getFullscreen();
     fullscreenButton = new MButton();
@@ -216,16 +220,12 @@ void SettingsPage::createContent()
     fullscreenButton->setChecked(fullscreen);
     MLabel *labelFullscreen = new MLabel("Enable fullscreen mode");
     labelFullscreen->setStyleName("CommonFieldLabelInverted");
-    switchLayout3->addItem(labelFullscreen);
-    switchLayout3->addItem(fullscreenButton);
-    switchLayout3->setSpacing(0);
-    switchLayout3->setContentsMargins(0, 0, 0, 0);
-    switchLayout3->setAlignment(labelFullscreen, Qt::AlignCenter);
-    switchLayout3->setAlignment(fullscreenButton, Qt::AlignCenter);
-
+    labelFullscreen->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    switchLayout->addItem(labelFullscreen);
+    switchLayout->addItem(fullscreenButton);
+    switchLayout->setAlignment(fullscreenButton, Qt::AlignCenter);
+    connect(fullscreenButton, SIGNAL(toggled(bool)), this, SLOT(fullscreenToggled(bool)));
     otherLayout->addItem(switchLayout);
-    otherLayout->addItem(switchLayout2);
-    otherLayout->addItem(switchLayout3);
 
     QGraphicsWidget *otherBoxWidget = new QGraphicsWidget();
     otherBoxWidget->setLayout(otherLayout);
@@ -234,31 +234,40 @@ void SettingsPage::createContent()
 
     viewportLayoutPolicy->addItem(imageSizeBox, Qt::AlignCenter);
     viewportLayoutPolicy->addItem(otherBox, Qt::AlignCenter);
-
-    policy->addItem(header);
-    policy->addItem(pannableCentralViewport, Qt::AlignCenter);
 }
 
 void SettingsPage::dismissEvent(MDismissEvent*)
 {
     storeImageSize();
-    storeAutoLoad();
-    storeFeedback();
-    storeFullscreen();
     emit settingsChanged();
 }
 
-void SettingsPage::storeFullscreen()
+void SettingsPage::fullscreenToggled(bool toggled)
 {
     QSettings settings;
-    bool value;
 
-    if(fullscreenButton->isChecked())
-        value = true;
+    settings.setValue("common/fullscreen", toggled);
+
+    /* Fullscreen mode */
+    MWindow *window = MApplication::activeWindow();
+    if (toggled)
+        window->showFullScreen();
     else
-        value = false;
+        window->showNormal();
+}
 
-    settings.setValue("common/fullscreen", value);
+void SettingsPage::autoLoadToggled(bool toggled)
+{
+    QSettings settings;
+
+    settings.setValue("startup/autoload", toggled);
+}
+
+void SettingsPage::feedbackToggled(bool toggled)
+{
+    QSettings settings;
+
+    settings.setValue("common/feedback", toggled);
 }
 
 bool SettingsPage::getFullscreen()
@@ -269,38 +278,12 @@ bool SettingsPage::getFullscreen()
     return value;
 }
 
-void SettingsPage::storeAutoLoad()
-{
-    QSettings settings;
-    bool value;
-
-    if(switchAutoLoad->isChecked())
-        value = true;
-    else
-        value = false;
-
-    settings.setValue("startup/autoload", value);
-}
-
 bool SettingsPage::getAutoLoad()
 {
     QSettings settings;
     bool value =  settings.value("startup/autoload", true).toBool();
 
     return value;
-}
-
-void SettingsPage::storeFeedback()
-{
-    QSettings settings;
-    bool value;
-
-    if(switchFeedback->isChecked())
-        value = true;
-    else
-        value = false;
-
-    settings.setValue("common/feedback", value);
 }
 
 bool SettingsPage::getFeedback()
