@@ -8,8 +8,11 @@
 #include <QDebug>
 #include <QFont>
 #include <MTextEdit>
+#include <MPannableViewport>
+#include <MPositionIndicator>
 
 #include "aboutpage.h"
+#include "ViewHeader.h"
 
 #define COPYRIGHT_TEXT_LINES 15
 
@@ -23,16 +26,43 @@ void AboutPage::createContent()
 {
     this->setStyleName("CommonApplicationPageInverted");
     MLayout *layout = new MLayout;
-    centralWidget()->setLayout(layout);
-    MLinearLayoutPolicy *landscapePolicy = new MLinearLayoutPolicy(layout, Qt::Vertical);
-    MLinearLayoutPolicy *portraitPolicy = new MLinearLayoutPolicy(layout, Qt::Vertical);
-    layout->setLandscapePolicy(landscapePolicy);
-    layout->setPortraitPolicy(portraitPolicy);
+    MPannableViewport *pannableCentralViewport = new MPannableViewport;
+    MLayout *viewportLayout = new MLayout;
+    MLinearLayoutPolicy *viewportLayoutPolicy = new MLinearLayoutPolicy(viewportLayout, Qt::Vertical);
+    QGraphicsWidget *form = new QGraphicsWidget();
 
-    QPixmap logo("/usr/share/icons/hicolor/80x80/apps/sketchit.png");
+    viewportLayout->setPolicy(viewportLayoutPolicy);
+    viewportLayoutPolicy->setContentsMargins(0, 0, 0, 0);
+    viewportLayoutPolicy->setSpacing(0);
+    viewportLayoutPolicy->setNotifyWidgetsOfLayoutPositionEnabled(true);
+    form->setLayout(viewportLayout);
+    pannableCentralViewport->setWidget(form);
+    pannableCentralViewport->positionIndicator()->setVisible(false);
+
+    centralWidget()->setLayout(layout);
+
+    MLinearLayoutPolicy *policy = new MLinearLayoutPolicy(layout, Qt::Vertical);
+    policy->setContentsMargins(0, 0, 0, 0);
+    policy->setSpacing(0);
+    policy->setNotifyWidgetsOfLayoutPositionEnabled(true);
+    layout->setPolicy(policy);
+
+    /* Fix: lock page content */
+    setPannable(false);
+    MPannableViewport *viewport = this->pannableViewport();
+    viewport->setAutoRange(false);
+    viewport->setRange(QRectF(0,0,0,0));
+
+    ViewHeader *header = new ViewHeader;
+    header->setTitle("About");
+
+    policy->addItem(header);
+    policy->addItem(pannableCentralViewport, Qt::AlignCenter);
+
+    QPixmap logo("/opt/sketchit/data/sketchit128.png");
     MImageWidget *image = new MImageWidget();
     image->setPixmap(logo);
-    MLabel *app_name = new MLabel("SketchIt! 1.3.0");
+    MLabel *app_name = new MLabel("SketchIt! 1.3.1");
     app_name->setStyleName("CommonTitleInverted");
     app_name->setAlignment(Qt::AlignCenter);
     QFont label_font;
@@ -72,16 +102,10 @@ void AboutPage::createContent()
 
     MLabel *titleSpacer = new MLabel(" ");
 
-    landscapePolicy->addItem(titleSpacer, Qt::AlignCenter);
-    landscapePolicy->addItem(image, Qt::AlignCenter);
-    landscapePolicy->addItem(app_name, Qt::AlignCenter);
-    landscapePolicy->addItem(copyright_title, Qt::AlignCenter);
-    landscapePolicy->addItem(copyrightTextLabel, Qt::AlignCenter);
-
-    portraitPolicy->addItem(titleSpacer, Qt::AlignCenter);
-    portraitPolicy->addItem(image, Qt::AlignCenter);
-    portraitPolicy->addItem(app_name, Qt::AlignCenter);
-    portraitPolicy->addItem(copyright_title, Qt::AlignCenter);
-    portraitPolicy->addItem(copyrightTextLabel, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(titleSpacer, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(image, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(app_name, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(copyright_title, Qt::AlignCenter);
+    viewportLayoutPolicy->addItem(copyrightTextLabel, Qt::AlignCenter);
 
 }

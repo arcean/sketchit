@@ -28,6 +28,7 @@ void MainPage::createContent()
 {
     MTheme *theme = MTheme::instance();
     theme->loadCSS("/opt/sketchit/data/sketchit.css");
+    theme->addPixmapDirectory("/opt/sketchit/data/");
     applicationWindow()->setStyleName("CommonApplicationWindowInverted");
     this->setStyleName("CommonApplicationPageInverted");
     applicationWindow()->setNavigationBarOpacity(0.9);
@@ -62,30 +63,32 @@ void MainPage::createContent()
     this->addAction(menuRedo);
     this->addAction(menuUndo);
 
-    MWidgetAction *rectangleAction = new MWidgetAction(this);
-    QPixmap rectangleIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_draw.png"));
-    QPixmap rectangleIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_draw_dimmed.png"));
-    ToolWidget *rectangleButton = new ToolWidget(0, rectangleIcon, rectangleIcon_dimmed, false, NULL, NULL);
-    rectangleAction->setWidget(rectangleButton);
+    MAction *rectangleAction = new MAction("sketchit_draw", "Draw", this);
+  //  MWidgetAction *rectangleAction = new MWidgetAction(this);
+  //  QPixmap rectangleIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_draw.png"));
+  //  QPixmap rectangleIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_draw_dimmed.png"));
+  //  ToolWidget *rectangleButton = new ToolWidget(0, rectangleIcon, rectangleIcon_dimmed, false, NULL, NULL);
+  //  rectangleAction->setWidget(rectangleButton);
     rectangleAction->setLocation(MAction::ToolBarLocation);
 
     MAction *colorAction = new MAction("icon-m-image-edit-color", "Color", this);
     colorAction->setLocation(MAction::ToolBarLocation);
 
-    lineAction = new MWidgetAction(this);
-    QPixmap lineIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth.png"));
-    QPixmap lineIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth_dimmed.png"));
-    ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed, false, NULL, NULL);
-    lineAction->setWidget(lineButton);
+    lineAction = new MAction("sketchit_linewidth", "Line", this);
+   // lineAction = new MWidgetAction(this);
+   // QPixmap lineIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth.png"));
+   // QPixmap lineIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_linewidth_dimmed.png"));
+  //  ToolWidget *lineButton = new ToolWidget(0, lineIcon, lineIcon_dimmed, false, NULL, NULL);
+  //  lineAction->setWidget(lineButton);
     lineAction->setLocation(MAction::NoLocation);
 
-    MWidgetAction *panningAction = new MWidgetAction(this);
-    QPixmap panningIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable.png"));
-    QPixmap panningIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_dimmed.png"));
-    QPixmap panningIcon_selected(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected.png"));
-    QPixmap panningIcon_selected_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected_dimmed.png"));
-    ToolWidget *panningButton = new ToolWidget(0, panningIcon, panningIcon_dimmed, true, panningIcon_selected, panningIcon_selected_dimmed);
-    panningAction->setWidget(panningButton);
+    panningAction = new MAction("sketchit_pannable", "Line", this);
+   // QPixmap panningIcon(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable.png"));
+   // QPixmap panningIcon_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_dimmed.png"));
+   // QPixmap panningIcon_selected(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected.png"));
+   // QPixmap panningIcon_selected_dimmed(QString::fromUtf8("/opt/sketchit/data/sketchit_pannable_selected_dimmed.png"));
+   // ToolWidget *panningButton = new ToolWidget(0, panningIcon, panningIcon_dimmed, true, panningIcon_selected, panningIcon_selected_dimmed);
+   // panningAction->setWidget(panningButton);
     panningAction->setLocation(MAction::ToolBarLocation);
 
     colorWidget = new ColorCellWidget("black");
@@ -112,9 +115,9 @@ void MainPage::createContent()
     layout->setPortraitPolicy(portraitPolicy);
 
     connect(colorWidget, SIGNAL(signalClicked(QColor)), this, SLOT(showColorPicker()));
-    connect(lineButton, SIGNAL(clicked(int)), this, SLOT(showLineWidthDialog()));
-    connect(panningButton, SIGNAL(clicked(int)), this, SLOT(togglePanningMode()));
-    connect(rectangleButton, SIGNAL(clicked(int)), this, SLOT(showToolPicker()));
+    connect(lineAction, SIGNAL(triggered()), this, SLOT(showLineWidthDialog()));
+    connect(panningAction, SIGNAL(triggered()), this, SLOT(togglePanningMode()));
+    connect(rectangleAction, SIGNAL(triggered()), this, SLOT(showToolPicker()));
 
     connect(menuOpenDialog, SIGNAL(triggered()), this, SLOT(showOpenDialog()));
     connect(menuSaveDialog, SIGNAL(triggered()), this, SLOT(showSaveDialog()));
@@ -138,6 +141,9 @@ void MainPage::createContent()
         if(!QString::compare(filename, "", Qt::CaseInsensitive) == 0)
             processOpenDialog(filename);
     }
+
+    /* Fixes crash at startup. */
+    paintingArea->resetUndoRedoCounters();
 
     /* Haptic feedback functionality */
     paintingArea->setFeedbackEnabled(getFeedback());
@@ -249,12 +255,9 @@ void MainPage::processOpenDialog(QString fileName)
     if (file.exists()) {
         this->paintingArea->openImage(file.fileName());
         this->setActualFileName(file.fileName());
-        this->paintingArea->setIsImageModified(false);
     }
     else
         this->showWarningOpenFileBanner();
-
-    paintingArea->resetUndoRedoCounters();
 }
 
 void MainPage::processSaveDialog(QString fileName)
@@ -309,10 +312,12 @@ void MainPage::setTool(int tool)
 void MainPage::togglePanningMode()
 {
     if(this->isPannable()) {
+        panningAction->setIconID("sketchit_pannable");
         this->setPannable(false);
         paintingArea->setPanningMode(false);
     }
     else {
+        panningAction->setIconID("sketchit_pannable_selected");
         this->setPannable(true);
         paintingArea->setPanningMode(true);
     }

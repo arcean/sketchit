@@ -116,3 +116,15 @@ MButtonStyle#CommonVerticalCenterSplitButtonInverted.Landscape:pressed {
 MTextEditStyle#TextEditInverted:selected {
     background-image: color10-meegotouch-textedit-inverted-background-selected $CORNER_MARGINS;
 }
+
+#MDialogTitleBar {
+    background-image: sketchit-dialog-header 12px 12px 12px 12px;
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+
+    minimum-size: -1 57px;
+    preferred-size: -1 57px;
+    maximum-size: -1 57px;
+}

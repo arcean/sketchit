@@ -12,7 +12,7 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
     MWidget(parent)
 {
     setAttribute(Qt::WA_AcceptTouchEvents);
-    setAttribute(Qt::WA_StaticContents);   
+    setAttribute(Qt::WA_StaticContents);
     this->setAcceptTouchEvents(true);
     this->lineWidthSelected = 6;
 
@@ -30,6 +30,9 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
     redo_indi = -1;
     count_redo = 0;
     count_undo = 0;
+
+    for (int i = 0; i < MAX_UNDO; i++)
+        undo_image[i] = NULL;
 
     feedbackPress = new MFeedback();
     this->feedbackEnabled = feedbackEnabled;
@@ -972,8 +975,10 @@ void PaintingArea::undoPush()
 {
     undo_indi = (undo_indi + 1) % MAX_UNDO;
 
-    if(undo_image[undo_indi])
-         undo_image[undo_indi]->~QPixmap();
+    if(undo_image[undo_indi] != NULL) {
+        delete undo_image[undo_indi];
+        undo_image[undo_indi] = NULL;
+    }
     undo_image[undo_indi] = new QPixmap(*image);
 
     redo_indi = -1;
@@ -993,7 +998,7 @@ void PaintingArea::undoPop()
     if (undo_indi == -1)
         return;
 
-    if (!undo_image[undo_indi])
+    if (undo_image[undo_indi] == NULL)
         return;
 
     redoPush();
@@ -1026,8 +1031,10 @@ void PaintingArea::redoPush()
 {
     redo_indi = (redo_indi + 1) % MAX_UNDO;
 
-    if(redo_image[redo_indi])
-         redo_image[redo_indi]->~QPixmap();
+    if(redo_image[redo_indi] != NULL) {
+        delete redo_image[redo_indi];
+        redo_image[redo_indi] = NULL;
+    }
     redo_image[redo_indi] = new QPixmap(*image);
 }
 
@@ -1036,7 +1043,7 @@ void PaintingArea::redoPop()
     if (redo_indi == -1)
         return;
 
-    if (!redo_image[redo_indi])
+    if (redo_image[redo_indi] == NULL)
         return;
 
     QPainter painter(image);
@@ -1067,6 +1074,13 @@ void PaintingArea::resetUndoRedoCounters()
 {
     count_redo = 0;
     count_undo = 0;
+
+    for (int i = 0; i < MAX_UNDO; i++) {
+        if (undo_image[i] != NULL)
+            delete undo_image[i];
+        undo_image[i] = NULL;
+    }
+
     emit this->countRedo(count_redo);
     emit this->countUndo(count_undo);
 }

@@ -48,7 +48,8 @@ HEADERS  += \
     toolpickerdialog.h \
     toolpickermodel.h \
     aboutpage.h \
-    colorcellwidget.h
+    colorcellwidget.h \
+    ViewHeader.h
 
 FORMS    +=
 
@@ -76,16 +77,12 @@ contains(MEEGO_EDITION,harmattan) {
 
     toolbar_icons.path = /opt/sketchit/data
     toolbar_icons.files += data/sketchit_linewidth.png
-    toolbar_icons.files += data/sketchit_linewidth_dimmed.png
     toolbar_icons.files += data/sketchit_pannable.png
-    toolbar_icons.files += data/sketchit_pannable_dimmed.png
     toolbar_icons.files += data/sketchit_pannable_selected.png
-    toolbar_icons.files += data/sketchit_pannable_selected_dimmed.png
     toolbar_icons.files += data/sketchit_draw.png
-    toolbar_icons.files += data/sketchit_draw_dimmed.png
 
     style.path = /opt/sketchit/data
-    style.files = data/sketchit.css
+    style.files = data/sketchit.css data/sketchit128.png data/sketchit-dialog-header.png
 
     INSTALLS += icon toolbar_icons desktop style
 

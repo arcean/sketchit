@@ -77,7 +77,8 @@ private:
     QString actualFileName;
     MAction *notifyAction;
     ColorCellWidget *colorWidget;
-    MWidgetAction *lineAction;
+    MAction *lineAction;
+    MAction *panningAction;
     MAction *menuRedo;
     MAction *menuUndo;
     MBanner *infoBanner;

@@ -12,35 +12,7 @@
 #include <MApplication>
 
 #include "settingspage.h"
-
-class ViewHeader : public MWidgetController
-{
-public:
-    ViewHeader(QGraphicsItem *parent = 0) :
-        MWidgetController(parent),
-        linearLayout(0),
-        titleWidget(0)
-    {
-        setObjectName("CommonHeaderPanel");
-        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        linearLayout = new QGraphicsLinearLayout(Qt::Horizontal, this);
-        titleWidget = new MLabel(this);
-        titleWidget->setTextElide(true);
-        titleWidget->setStyleName("CommonBodyTextInvertedBig");
-        titleWidget->setAlignment(Qt::AlignCenter);
-        linearLayout->addItem(titleWidget);
-    }
-
-    void setTitle(const QString &title)
-    {
-        titleWidget->setText(title);
-    }
-
-private:
-    QGraphicsLinearLayout *linearLayout;
-    MLabel *titleWidget;
-
-};
+#include "ViewHeader.h"
 
 SettingsPage::SettingsPage(QGraphicsItem *parent)
     : MApplicationPage(parent)
@@ -166,6 +138,8 @@ void SettingsPage::createContent()
     otherBox->setStyleName("CommonContainerInverted");
     otherBox->setTitle("Other");
     QGraphicsLinearLayout *otherLayout = new QGraphicsLinearLayout(Qt::Vertical);
+    otherLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    otherLayout->setContentsMargins(0, 0, 0, 0);
 
     /* Switch for auto-load functionality */
     QGraphicsLinearLayout *switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
