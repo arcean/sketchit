@@ -9,6 +9,7 @@
 #include "mainpage.h"
 
 PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
+    feedbackEnabled(feedbackEnabled),
     MWidget(parent)
 {
     setAttribute(Qt::WA_AcceptTouchEvents);
@@ -29,10 +30,13 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
     count_undo = 0;
 
     for (int i = 0; i < MAX_UNDO; i++)
-        undo_image[i] = NULL;
+        undo_image[i] = new QPixmap();
 
+    // Set image var to NULL.
+    image = new QPixmap();
+
+    // Initialize feedback.
     feedbackPress = new MFeedback();
-    this->feedbackEnabled = feedbackEnabled;
 }
 PaintingArea::~PaintingArea()
 {
@@ -58,7 +62,7 @@ void PaintingArea::setFeedbackEnabled(bool enabled)
 
 void PaintingArea::openImage (QString newImage)
 {
-    if (!image)
+    if (image->isNull())
         createNewImage();
 
     resetUndoRedoCounters();
@@ -910,7 +914,7 @@ void PaintingArea::createNewImage()
         sHeight = 900;
     }
 
-    if(image)
+    if(!image->isNull())
         delete image;
     image = new QPixmap(sWidth, sHeight);
 
@@ -977,9 +981,8 @@ void PaintingArea::undoPush()
 {
     undo_indi = (undo_indi + 1) % MAX_UNDO;
 
-    if(undo_image[undo_indi] != NULL) {
+    if(!undo_image[undo_indi]->isNull()) {
         delete undo_image[undo_indi];
-        undo_image[undo_indi] = NULL;
     }
     undo_image[undo_indi] = new QPixmap(*image);
 
@@ -1000,7 +1003,7 @@ void PaintingArea::undoPop()
     if (undo_indi == -1)
         return;
 
-    if (undo_image[undo_indi] == NULL)
+    if (undo_image[undo_indi]->isNull())
         return;
 
     redoPush();
@@ -1074,13 +1077,15 @@ void PaintingArea::redoPop()
 
 void PaintingArea::resetUndoRedoCounters()
 {
+    undo_indi = -1;
+    redo_indi = -1;
     count_redo = 0;
     count_undo = 0;
 
     for (int i = 0; i < MAX_UNDO; i++) {
-        if (undo_image[i] != NULL)
+        if (!undo_image[i]->isNull())
             delete undo_image[i];
-        undo_image[i] = NULL;
+        undo_image[i] = new QPixmap();
     }
 
     emit this->countRedo(count_redo);
