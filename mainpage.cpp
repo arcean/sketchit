@@ -403,11 +403,15 @@ void MainPage::showSaveNotifierBanner()
 
 void MainPage::showPanningModeBanner()
 {
-    infoBanner->setStyleName(MBannerType::InformationBanner);
-    if(this->isPannable())
+    infoBanner->setStyleName(MBannerType::SystemBanner);
+    if(this->isPannable()) {
+        infoBanner->setIconID("sketchit_pannable_selected");
         infoBanner->setTitle("Panning mode enabled");
-    else
+    }
+    else {
+        infoBanner->setIconID("sketchit_pannable");
         infoBanner->setTitle("Panning mode disabled");
+    }
     infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 

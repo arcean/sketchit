@@ -65,7 +65,7 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
         data.chop(4);
         textEdit->setText(data);
     }
-    label->setObjectName("CommonBodyTextInvertedBig");
+    label->setStyleName("CommonHeaderInverted");
 
     MLabel *labelExtension = new MLabel("The file extension is <b>.png</b>");
     labelExtension->setStyleName("CommonBodyTextInverted");
