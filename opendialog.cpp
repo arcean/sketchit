@@ -90,8 +90,8 @@ OpenDialog::OpenDialog(QGraphicsWidget*, const QString &currentFileName)
     landscapePolicy->addItem(list);
     portraitPolicy->addItem(list);
 
-    landscapePolicy->setContentsMargins(20, 0, 20, 0);
-    portraitPolicy->setContentsMargins(20, 0, 20, 0);
+    landscapePolicy->setContentsMargins(20, 12, 20, 0);
+    portraitPolicy->setContentsMargins(20, 24, 20, 0);
 
     layout->setLandscapePolicy(landscapePolicy);
     layout->setPortraitPolicy(portraitPolicy);
@@ -128,7 +128,7 @@ OpenDialog::OpenDialog(QGraphicsWidget*, const QString &currentFileName)
     connect(list, SIGNAL(panningStopped()), this, SLOT(resumeLoaders()));
 
     centralWidget->setLayout(layout);
-    this->setTitle("Select image");
+    this->setTitle("Choose an image");
     this->setModal(true);
     this->setCentralWidget(centralWidget);
 }
