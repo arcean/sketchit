@@ -61,6 +61,7 @@ void PaintingArea::setFeedbackEnabled(bool enabled)
 
 void PaintingArea::openImage (QString newImage)
 {
+    resetUndoRedoCounters();
     image->load(newImage, "PNG");
     standardZoom();
     setIsImageModified(false);
