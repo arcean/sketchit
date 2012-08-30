@@ -26,6 +26,20 @@ MBasicSheetHeaderStyle {
     padding-left: $WIDTH_HOMEBUTTON_OFFSET;
 }
 
+#ColorWidget.Portrait {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 24px;
+    margin-bottom: 0;
+}
+
+#ColorWidget.Landscape {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
 #CommonBodyTextInvertedBig {
     font: $FONT_FAMILY 30px;
     color: $COLOR_INVERTED_SECONDARY_FOREGROUND;

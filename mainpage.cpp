@@ -405,23 +405,23 @@ void MainPage::showPanningModeBanner()
 {
     infoBanner->setStyleName(MBannerType::InformationBanner);
     if(this->isPannable())
-        infoBanner->setTitle("Panning mode enabled.");
+        infoBanner->setTitle("Panning mode enabled");
     else
-        infoBanner->setTitle("Panning mode disabled.");
+        infoBanner->setTitle("Panning mode disabled");
     infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::showSavedBanner()
 {
     infoBanner->setStyleName(MBannerType::InformationBanner);
-    infoBanner->setTitle("File saved.");
+    infoBanner->setTitle("File saved");
     infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::showWarningOpenFileBanner()
 {
     infoBanner->setStyleName(MBannerType::InformationBanner);
-    infoBanner->setTitle("Can't open the file.");
+    infoBanner->setTitle("Can't open the file");
     infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
