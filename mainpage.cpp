@@ -338,7 +338,7 @@ void MainPage::setActualFileName(QString fileName)
 QString MainPage::getActualFileName()
 {
     if(QString::compare(this->actualFileName, "", Qt::CaseInsensitive) == 0) {
-        showSaveDialog();
+        return getNewFileName();
     }
 
     return this->actualFileName;
