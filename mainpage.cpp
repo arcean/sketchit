@@ -136,14 +136,16 @@ void MainPage::createContent()
     this->actualFileName = "";
 
     /* Auto-load functionality */
+    bool newImageNeeded = true;
+
     if(getAutoLoad()) {
         QString filename = getAutoLoadFileName();
         if(!QString::compare(filename, "", Qt::CaseInsensitive) == 0)
-            processOpenDialog(filename);
+            newImageNeeded = !processOpenDialog(filename);
     }
 
-    /* Fixes crash at startup. */
-    paintingArea->resetUndoRedoCounters();
+    if (newImageNeeded)
+        paintingArea->createNewImage();
 
     /* Haptic feedback functionality */
     paintingArea->setFeedbackEnabled(getFeedback());
@@ -243,9 +245,10 @@ void MainPage::showLineWidthDialog()
     op->appear(MSceneWindow::DestroyWhenDismissed);
 }
 
-void MainPage::processOpenDialog(QString fileName)
+bool MainPage::processOpenDialog(QString fileName)
 {
     QString contains = APP_CATALOG;
+    bool ret = false;
 
     if(!fileName.contains(contains, Qt::CaseInsensitive))
         fileName = APP_CATALOG + fileName;
@@ -255,9 +258,12 @@ void MainPage::processOpenDialog(QString fileName)
     if (file.exists()) {
         this->paintingArea->openImage(file.fileName());
         this->setActualFileName(file.fileName());
+        ret = true;
     }
     else
         this->showWarningOpenFileBanner();
+
+    return ret;
 }
 
 void MainPage::processSaveDialog(QString fileName)

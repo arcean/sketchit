@@ -52,7 +52,7 @@ private slots:
     void showToolPicker();
     void setTool(int tool);
     void showOpenDialog();
-    void processOpenDialog(QString fileName);
+    bool processOpenDialog(QString fileName);
     void setSaveNotifier(bool saved);
     void changeLineWidth(int size);
     void showLineWidthDialog();

@@ -18,21 +18,21 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
 
     color = QColor("black");
 
-    createNewImage_FirstRun();
+    //createNewImage_FirstRun();
 
     ok = true;
     panningMode = false;
-    setIsImageModified(false);
+    //setIsImageModified(false);
     this->parent = parent;
-    scaleFactor = 1.0;
+   // scaleFactor = 1.0;
     /* There's no undo images yet. */
-    undo_indi = -1;
-    redo_indi = -1;
-    count_redo = 0;
-    count_undo = 0;
-
-    for (int i = 0; i < MAX_UNDO; i++)
-        undo_image[i] = NULL;
+  //  undo_indi = -1;
+  //  redo_indi = -1;
+  //  count_redo = 0;
+  //  count_undo = 0;
+//
+  //  for (int i = 0; i < MAX_UNDO; i++)
+  //      undo_image[i] = NULL;
 
     feedbackPress = new MFeedback();
     this->feedbackEnabled = feedbackEnabled;
@@ -61,6 +61,9 @@ void PaintingArea::setFeedbackEnabled(bool enabled)
 
 void PaintingArea::openImage (QString newImage)
 {
+    if (!image)
+        createNewImage();
+
     resetUndoRedoCounters();
     image->load(newImage, "PNG");
     standardZoom();
@@ -929,6 +932,7 @@ void PaintingArea::createNewImage()
     blockZoomingOut = false;
 
     setIsImageModified(false);
+    resetUndoRedoCounters();
 }
 
 void PaintingArea::standardZoom()
