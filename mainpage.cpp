@@ -260,8 +260,8 @@ bool MainPage::processOpenDialog(QString fileName)
         this->setActualFileName(file.fileName());
         ret = true;
     }
-    else
-        this->showWarningOpenFileBanner();
+    //else
+    //    this->showWarningOpenFileBanner();
 
     return ret;
 }
