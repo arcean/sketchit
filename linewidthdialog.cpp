@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QFile>
 #include <MAbstractCellCreator>
-#include <MContentItem>
+#include <MBasicListItem>
 #include <QStringList>
 #include <MList>
 #include <QDebug>
@@ -19,12 +19,14 @@
 #define WIDTH_LANDSCAPE 74
 #define HEIGHT_LANDSCAPE 56
 
-class MContentItemCreator : public MAbstractCellCreator<MContentItem>
+class MContentItemCreator : public MAbstractCellCreator<MBasicListItem>
 {
 public:
     void updateCell(const QModelIndex& index, MWidget * cell) const
     {
-        MContentItem * contentItem = qobject_cast<MContentItem *>(cell);
+        MBasicListItem * contentItem = qobject_cast<MBasicListItem *>(cell);
+        contentItem->setStyleName("CommonBasicListItem");
+        contentItem->setItemStyle(MBasicListItem::SingleTitle);
         QVariant data = index.data(Qt::DisplayRole);
         QStringList rowData = data.value<QStringList>();
         contentItem->setTitle(rowData[0]);
