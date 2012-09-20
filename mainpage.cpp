@@ -308,7 +308,7 @@ void MainPage::setTool(int tool)
         paintingArea->setRubberMode(true);
     else
         paintingArea->setRubberMode(false);
-    if (tool == 4 || tool == 1)
+    if (tool == 1 || tool == 2)
         lineAction->setLocation(MAction::ToolBarLocation);
     else
         lineAction->setLocation(MAction::NoLocation);

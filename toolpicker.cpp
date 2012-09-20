@@ -17,8 +17,10 @@
 
 ToolPicker::ToolPicker(QGraphicsWidget *parent)
 {
+    Q_UNUSED(parent);
+
     MWidget *centralWidget = new MWidget;
-    MLayout  *layout = new MLayout();
+    MLayout *layout = new MLayout();
 
     this->setTitle("Select tool");
     centralWidget->setLayout(layout);

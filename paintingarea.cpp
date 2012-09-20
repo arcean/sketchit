@@ -16,6 +16,8 @@ PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
     setAttribute(Qt::WA_StaticContents);
     this->setAcceptTouchEvents(true);
     this->lineWidthSelected = 6;
+    this->toolTypeSelected = finger;
+    this->rubberMode = false;
 
     color = QColor("black");
 
@@ -913,10 +915,15 @@ void PaintingArea::createNewImage()
         sWidth = 900;
         sHeight = 900;
     }
+    qDebug() << "Creating a new image...";
+    qDebug() << "Image is NULL:" << image->isNull();
 
-    if(!image->isNull())
+    if(!image->isNull()) {
+        qDebug() << "Deleting the image...";
         delete image;
+    }
     image = new QPixmap(sWidth, sHeight);
+    qDebug() << "New image created.";
 
     QPainter painter(image);
     painter.fillRect(image->rect(), QBrush("white"));
@@ -950,7 +957,6 @@ void PaintingArea::scaleImage(double factor)
 {
     int width = image->size().width();
     int height = image->size().height();
-    qDebug() << "IM width: " << width << " height: " << height;
 
     //Get window size:
     int windowWidth = MApplication::activeWindow()->visibleSceneSize().width();

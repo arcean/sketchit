@@ -81,7 +81,7 @@ private:
     int count_redo;
     bool ok;
     QColor color;
-    enum toolType {finger, pencil, rectangle, elipse, line, rubber};
+    enum toolType {finger, pencil, line, rectangle, elipse, rubber};
     enum lineWidth {small, medium, large};
     int toolTypeSelected;
     int lineWidthSelected;

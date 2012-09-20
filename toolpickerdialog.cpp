@@ -33,6 +33,8 @@ public:
 
 ToolPickerDialog::ToolPickerDialog(QGraphicsWidget *parent)
 {
+    Q_UNUSED(parent);
+
     MWidget *centralWidget = new MWidget;
     MLayout  *layout = new MLayout();
 
@@ -42,14 +44,14 @@ ToolPickerDialog::ToolPickerDialog(QGraphicsWidget *parent)
     layout->setLandscapePolicy(landscapePolicy);
     layout->setPortraitPolicy(portraitPolicy);
 
-    this->setTitle("Select drawing tool");
+    this->setTitle("Choose a drawing tool");
     centralWidget->setLayout(layout);
     this->setModal(true);
 
     list = new MList(this);
-    MContentItemCreator * cellCreator = new MContentItemCreator;
+    MContentItemCreator *cellCreator = new MContentItemCreator;
     list->setCellCreator(cellCreator);
-    ToolPickerModel * model = new ToolPickerModel;
+    ToolPickerModel *model = new ToolPickerModel;
     list->setItemModel(model);
 
     landscapePolicy->addItem(list);
