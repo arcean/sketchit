@@ -24,7 +24,6 @@ public:
     void setToolType(int type);
     int getToolType();
     void setRubberMode(bool mode);
-    void setLineWidth(int width);
     int getLineWidth();
     void setPanningMode(bool enabled);
     bool isImageModified();
@@ -49,6 +48,7 @@ signals:
 
 public slots:
     void setBrushColor(QColor color);
+    void setLineWidth(int width);
     void openImage (QString newImage);
     void saveImage (QString filename);
     void createNewImage();
@@ -84,7 +84,7 @@ private:
     bool ok;
     QColor color;
     enum toolType {finger, pencil, line, rectangle, elipse, rubber};
-    enum lineWidth {small, medium, large};
+    enum lineWidth {small, medium, large, veryLarge};
     int toolTypeSelected;
     int lineWidthSelected;
     QPointF touchBegin;

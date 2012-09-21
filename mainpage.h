@@ -45,7 +45,6 @@ public slots:
 
 private slots:
     void showSettingsPage();
-    void changeBrushColor(QColor color);
     void togglePanningMode();
     void showColorPicker();
     void showToolPicker();
@@ -53,7 +52,6 @@ private slots:
     void showOpenDialog();
     bool processOpenDialog(QString fileName);
     void setSaveNotifier(bool saved);
-    void changeLineWidth(int size);
     void showLineWidthDialog();
     void createNewImage();
     void showAboutPage();

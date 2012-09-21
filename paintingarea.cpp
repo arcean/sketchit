@@ -830,19 +830,37 @@ void PaintingArea::setLineWidth(int width)
         lineWidthSelected = 3;
         break;
     case medium:
-        lineWidthSelected = 6;
-        break;
-    case large:
         lineWidthSelected = 9;
         break;
+    case large:
+        lineWidthSelected = 18;
+        break;
+    case veryLarge:
+        lineWidthSelected = 27;
+        break;
     default:
-        lineWidthSelected = 6;
+        lineWidthSelected = 9;
     }
 }
 
 int PaintingArea::getLineWidth()
 {
-    return (lineWidthSelected / 3) - 1;
+    switch (lineWidthSelected) {
+    case 3:
+        return 0;
+        break;
+    case 9:
+        return 1;
+        break;
+    case 18:
+        return 2;
+        break;
+    case 27:
+        return 3;
+        break;
+    default:
+        return 1;
+    }
 }
 
 void PaintingArea::setPanningMode(bool enabled)

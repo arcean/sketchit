@@ -228,7 +228,7 @@ void MainPage::showToolPicker()
 void MainPage::showColorPicker()
 {
     ColorPicker *cp = new ColorPicker();
-    connect(cp, SIGNAL(colorSelected(QColor)), this, SLOT(changeBrushColor(QColor)));
+    connect(cp, SIGNAL(colorSelected(QColor)), paintingArea, SLOT(setBrushColor(QColor)));
     connect(cp, SIGNAL(colorSelected(QColor)), colorWidget, SLOT(setColor(QColor)));
     cp->appear(MSceneWindow::DestroyWhenDismissed);
 }
@@ -245,7 +245,7 @@ void MainPage::showOpenDialog()
 void MainPage::showLineWidthDialog()
 {
     LineWidthDialog *op = new LineWidthDialog(paintingArea->getLineWidth());
-    connect(op, SIGNAL(lineWidthChanged(int)), this, SLOT(changeLineWidth(int)));
+    connect(op, SIGNAL(lineWidthChanged(int)), paintingArea, SLOT(setLineWidth(int)));
     op->appear(MSceneWindow::DestroyWhenDismissed);
 }
 
@@ -300,23 +300,19 @@ void MainPage::showSaveDialogKnownFilename()
     op->appear(MSceneWindow::DestroyWhenDismissed);
 }
 
-void MainPage::changeBrushColor(QColor color)
-{
-    paintingArea->setBrushColor(color);
-}
-
 void MainPage::setTool(int tool)
 {
     paintingArea->setToolType(tool);
+
     if (tool == 5)
         paintingArea->setRubberMode(true);
     else
         paintingArea->setRubberMode(false);
+
     if (tool == 1 || tool == 2)
         lineAction->setLocation(MAction::ToolBarLocation);
     else
         lineAction->setLocation(MAction::NoLocation);
-
 }
 
 void MainPage::togglePanningMode()
@@ -331,6 +327,7 @@ void MainPage::togglePanningMode()
         this->setPannable(true);
         paintingArea->setPanningMode(true);
     }
+
     showPanningModeBanner();
 }
 
@@ -431,11 +428,6 @@ void MainPage::showWarningOpenFileBanner()
     infoBanner->setStyleName(MBannerType::InformationBanner);
     infoBanner->setTitle("Can't open the file");
     infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
-}
-
-void MainPage::changeLineWidth(int size)
-{
-    this->paintingArea->setLineWidth(size);
 }
 
 QString MainPage::getNewFileName()
