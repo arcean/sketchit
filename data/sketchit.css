@@ -145,5 +145,5 @@ MLabelStyle#CommonHeaderInverted {
 }
 #CommonBasicListItem:selected {
     background-image:  color10-meegotouch-panel-background-selected $CORNER_MARGINS;
-    background-opacity: 0.2;
+    background-opacity: 0.4;
 }

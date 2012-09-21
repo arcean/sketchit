@@ -12,7 +12,7 @@ class ToolPickerDialog : public MDialog
 {
     Q_OBJECT
 public:
-    explicit ToolPickerDialog(QGraphicsWidget *parent = 0);
+    explicit ToolPickerDialog(int toolItem, QGraphicsWidget *parent = 0);
 
 private slots:
     void itemClicked(const QModelIndex &index);

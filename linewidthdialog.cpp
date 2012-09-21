@@ -34,8 +34,10 @@ public:
     }
 };
 
-LineWidthDialog::LineWidthDialog(QGraphicsWidget *parent)
+LineWidthDialog::LineWidthDialog(int lineWidth, QGraphicsWidget *parent)
 {
+    Q_UNUSED(parent);
+
     MWidget *centralWidget = new MWidget;
     MLayout  *layout = new MLayout();
 
@@ -54,6 +56,12 @@ LineWidthDialog::LineWidthDialog(QGraphicsWidget *parent)
     list->setCellCreator(cellCreator);
     LineWidthModel * model = new LineWidthModel;
     list->setItemModel(model);
+
+    // Select item
+    QItemSelectionModel *selectionModel = new QItemSelectionModel(model);
+    list->setSelectionModel(selectionModel);
+    QModelIndex index = model->index(lineWidth);
+    selectionModel->select(index, QItemSelectionModel::Select);
 
     landscapePolicy->addItem(list);
     portraitPolicy->addItem(list);

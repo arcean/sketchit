@@ -12,7 +12,7 @@ class LineWidthDialog : public MDialog
 {
     Q_OBJECT
 public:
-    explicit LineWidthDialog(QGraphicsWidget *parent = 0);
+    explicit LineWidthDialog(int lineWidth, QGraphicsWidget *parent = 0);
 
 private slots:
     void itemClicked(const QModelIndex &index);

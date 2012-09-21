@@ -220,7 +220,7 @@ void MainPage::showSettingsPage()
 
 void MainPage::showToolPicker()
 {
-    ToolPickerDialog *tp = new ToolPickerDialog();
+    ToolPickerDialog *tp = new ToolPickerDialog(paintingArea->getToolType());
     connect(tp, SIGNAL(toolTypeChanged(int)), this, SLOT(setTool(int)));
     tp->appear(MSceneWindow::DestroyWhenDismissed);
 }
@@ -244,7 +244,7 @@ void MainPage::showOpenDialog()
 
 void MainPage::showLineWidthDialog()
 {
-    LineWidthDialog *op = new LineWidthDialog();
+    LineWidthDialog *op = new LineWidthDialog(paintingArea->getLineWidth());
     connect(op, SIGNAL(lineWidthChanged(int)), this, SLOT(changeLineWidth(int)));
     op->appear(MSceneWindow::DestroyWhenDismissed);
 }

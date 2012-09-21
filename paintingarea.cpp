@@ -810,12 +810,17 @@ void PaintingArea::setBrushColor(QColor color)
 
 void PaintingArea::setToolType(int type)
 {
-    this->toolTypeSelected = type;
+    toolTypeSelected = type;
+}
+
+int PaintingArea::getToolType()
+{
+    return toolTypeSelected;
 }
 
 void PaintingArea::setRubberMode(bool mode)
 {
-    this->rubberMode = mode;
+    rubberMode = mode;
 }
 
 void PaintingArea::setLineWidth(int width)
@@ -835,6 +840,11 @@ void PaintingArea::setLineWidth(int width)
     }
 }
 
+int PaintingArea::getLineWidth()
+{
+    return (lineWidthSelected / 3) - 1;
+}
+
 void PaintingArea::setPanningMode(bool enabled)
 {
     this->panningMode = enabled;
@@ -850,7 +860,7 @@ void PaintingArea::setIsImageModified(bool isModified)
     imageModified = isModified;
     emit this->setSaveNotification(isModified);
 }
-
+/*
 void PaintingArea::createNewImage_FirstRun()
 {
     QSettings settings;
@@ -891,7 +901,7 @@ void PaintingArea::createNewImage_FirstRun()
     blockZoomingOut = false;
 
     setIsImageModified(false);
-}
+}*/
 
 void PaintingArea::createNewImage()
 {
@@ -915,15 +925,15 @@ void PaintingArea::createNewImage()
         sWidth = 900;
         sHeight = 900;
     }
-    qDebug() << "Creating a new image...";
-    qDebug() << "Image is NULL:" << image->isNull();
+    //qDebug() << "Creating a new image...";
+    //qDebug() << "Image is NULL:" << image->isNull();
 
     if(!image->isNull()) {
-        qDebug() << "Deleting the image...";
+      //  qDebug() << "Deleting the image...";
         delete image;
     }
     image = new QPixmap(sWidth, sHeight);
-    qDebug() << "New image created.";
+   // qDebug() << "New image created.";
 
     QPainter painter(image);
     painter.fillRect(image->rect(), QBrush("white"));

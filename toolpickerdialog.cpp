@@ -33,7 +33,7 @@ public:
     }
 };
 
-ToolPickerDialog::ToolPickerDialog(QGraphicsWidget *parent)
+ToolPickerDialog::ToolPickerDialog(int toolItem, QGraphicsWidget *parent)
 {
     Q_UNUSED(parent);
 
@@ -55,6 +55,12 @@ ToolPickerDialog::ToolPickerDialog(QGraphicsWidget *parent)
     list->setCellCreator(cellCreator);
     ToolPickerModel *model = new ToolPickerModel;
     list->setItemModel(model);
+
+    // Select item
+    QItemSelectionModel *selectionModel = new QItemSelectionModel(model);
+    list->setSelectionModel(selectionModel);
+    QModelIndex index = model->index(toolItem);
+    selectionModel->select(index, QItemSelectionModel::Select);
 
     landscapePolicy->addItem(list);
     portraitPolicy->addItem(list);

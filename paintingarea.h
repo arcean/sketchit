@@ -22,8 +22,10 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setToolType(int type);
+    int getToolType();
     void setRubberMode(bool mode);
     void setLineWidth(int width);
+    int getLineWidth();
     void setPanningMode(bool enabled);
     bool isImageModified();
     void setIsImageModified(bool isModified);
@@ -67,7 +69,7 @@ private:
     void feedbackPressSlot();
     void feedbackReleaseSlot();
 
-    void createNewImage_FirstRun();
+    //void createNewImage_FirstRun();
 
     int width;
     int height;
