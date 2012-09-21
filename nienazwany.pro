@@ -49,7 +49,8 @@ HEADERS  += \
     toolpickermodel.h \
     aboutpage.h \
     colorcellwidget.h \
-    ViewHeader.h
+    ViewHeader.h \
+    Singleton.h
 
 FORMS    +=
 
