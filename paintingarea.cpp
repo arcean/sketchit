@@ -9,8 +9,8 @@
 #include "mainpage.h"
 
 PaintingArea::PaintingArea(bool feedbackEnabled, MWidget *parent) :
-    feedbackEnabled(feedbackEnabled),
-    MWidget(parent)
+    MWidget(parent),
+    feedbackEnabled(feedbackEnabled)
 {
     setAttribute(Qt::WA_AcceptTouchEvents);
     setAttribute(Qt::WA_StaticContents);

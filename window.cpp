@@ -3,20 +3,24 @@
 #include <MApplication>
 
 #include "window.h"
+#include "settings.h"
+#include "Singleton.h"
 
 void Window::closeEvent(QCloseEvent *event)
 {
+    Settings *settings = &Singleton<Settings>::Instance();
+
     if(mainpage->wantsToSaveFile()){
         if(mainpage->saveWithDialog()) {
             event->setAccepted(false);
             mainpage->wantsToCloseWindow();
-            mainpage->storeAutoLoadFileName();
+            settings->setAutoLoadFileName(mainpage->getActualFileName());
             MApplication::quit();
         }
         else {
             event->setAccepted(false);
             this->mainpage->saveOnWindowEvents();
-            mainpage->storeAutoLoadFileName();
+            settings->setAutoLoadFileName(mainpage->getActualFileName());
             MApplication::quit();
         }
     }

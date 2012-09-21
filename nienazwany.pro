@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     toolpickerdialog.cpp \
     toolpickermodel.cpp \
     aboutpage.cpp \
-    colorcellwidget.cpp
+    colorcellwidget.cpp \
+    settings.cpp
 
 HEADERS  += \
     mainpage.h \
@@ -50,7 +51,8 @@ HEADERS  += \
     aboutpage.h \
     colorcellwidget.h \
     ViewHeader.h \
-    Singleton.h
+    Singleton.h \
+    settings.h
 
 FORMS    +=
 

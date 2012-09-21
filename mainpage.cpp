@@ -17,6 +17,7 @@
 #include "toolpickerdialog.h"
 #include "aboutpage.h"
 #include "toolwidget.h"
+#include "Singleton.h"
 
 MainPage::MainPage(QGraphicsItem *parent)
     : MApplicationPage(parent)
@@ -130,6 +131,9 @@ void MainPage::createContent()
     connect(paintingArea, SIGNAL(countUndo(int)), this, SLOT(undoAction(int)));
     connect(paintingArea, SIGNAL(countRedo(int)), this, SLOT(redoAction(int)));
 
+    /* Initialize Settings. */
+    settings = &Singleton<Settings>::Instance();
+
     /* Initialize banner. */
     infoBanner = new MBanner();
 
@@ -138,8 +142,8 @@ void MainPage::createContent()
     /* Auto-load functionality */
     bool newImageNeeded = true;
 
-    if(getAutoLoad()) {
-        QString filename = getAutoLoadFileName();
+    if(settings->getAutoLoad()) {
+        QString filename = settings->getAutoLoadFileName();
         if(!QString::compare(filename, "", Qt::CaseInsensitive) == 0)
             newImageNeeded = !processOpenDialog(filename);
     }
@@ -148,7 +152,7 @@ void MainPage::createContent()
         paintingArea->createNewImage();
 
     /* Haptic feedback functionality */
-    paintingArea->setFeedbackEnabled(getFeedback());
+    paintingArea->setFeedbackEnabled(settings->getFeedback());
 
     /* Fullscreen mode */
     setFullscreenMode();
@@ -161,7 +165,7 @@ void MainPage::setFullscreenMode()
     if (!window)
         return;
 
-    if (getFullscreenMode()) {
+    if (settings->getFullscreen()) {
         window->showFullScreen();
     }
     else {
@@ -171,7 +175,7 @@ void MainPage::setFullscreenMode()
 
 void MainPage::changePaintingAreaSettings()
 {
-    paintingArea->setFeedbackEnabled(getFeedback());
+    paintingArea->setFeedbackEnabled(settings->getFeedback());
 }
 
 void MainPage::undoAction(int count_undo)
@@ -359,7 +363,7 @@ void MainPage::decideAndSaveImage()
             wantsToCloseWindow();
         else
             saveOnWindowEvents();
-        storeAutoLoadFileName();
+        settings->setAutoLoadFileName(getActualFileName());
     }
 }
 
@@ -465,43 +469,4 @@ QString MainPage::getNewFileName()
     }
 
     return baseName + ".png";
-}
-
-void MainPage::storeAutoLoadFileName()
-{
-    QSettings settings;
-
-    settings.setValue("startup/autoload_filename", getActualFileName());
-}
-
-QString MainPage::getAutoLoadFileName()
-{
-    QSettings settings;
-    QString value =  settings.value("startup/autoload_filename", "").toString();
-
-    return value;
-}
-
-bool MainPage::getAutoLoad()
-{
-    QSettings settings;
-    bool value =  settings.value("startup/autoload", true).toBool();
-
-    return value;
-}
-
-bool MainPage::getFeedback()
-{
-    QSettings settings;
-    bool value =  settings.value("common/feedback", true).toBool();
-
-    return value;
-}
-
-bool MainPage::getFullscreenMode()
-{
-    QSettings settings;
-    bool value =  settings.value("common/fullscreen", false).toBool();
-
-    return value;
 }

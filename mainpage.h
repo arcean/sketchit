@@ -14,6 +14,7 @@
 #include "savedialog.h"
 #include "toolpicker.h"
 #include "colorcellwidget.h"
+#include "settings.h"
 
 #define APP_NAME "SketchIt"
 #define APP_CATALOG "/home/user/MyDocs/Pictures/SketchIt/"
@@ -30,8 +31,6 @@ public:
     void saveOnWindowEvents();
     QString getNewFileName();
     void decideAndSaveImage();
-    void storeAutoLoadFileName();
-    QString getAutoLoadFileName();
     QString getActualFileName();
 
 protected:
@@ -67,9 +66,6 @@ private:
     void showPanningModeBanner();
     void showSavedBanner();
     void showWarningOpenFileBanner();
-    bool getAutoLoad();
-    bool getFeedback();
-    bool getFullscreenMode();
     void setFullscreenMode();
 
     MDialog *colorDialog;
@@ -82,6 +78,8 @@ private:
     MAction *menuRedo;
     MAction *menuUndo;
     MBanner *infoBanner;
+
+    Settings *settings;
 
 };
 

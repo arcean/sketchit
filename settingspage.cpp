@@ -13,6 +13,7 @@
 
 #include "settingspage.h"
 #include "ViewHeader.h"
+#include "Singleton.h"
 
 SettingsPage::SettingsPage(QGraphicsItem *parent)
     : MApplicationPage(parent)
@@ -102,7 +103,11 @@ void SettingsPage::createContent()
     imageSizePolicyPortrait->addItem(mediumButton, Qt::AlignCenter);
     imageSizePolicyPortrait->addItem(largeButton, Qt::AlignCenter);
 
-    setImageSize(getImageSize());
+    // CREATE SETTINGS CLASS
+    settings = &Singleton<Settings>::Instance();
+
+    // Select approperiate button fromt the imageSizeGroup
+    selectButtonImageSize(settings->getImageSize());
 
     QGraphicsLinearLayout *imageSizeLayoutH = new QGraphicsLinearLayout(Qt::Horizontal);
     imageSizeLayoutH->addStretch();
@@ -146,7 +151,7 @@ void SettingsPage::createContent()
     switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     /* Let's see if we have auto-load enabled */
-    bool autoload = getAutoLoad();
+    bool autoload = settings->getAutoLoad();
     switchAutoLoad = new MButton();
     switchAutoLoad->setViewType(MButton::switchType);
     switchAutoLoad->setObjectName("CommonRightSwitchInverted");
@@ -167,7 +172,7 @@ void SettingsPage::createContent()
     switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     /* Let's see if we have feedback enabled */
-    bool feedback = getFeedback();
+    bool feedback = settings->getFeedback();
     switchFeedback = new MButton();
     switchFeedback->setViewType(MButton::switchType);
     switchFeedback->setObjectName("CommonRightSwitchInverted");
@@ -186,7 +191,7 @@ void SettingsPage::createContent()
     switchLayout = new QGraphicsLinearLayout(Qt::Horizontal);
     switchLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
-    bool fullscreen = getFullscreen();
+    bool fullscreen = settings->getFullscreen();
     fullscreenButton = new MButton();
     fullscreenButton->setViewType(MButton::switchType);
     fullscreenButton->setObjectName("CommonRightSwitchInverted");
@@ -212,88 +217,45 @@ void SettingsPage::createContent()
 
 void SettingsPage::dismissEvent(MDismissEvent*)
 {
-    storeImageSize();
+    setImageSize();
     emit settingsChanged();
+}
+
+void SettingsPage::autoLoadToggled(bool toggled)
+{
+    settings->setAutoLoad(toggled);
+}
+
+void SettingsPage::feedbackToggled(bool toggled)
+{
+    settings->setFeedback(toggled);
 }
 
 void SettingsPage::fullscreenToggled(bool toggled)
 {
-    QSettings settings;
-
-    settings.setValue("common/fullscreen", toggled);
-
     /* Fullscreen mode */
     MWindow *window = MApplication::activeWindow();
     if (toggled)
         window->showFullScreen();
     else
         window->showNormal();
+
+    settings->setFullscreen(toggled);
 }
 
-void SettingsPage::autoLoadToggled(bool toggled)
+void SettingsPage::setImageSize()
 {
-    QSettings settings;
-
-    settings.setValue("startup/autoload", toggled);
-}
-
-void SettingsPage::feedbackToggled(bool toggled)
-{
-    QSettings settings;
-
-    settings.setValue("common/feedback", toggled);
-}
-
-bool SettingsPage::getFullscreen()
-{
-    QSettings settings;
-    bool value =  settings.value("common/fullscreen", false).toBool();
-
-    return value;
-}
-
-bool SettingsPage::getAutoLoad()
-{
-    QSettings settings;
-    bool value =  settings.value("startup/autoload", true).toBool();
-
-    return value;
-}
-
-bool SettingsPage::getFeedback()
-{
-    QSettings settings;
-    bool value =  settings.value("common/feedback", true).toBool();
-
-    return value;
-}
-
-void SettingsPage::storeImageSize()
-{
-    QSettings settings;
-    int value;
+    int value = 2;
 
     if(smallButton->isChecked())
         value = 0;
     else if(mediumButton->isChecked())
         value = 1;
-    else
-        value = 2;
 
-    settings.setValue("image/size", value);
+    settings->setImageSize(value);
 }
 
-int SettingsPage::getImageSize()
-{
-    // 0-low 1-medium 2-high
-    QSettings settings;
-    int value =  settings.value("image/size", 1).toInt();
-    if(value > 2 || value < 0)
-        value = 1;
-    return value;
-}
-
-void SettingsPage::setImageSize(int size)
+void SettingsPage::selectButtonImageSize(int size)
 {
     if(size == 0)
         smallButton->setChecked(true);

@@ -5,6 +5,8 @@
 #include <MButton>
 #include <QSettings>
 
+#include "settings.h"
+
 class SettingsPage : public MApplicationPage {
     Q_OBJECT
 public:
@@ -14,24 +16,17 @@ protected:
     virtual void createContent();
     virtual void dismissEvent(MDismissEvent *event);
 
+signals:
+    void settingsChanged();
+
 private slots:
     void fullscreenToggled(bool toggled);
     void autoLoadToggled(bool toggled);
     void feedbackToggled(bool toggled);
 
-signals:
-    void settingsChanged();
-
 private:
-    int getImageSize();
-    void setImageSize(int size);
-    void storeImageSize();
-    void storeFullscreen();
-    bool getFullscreen();
-    void storeAutoLoad();
-    bool getAutoLoad();
-    void storeFeedback();
-    bool getFeedback();
+    void setImageSize();
+    void selectButtonImageSize(int size);
 
     MButton *largeButton;
     MButton *mediumButton;
@@ -39,6 +34,8 @@ private:
     MButton *switchAutoLoad;
     MButton *switchFeedback;
     MButton *fullscreenButton;
+
+    Settings *settings;
 
 };
 
