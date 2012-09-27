@@ -35,7 +35,7 @@ ColorPicker::ColorPicker(QGraphicsWidget *parent)
 
     for (int i = 0; i < 30; ++i) {
         ColorCell *cell_portrait = new ColorCell(colors.at(i), WIDTH, HEIGHT);
-        ColorCell *cell_landscape = new ColorCell(colors.at(29-i), WIDTH, HEIGHT);
+        ColorCell *cell_landscape = new ColorCell(colors.at(i), WIDTH, HEIGHT);
         policy_portrait->addItem(cell_portrait, i / 5, i % 5, Qt::AlignCenter);
         policy_landscape->addItem(cell_landscape, i % 5, i / 5, Qt::AlignCenter);
         connect(cell_portrait, SIGNAL(signalClicked(QColor)), this, SLOT(colorClicked(QColor)));
