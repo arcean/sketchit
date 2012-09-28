@@ -100,12 +100,12 @@ void ColorPicker::setToNormalState(int id, bool selectIdToSelect)
         if (i == id)
             continue;
 
-        cellsPortrait[i]->setNormalState();
-        cellsLandscape[i]->setNormalState();
+        cellsPortrait[i]->setNormalState(true);
+        cellsLandscape[i]->setNormalState(true);
     }
 
     if (selectIdToSelect) {
-        cellsPortrait[idToSelect]->setSelectedState();
-        cellsLandscape[idToSelect]->setSelectedState();
+        cellsPortrait[idToSelect]->setSelectedState(false);
+        cellsLandscape[idToSelect]->setSelectedState(false);
     }
 }

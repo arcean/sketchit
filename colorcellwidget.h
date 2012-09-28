@@ -7,6 +7,8 @@
 #include <QPainter>
 #include <MWidget>
 
+#include "VariantAnimation.h"
+
 class ColorCellWidget : public MWidget
 {
     Q_OBJECT
@@ -17,6 +19,9 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
     void resizeCell(int width, int height);
+
+    void setNormalState();
+    void setSelectedState();
 
 protected:
   //  void paintEvent(QPaintEvent *);
@@ -33,10 +38,21 @@ public slots:
     void emitSignalClicked();
     void setColor(QColor color);
 
+private slots:
+    void expandAnimation(const QVariant &value);
+
 private:
+    void releaseFunc();
+
     QColor color;
     int width;
     int height;
+
+    int margin;
+    bool isSelect;
+    bool closeDialog;
+
+    VariantAnimator *pressAnimation;
 
 };
 

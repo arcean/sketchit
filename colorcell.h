@@ -6,6 +6,7 @@
 #include <QColor>
 #include <QPainter>
 #include <QVariantAnimation>
+#include <QTimer>
 
 #include "VariantAnimation.h"
 
@@ -20,8 +21,8 @@ public:
     QRectF boundingRect() const;
     void resizeCell(int width, int height);
 
-    void setSelectedState();
-    void setNormalState();
+    void setSelectedState(bool wasPressed);
+    void setNormalState(bool forced);
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -40,14 +41,27 @@ public slots:
 private slots:
     void expandAnimation(const QVariant &value);
 
+#ifdef ENABLE_SHAKE
+    void shakeAnimationFunc(const QVariant &value);
+    void launchShake();
+#endif
+
 private:
+    int randInt(int low, int high);
+
     QColor color;
     int width;
     int height;
     int margin;
     bool isSelect;
     bool closeDialog;
+    bool wasPressed;
 
+#ifdef ENABLE_SHAKE
+    int dX, dY;
+    QTimer *shakeTimer;
+    VariantAnimator *shakeAnimation;
+#endif
     VariantAnimator *showAnimation;
     int id;
 

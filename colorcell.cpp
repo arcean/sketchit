@@ -1,10 +1,16 @@
 #include <QGraphicsSceneResizeEvent>
+#include <QTime>
 #include <QDebug>
+#include <MApplication>
 
 #include "colorcell.h"
 
 #define NORMAL_STATE 0
 #define SELECTED_STATE 6
+
+#define SHAKE_DURATION 60
+
+//#define ENABLE_SHAKE 1
 
 ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id, QGraphicsWidget *parent) :
     QGraphicsWidget(parent),
@@ -21,6 +27,7 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
 
     this->resize(this->width, this->height);
     this->closeDialog = false;
+    this->wasPressed = false;
 
     showAnimation = new VariantAnimator();
     showAnimation->setStartValue(NORMAL_STATE);
@@ -29,6 +36,22 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
     showAnimation->setEasingCurve(QEasingCurve::InQuad);
 
     connect(showAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(expandAnimation(QVariant)));
+
+#ifdef ENABLE_SHAKE
+    shakeAnimation = new VariantAnimator();
+    shakeAnimation->setStartValue(NORMAL_STATE);
+    shakeAnimation->setEndValue(2);
+    shakeAnimation->setDuration(SHAKE_DURATION);
+
+    shakeTimer = new QTimer();
+
+    dX = dY = 0;
+
+    connect(shakeAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(shakeAnimationFunc(QVariant)));
+    connect(shakeTimer, SIGNAL(timeout()), this, SLOT(launchShake()));
+
+    shakeTimer->start(SHAKE_DURATION);
+#endif
 }
 
 ColorCell::~ColorCell()
@@ -48,7 +71,11 @@ QRectF ColorCell::boundingRect() const
     int widthH = width + (margin * 2);
     int heightH = height + (margin * 2);
 
+#ifdef ENABLE_SHAKE
+    return QRectF(-margin + dX, -margin + dY, widthH, heightH);
+#else
     return QRectF(-margin, -margin, widthH, heightH);
+#endif
 }
 
 void ColorCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -59,8 +86,35 @@ void ColorCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     int widthH = width + (margin * 2);
     int heightH = height + (margin * 2);
 
+#ifdef ENABLE_SHAKE
+    painter->fillRect(-margin + dX, -margin + dY, widthH, heightH, color);
+#else
     painter->fillRect(-margin, -margin, widthH, heightH, color);
+#endif
 }
+
+#ifdef ENABLE_SHAKE
+void ColorCell::shakeAnimationFunc(const QVariant &value)
+{
+    if (dX < 0)
+        dX = (value.toInt() * -1);
+    else if (dX > 0)
+        dX = value.toInt();
+
+    if (dY < 0)
+        dY = (value.toInt() * -1);
+    else if (dY > 0)
+        dY = value.toInt();
+
+    update();
+}
+
+int ColorCell::randInt(int low, int high)
+{
+    // Random number between low and high
+    return qrand() % ((high + 1) - low) + low;
+}
+#endif
 
 void ColorCell::expandAnimation(const QVariant &value)
 {
@@ -84,30 +138,57 @@ void ColorCell::expandAnimation(const QVariant &value)
     }
 }
 
-void ColorCell::setNormalState()
+void ColorCell::setNormalState(bool forced)
 {
     // Run the following code only for a cell in SELECTED_STATE.
-    if (margin == SELECTED_STATE) {
+    if ((margin == SELECTED_STATE && wasPressed) || (margin == SELECTED_STATE && forced)) {
         isSelect = false;
         showAnimation->start();
     }
 }
 
-void ColorCell::setSelectedState()
+void ColorCell::setSelectedState(bool wasPressed)
 {
     // Run the following code only for a cell in NORMAL_STATE.
     if (margin == NORMAL_STATE) {
         isSelect = true;
+        this->wasPressed = wasPressed;
         showAnimation->start();
     }
 }
+
+#ifdef ENABLE_SHAKE
+void ColorCell::launchShake()
+{
+    QTime time = QTime::currentTime();
+    qsrand((uint)time.msec());
+
+    int random = randInt(0,2);
+    if (random == 0)
+        dX = 0;
+    else if (random == 1)
+        dX = 1;
+    else if (random == 2)
+        dX = -1;
+
+    random = randInt(0,2);
+    if (random == 0)
+        dY = 0;
+    else if (random == 1)
+        dY = 1;
+    else if (random == 2)
+        dY = -1;
+
+    shakeAnimation->start();
+}
+#endif
 
 void ColorCell::mousePressEvent(QGraphicsSceneMouseEvent *)
 {
     isSelect = true;
     emitSignalPressed(false);
 
-    showAnimation->start();
+    setSelectedState(true);
 }
 
 void ColorCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
@@ -115,7 +196,7 @@ void ColorCell::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
     if (isUnderMouse())
         emitSignalClicked();
     else {
-        setNormalState();
+        setNormalState(false);
         emitSignalPressed(true);
     }
 }
