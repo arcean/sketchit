@@ -58,6 +58,7 @@ private slots:
     void undoAction(int count_undo);
     void redoAction(int count_redo);
     void changePaintingAreaSettings();
+    void parseColor(QColor color, int cellId);
 
 private:
     void setActualFileName(QString fileName);
@@ -67,6 +68,7 @@ private:
     void setFullscreenMode();
 
     MDialog *colorDialog;
+    int colorCellNum;
     PaintingArea *paintingArea;
     QString actualFileName;
     MAction *notifyAction;

@@ -156,6 +156,10 @@ void MainPage::createContent()
 
     /* Fullscreen mode */
     setFullscreenMode();
+
+    /* Other inits */
+    // By default select cell with black color.
+    colorCellNum = 29;
 }
 
 void MainPage::setFullscreenMode()
@@ -227,10 +231,17 @@ void MainPage::showToolPicker()
 
 void MainPage::showColorPicker()
 {
-    ColorPicker *cp = new ColorPicker();
-    connect(cp, SIGNAL(colorSelected(QColor)), paintingArea, SLOT(setBrushColor(QColor)));
-    connect(cp, SIGNAL(colorSelected(QColor)), colorWidget, SLOT(setColor(QColor)));
+    ColorPicker *cp = new ColorPicker(colorCellNum);
+    connect(cp, SIGNAL(colorSelected(QColor, int)), this, SLOT(parseColor(QColor,int)));
+
     cp->appear(MSceneWindow::DestroyWhenDismissed);
+}
+
+void MainPage::parseColor(QColor color, int cellId)
+{
+    paintingArea->setBrushColor(color);
+    colorWidget->setColor(color);
+    colorCellNum = cellId;
 }
 
 void MainPage::showOpenDialog()

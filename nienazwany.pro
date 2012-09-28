@@ -52,7 +52,8 @@ HEADERS  += \
     colorcellwidget.h \
     ViewHeader.h \
     Singleton.h \
-    settings.h
+    settings.h \
+    VariantAnimation.h
 
 FORMS    +=
 

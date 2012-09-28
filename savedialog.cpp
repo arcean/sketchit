@@ -13,6 +13,8 @@
 
 SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
 {
+    Q_UNUSED(parent);
+
     this->setStyleName("Inverted");
 
     /* Sheet header */

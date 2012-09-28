@@ -6,17 +6,31 @@
 #include <QGraphicsLinearLayout>
 #include <MDialog>
 
+#include "colorcell.h"
+
+#define CELLS_NUMER 30
+
 class ColorPicker : public MDialog
 {
     Q_OBJECT
 public:
-    explicit ColorPicker(QGraphicsWidget *parent = 0);
+    explicit ColorPicker(int idToSelect = -1, QGraphicsWidget *parent = 0);
+    virtual ~ColorPicker();
 
 signals:
-    void colorSelected(QColor color);
+    void colorSelected(QColor color, int cellId);
 
 public slots:
-    void colorClicked(QColor color);
+
+private slots:
+    void colorClicked(QColor color, int cellId);
+    void setToNormalState(int id, bool selectIdToSelect);
+
+private:
+    ColorCell *cellsPortrait[CELLS_NUMER];
+    ColorCell *cellsLandscape[CELLS_NUMER];
+
+    int idToSelect;
 
 };
 
