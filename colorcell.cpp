@@ -47,7 +47,7 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
     shakeTimer = new QTimer();
 
     dX = dY = 0;
-    MWindow *window = MApplication::activeWindow();
+    window = MApplication::activeWindow();
 
     connect(shakeAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(shakeAnimationFunc(QVariant)));
     connect(shakeTimer, SIGNAL(timeout()), this, SLOT(launchShake()));
@@ -102,18 +102,12 @@ void ColorCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 #ifdef ENABLE_SHAKE
 void ColorCell::handleVisibilityOn()
 {
-    qDebug() << "TURN ON????";
-    MWindow *window = MApplication::activeWindow();
-
-    if (!window->isInSwitcher()) {
+    if (!window->isInSwitcher())
         shakeTimer->start(SHAKE_DURATION);
-        qDebug() << "TURN ON";
-    }
 }
 
 void ColorCell::handleVisibilityOff()
 {
-    qDebug() << "TURN OFF";
     shakeTimer->stop();
     shakeAnimation->stop();
     dX = dY = 0;

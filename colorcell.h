@@ -7,6 +7,7 @@
 #include <QPainter>
 #include <QVariantAnimation>
 #include <QTimer>
+#include <MWindow>
 
 #include "VariantAnimation.h"
 
@@ -62,6 +63,7 @@ private:
     bool wasPressed;
 
 #ifdef ENABLE_SHAKE
+    MWindow *window;
     int dX, dY;
     QTimer *shakeTimer;
     VariantAnimator *shakeAnimation;
