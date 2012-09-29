@@ -10,6 +10,8 @@
 
 #include "VariantAnimation.h"
 
+#define ENABLE_SHAKE 1
+
 class ColorCell : public QGraphicsWidget
 {
     Q_OBJECT
@@ -44,6 +46,8 @@ private slots:
 #ifdef ENABLE_SHAKE
     void shakeAnimationFunc(const QVariant &value);
     void launchShake();
+    void handleVisibilityOn();
+    void handleVisibilityOff();
 #endif
 
 private:

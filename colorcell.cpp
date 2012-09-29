@@ -2,6 +2,7 @@
 #include <QTime>
 #include <QDebug>
 #include <MApplication>
+#include <MWindow>
 
 #include "colorcell.h"
 
@@ -10,7 +11,7 @@
 
 #define SHAKE_DURATION 60
 
-//#define ENABLE_SHAKE 1
+#define ENABLE_SHAKE 1
 
 ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id, QGraphicsWidget *parent) :
     QGraphicsWidget(parent),
@@ -46,9 +47,14 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
     shakeTimer = new QTimer();
 
     dX = dY = 0;
+    MWindow *window = MApplication::activeWindow();
 
     connect(shakeAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(shakeAnimationFunc(QVariant)));
     connect(shakeTimer, SIGNAL(timeout()), this, SLOT(launchShake()));
+    connect(window, SIGNAL(displayExited()), this, SLOT(handleVisibilityOff()));
+    connect(window, SIGNAL(displayEntered()), this, SLOT(handleVisibilityOn()));
+    connect(window, SIGNAL(switcherEntered()), this, SLOT(handleVisibilityOff()));
+    connect(window, SIGNAL(switcherExited()), this, SLOT(handleVisibilityOn()));
 
     shakeTimer->start(SHAKE_DURATION);
 #endif
@@ -94,6 +100,27 @@ void ColorCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 }
 
 #ifdef ENABLE_SHAKE
+void ColorCell::handleVisibilityOn()
+{
+    qDebug() << "TURN ON????";
+    MWindow *window = MApplication::activeWindow();
+
+    if (!window->isInSwitcher()) {
+        shakeTimer->start(SHAKE_DURATION);
+        qDebug() << "TURN ON";
+    }
+}
+
+void ColorCell::handleVisibilityOff()
+{
+    qDebug() << "TURN OFF";
+    shakeTimer->stop();
+    shakeAnimation->stop();
+    dX = dY = 0;
+
+    update();
+}
+
 void ColorCell::shakeAnimationFunc(const QVariant &value)
 {
     if (dX < 0)
