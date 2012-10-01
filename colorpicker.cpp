@@ -3,6 +3,8 @@
 
 #include "colorpicker.h"
 #include "colorcell.h"
+#include "Singleton.h"
+#include "settings.h"
 
 #define WIDTH 80
 #define HEIGHT 80
@@ -39,6 +41,13 @@ ColorPicker::ColorPicker(int idToSelect, QGraphicsWidget *parent) :
     policy_landscape->setContentsMargins(0, 0, 0, 0);
     layout->setContentsMargins(0, 0, 0, 0);
 
+    /* Initialize Settings. */
+#ifdef ENABLE_SHAKE
+    Settings *settings = &Singleton<Settings>::Instance();
+    bool shake = settings->getShakeColorPicker();
+#else
+    bool shake = false;
+#endif
     bool select = false;
 
     for (int i = 0; i < CELLS_NUMER; ++i) {
@@ -47,8 +56,8 @@ ColorPicker::ColorPicker(int idToSelect, QGraphicsWidget *parent) :
         else
             select = false;
 
-        cellsPortrait[i] = new ColorCell(colors.at(i), WIDTH, HEIGHT, select, i);
-        cellsLandscape[i] = new ColorCell(colors.at(i), WIDTH, HEIGHT, select, i);
+        cellsPortrait[i] = new ColorCell(colors.at(i), WIDTH, HEIGHT, select, i, shake);
+        cellsLandscape[i] = new ColorCell(colors.at(i), WIDTH, HEIGHT, select, i, shake);
         policy_portrait->addItem(cellsPortrait[i], i / 5, i % 5, Qt::AlignCenter);
         policy_landscape->addItem(cellsLandscape[i], i % 5, i / 5, Qt::AlignCenter);
         connect(cellsPortrait[i], SIGNAL(signalClicked(QColor,int)), this, SLOT(colorClicked(QColor,int)));
@@ -88,7 +97,7 @@ void ColorPicker::colorClicked(QColor color, int cellId)
 {
     emit this->colorSelected(color, cellId);
 
-    this->disappear();
+    this->dismiss();
 }
 
 /*

@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+//#define ENABLE_SHAKE
+
 class Settings : public QObject
 {
     Q_OBJECT
@@ -17,6 +19,11 @@ public:
     bool getFeedback();
     int getImageSize();
     bool getFullscreen();
+
+#ifdef ENABLE_SHAKE
+    void setShakeColorPicker(bool toggled);
+    bool getShakeColorPicker();
+#endif
 
     void setAutoLoadFileName(const QString &actualFileName);
     QString getAutoLoadFileName();

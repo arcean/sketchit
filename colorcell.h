@@ -11,13 +11,13 @@
 
 #include "VariantAnimation.h"
 
-#define ENABLE_SHAKE 1
+//#define ENABLE_SHAKE
 
 class ColorCell : public QGraphicsWidget
 {
     Q_OBJECT
 public:
-    explicit ColorCell(QColor color, int width = 64, int height = 64, bool isSelect = false, int id = 0, QGraphicsWidget *parent = 0);
+    explicit ColorCell(QColor color, int width = 64, int height = 64, bool isSelect = false, int id = 0, bool shake = false, QGraphicsWidget *parent = 0);
     ~ColorCell();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -41,14 +41,17 @@ public slots:
     void emitSignalPressed(bool selectIdToSelect);
     void emitSignalClicked();
 
+#ifdef ENABLE_SHAKE
+    void handleVisibilityOn();
+    void handleVisibilityOff();
+#endif
+
 private slots:
     void expandAnimation(const QVariant &value);
 
 #ifdef ENABLE_SHAKE
     void shakeAnimationFunc(const QVariant &value);
     void launchShake();
-    void handleVisibilityOn();
-    void handleVisibilityOff();
 #endif
 
 private:
@@ -65,7 +68,6 @@ private:
 #ifdef ENABLE_SHAKE
     MWindow *window;
     int dX, dY;
-    QTimer *shakeTimer;
     VariantAnimator *shakeAnimation;
 #endif
     VariantAnimator *showAnimation;

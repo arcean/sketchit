@@ -9,11 +9,12 @@
 #define NORMAL_STATE 0
 #define SELECTED_STATE 6
 
-#define SHAKE_DURATION 60
+#define SHAKE_DURATION 220
+#define SHAKE_MAX_MOVE 6
 
-#define ENABLE_SHAKE 1
+//#define ENABLE_SHAKE
 
-ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id, QGraphicsWidget *parent) :
+ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id, bool shake, QGraphicsWidget *parent) :
     QGraphicsWidget(parent),
     color(color),
     width(width),
@@ -39,30 +40,38 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
     connect(showAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(expandAnimation(QVariant)));
 
 #ifdef ENABLE_SHAKE
-    shakeAnimation = new VariantAnimator();
-    shakeAnimation->setStartValue(NORMAL_STATE);
-    shakeAnimation->setEndValue(2);
-    shakeAnimation->setDuration(SHAKE_DURATION);
-
-    shakeTimer = new QTimer();
-
     dX = dY = 0;
-    window = MApplication::activeWindow();
 
-    connect(shakeAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(shakeAnimationFunc(QVariant)));
-    connect(shakeTimer, SIGNAL(timeout()), this, SLOT(launchShake()));
-    connect(window, SIGNAL(displayExited()), this, SLOT(handleVisibilityOff()));
-    connect(window, SIGNAL(displayEntered()), this, SLOT(handleVisibilityOn()));
-    connect(window, SIGNAL(switcherEntered()), this, SLOT(handleVisibilityOff()));
-    connect(window, SIGNAL(switcherExited()), this, SLOT(handleVisibilityOn()));
+    if (shake) {
+        shakeAnimation = new VariantAnimator();
+        shakeAnimation->setStartValue(NORMAL_STATE);
+        shakeAnimation->setEndValue(SHAKE_MAX_MOVE);
+        shakeAnimation->setDuration(SHAKE_DURATION);
+        shakeAnimation->setEasingCurve(QEasingCurve::InQuad);
 
-    shakeTimer->start(SHAKE_DURATION);
+        window = MApplication::activeWindow();
+
+        connect(shakeAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(shakeAnimationFunc(QVariant)));
+        connect(shakeAnimation, SIGNAL(finished()), this, SLOT(launchShake()));
+       /* connect(window, SIGNAL(displayExited()), this, SLOT(handleVisibilityOff()));
+        connect(window, SIGNAL(displayEntered()), this, SLOT(handleVisibilityOn()));
+        connect(window, SIGNAL(switcherEntered()), this, SLOT(handleVisibilityOff()));
+        connect(window, SIGNAL(switcherExited()), this, SLOT(handleVisibilityOn()));*/
+
+       // shakeTimer->start(SHAKE_DURATION);
+        launchShake();
+    }
 #endif
 }
 
 ColorCell::~ColorCell()
 {
+#ifdef ENABLE_SHAKE
+    handleVisibilityOff();
+    delete shakeAnimation;
+#endif
 
+    delete showAnimation;
 }
 
 void ColorCell::resizeEvent(QGraphicsSceneResizeEvent *event)
@@ -103,12 +112,11 @@ void ColorCell::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void ColorCell::handleVisibilityOn()
 {
     if (!window->isInSwitcher())
-        shakeTimer->start(SHAKE_DURATION);
+        launchShake();
 }
 
 void ColorCell::handleVisibilityOff()
 {
-    shakeTimer->stop();
     shakeAnimation->stop();
     dX = dY = 0;
 
@@ -117,6 +125,7 @@ void ColorCell::handleVisibilityOff()
 
 void ColorCell::shakeAnimationFunc(const QVariant &value)
 {
+    qDebug() << "BALALALA" << value.toInt() << "DX" << dX << "DY" << dY;
     if (dX < 0)
         dX = (value.toInt() * -1);
     else if (dX > 0)

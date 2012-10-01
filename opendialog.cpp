@@ -155,7 +155,7 @@ void OpenDialog::itemClicked(const QModelIndex &index)
     if (type == MediaType::Image) {
         QString imageId = index.data(OpenDialogModel::ImageId).toString();
         emit openImage(imageId);
-        this->disappear();
+        this->dismiss();
     }
 }
 

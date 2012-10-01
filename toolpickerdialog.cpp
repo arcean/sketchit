@@ -74,26 +74,26 @@ void ToolPickerDialog::itemClicked(const QModelIndex &index)
 {
     if (index.row() == 0) {
         emit this->toolTypeChanged(0);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 1) {
         emit this->toolTypeChanged(1);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 2) {
         emit this->toolTypeChanged(2);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 3) {
         emit this->toolTypeChanged(3);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 4) {
         emit this->toolTypeChanged(4);
-        this->disappear();
+        this->dismiss();
     }
     else {
         emit this->toolTypeChanged(5);
-        this->disappear();
+        this->dismiss();
     }
 }

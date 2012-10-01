@@ -85,3 +85,22 @@ QString Settings::getAutoLoadFileName()
 
     return value;
 }
+
+#ifdef ENABLE_SHAKE
+void Settings::setShakeColorPicker(bool toggled)
+{
+    QSettings settings;
+
+    settings.setValue("colorpicker/shake", toggled);
+}
+
+bool Settings::getShakeColorPicker()
+{
+    QSettings settings;
+    bool value =  settings.value("colorpicker/shake", false).toBool();
+
+    return value;
+}
+#endif
+
+

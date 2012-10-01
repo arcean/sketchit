@@ -139,6 +139,37 @@ void SettingsPage::createContent()
 
     /* End of the button group */
 
+#ifdef ENABLE_SHAKE
+    /* Color picker group */
+    MContainer *colorPickerBox = new MContainer();
+    colorPickerBox->setStyleName("CommonContainerInverted");
+    colorPickerBox->setTitle("Color picker");
+    QGraphicsLinearLayout *colorPickerLayout = new QGraphicsLinearLayout(Qt::Vertical);
+    colorPickerLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    colorPickerLayout->setContentsMargins(0, 0, 0, 0);
+
+    /* Switch for shake functionality */
+    QGraphicsLinearLayout *shakeLayout = new QGraphicsLinearLayout(Qt::Horizontal);
+    shakeLayout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    /* Let's see if we have shake enabled */
+    bool shake = settings->getShakeColorPicker();
+    MButton *shakeButton = new MButton();
+    shakeButton->setViewType(MButton::switchType);
+    shakeButton->setObjectName("CommonRightSwitchInverted");
+    shakeButton->setCheckable(true);
+    shakeButton->setChecked(shake);
+    MLabel *shakeLabel = new MLabel("Additional shake animations");
+    shakeLabel->setStyleName("CommonFieldLabelInverted");
+    shakeLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    shakeLayout->addItem(shakeLabel);
+    shakeLayout->addItem(shakeButton);
+    shakeLayout->setAlignment(shakeButton, Qt::AlignCenter);
+    connect(shakeButton, SIGNAL(toggled(bool)), this, SLOT(shakeColorPickerToggled(bool)));
+    colorPickerLayout->addItem(shakeLayout);
+    /* End of the color picker group */
+#endif
+
     MContainer *otherBox = new MContainer();
     otherBox->setStyleName("CommonContainerInverted");
     otherBox->setTitle("Other");
@@ -211,7 +242,16 @@ void SettingsPage::createContent()
     otherBox->setCentralWidget(otherBoxWidget);
     /* End of feedback functionality */
 
+#ifdef ENABLE_SHAKE
+    QGraphicsWidget *colorPickerBoxWidget = new QGraphicsWidget();
+    colorPickerBoxWidget->setLayout(colorPickerLayout);
+    colorPickerBox->setCentralWidget(colorPickerBoxWidget);
+#endif
+
     viewportLayoutPolicy->addItem(imageSizeBox, Qt::AlignCenter);
+#ifdef ENABLE_SHAKE
+    viewportLayoutPolicy->addItem(colorPickerBox, Qt::AlignCenter);
+#endif
     viewportLayoutPolicy->addItem(otherBox, Qt::AlignCenter);
 }
 
@@ -220,6 +260,13 @@ void SettingsPage::dismissEvent(MDismissEvent*)
     setImageSize();
     emit settingsChanged();
 }
+
+#ifdef ENABLE_SHAKE
+void SettingsPage::shakeColorPickerToggled(bool toggled)
+{
+    settings->setShakeColorPicker(toggled);
+}
+#endif
 
 void SettingsPage::autoLoadToggled(bool toggled)
 {

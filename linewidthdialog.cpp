@@ -75,18 +75,18 @@ void LineWidthDialog::itemClicked(const QModelIndex &index)
 {
     if (index.row() == 0) {
         emit this->lineWidthChanged(0);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 1) {
         emit this->lineWidthChanged(1);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 2) {
         emit this->lineWidthChanged(2);
-        this->disappear();
+        this->dismiss();
     }
     else if (index.row() == 3) {
         emit this->lineWidthChanged(3);
-        this->disappear();
+        this->dismiss();
     }
 }

@@ -7,6 +7,8 @@
 
 #include "settings.h"
 
+//#define ENABLE_SHAKE
+
 class SettingsPage : public MApplicationPage {
     Q_OBJECT
 public:
@@ -23,6 +25,9 @@ private slots:
     void fullscreenToggled(bool toggled);
     void autoLoadToggled(bool toggled);
     void feedbackToggled(bool toggled);
+#ifdef ENABLE_SHAKE
+    void shakeColorPickerToggled(bool toggled);
+#endif
 
 private:
     void setImageSize();

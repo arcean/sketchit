@@ -15,7 +15,7 @@ class ColorPicker : public MDialog
     Q_OBJECT
 public:
     explicit ColorPicker(int idToSelect = -1, QGraphicsWidget *parent = 0);
-    virtual ~ColorPicker();
+    ~ColorPicker();
 
 signals:
     void colorSelected(QColor color, int cellId);
