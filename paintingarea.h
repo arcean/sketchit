@@ -13,6 +13,11 @@
 
 #define MAX_UNDO 3
 
+#define LINE_WIDTH_SMALL 3
+#define LINE_WIDTH_MEDIUM 9
+#define LINE_WIDTH_LARGE 18
+#define LINE_WIDTH_VERY_LARGE 27
+
 class PaintingArea : public MWidget
 {
     Q_OBJECT
