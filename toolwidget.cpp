@@ -34,6 +34,8 @@ QRectF ToolWidget::boundingRect() const
 
 void ToolWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED (event);
+
     if(toggleable && toggled)
         this->setPixmap(pixmap_selected_dimmed);
     else this->setPixmap(pixmap_dimmed);
@@ -41,6 +43,8 @@ void ToolWidget::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void ToolWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    Q_UNUSED (event);
+
     emit clicked(tool);
 
     if(toggleable) {

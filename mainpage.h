@@ -59,6 +59,7 @@ private slots:
     void redoAction(int count_redo);
     void changePaintingAreaSettings();
     void parseColor(QColor color, int cellId);
+    void showPanningModeBannerOnDisappear();
 
 private:
     void setActualFileName(QString fileName);
@@ -78,6 +79,7 @@ private:
     MAction *menuRedo;
     MAction *menuUndo;
     MBanner *infoBanner;
+    bool showInfoBanner;
 
     Settings *settings;
 

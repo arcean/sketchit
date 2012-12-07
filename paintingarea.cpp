@@ -827,35 +827,35 @@ void PaintingArea::setLineWidth(int width)
 {
     switch (width) {
     case small:
-        lineWidthSelected = 3;
+        lineWidthSelected = LINE_WIDTH_SMALL;
         break;
     case medium:
-        lineWidthSelected = 9;
+        lineWidthSelected = LINE_WIDTH_MEDIUM;
         break;
     case large:
-        lineWidthSelected = 18;
+        lineWidthSelected = LINE_WIDTH_LARGE;
         break;
     case veryLarge:
-        lineWidthSelected = 27;
+        lineWidthSelected = LINE_WIDTH_VERY_LARGE;
         break;
     default:
-        lineWidthSelected = 9;
+        lineWidthSelected = LINE_WIDTH_MEDIUM;
     }
 }
 
 int PaintingArea::getLineWidth()
 {
     switch (lineWidthSelected) {
-    case 3:
+    case LINE_WIDTH_SMALL:
         return 0;
         break;
-    case 9:
+    case LINE_WIDTH_MEDIUM:
         return 1;
         break;
-    case 18:
+    case LINE_WIDTH_LARGE:
         return 2;
         break;
-    case 27:
+    case LINE_WIDTH_VERY_LARGE:
         return 3;
         break;
     default:

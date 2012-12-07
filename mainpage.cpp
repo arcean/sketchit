@@ -136,6 +136,9 @@ void MainPage::createContent()
 
     /* Initialize banner. */
     infoBanner = new MBanner();
+    showInfoBanner = false;
+
+    connect (infoBanner, SIGNAL(displayExited()), this, SLOT(showPanningModeBannerOnDisappear()));
 
     this->actualFileName = "";
 
@@ -184,7 +187,6 @@ void MainPage::changePaintingAreaSettings()
 
 void MainPage::undoAction(int count_undo)
 {
-    //qDebug() << "UNDO" << count_undo;
     if (count_undo == 0)
         menuUndo->setLocation(MAction::NoLocation);
     else
@@ -193,7 +195,6 @@ void MainPage::undoAction(int count_undo)
 
 void MainPage::redoAction(int count_redo)
 {
-    //qDebug() << "REDO" << count_redo;
     if (count_redo == 0)
         menuRedo->setLocation(MAction::NoLocation);
     else
@@ -415,16 +416,29 @@ void MainPage::showSaveNotifierBanner()
 
 void MainPage::showPanningModeBanner()
 {
-    infoBanner->setStyleName(MBannerType::SystemBanner);
-    if(this->isPannable()) {
-        infoBanner->setIconID("sketchit_pannable_selected");
-        infoBanner->setTitle("Panning mode enabled");
+    showInfoBanner = true;
+
+    if (infoBanner->isOnDisplay())
+        infoBanner->dismiss();
+    else
+        showPanningModeBannerOnDisappear();
+}
+
+void MainPage::showPanningModeBannerOnDisappear()
+{
+    if (showInfoBanner) {
+        infoBanner->setStyleName(MBannerType::SystemBanner);
+        if(this->isPannable()) {
+            infoBanner->setIconID("sketchit_pannable_selected");
+            infoBanner->setTitle("Panning mode enabled");
+        }
+        else {
+            infoBanner->setIconID("sketchit_pannable");
+            infoBanner->setTitle("Panning mode disabled");
+        }
+        showInfoBanner = false;
+        infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
     }
-    else {
-        infoBanner->setIconID("sketchit_pannable");
-        infoBanner->setTitle("Panning mode disabled");
-    }
-    infoBanner->appear(scene(), MSceneWindow::KeepWhenDone);
 }
 
 void MainPage::showSavedBanner()
