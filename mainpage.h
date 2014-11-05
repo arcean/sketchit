@@ -26,6 +26,7 @@ class MainPage : public MApplicationPage {
     Q_OBJECT
 public:
     MainPage(QGraphicsItem *parent = 0);
+    ~MainPage();
 
     bool saveWithDialog();
     void saveOnWindowEvents();

@@ -25,6 +25,11 @@ MainPage::MainPage(QGraphicsItem *parent)
 
 }
 
+MainPage::~MainPage()
+{
+
+}
+
 void MainPage::createContent()
 {
     MTheme *theme = MTheme::instance();

@@ -29,7 +29,7 @@ ColorCellWidget::ColorCellWidget(QColor color, int width, int height, QGraphicsW
 
 ColorCellWidget::~ColorCellWidget()
 {
-
+    delete pressAnimation;
 }
 
 void ColorCellWidget::resizeEvent(QGraphicsSceneResizeEvent *event)

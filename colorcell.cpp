@@ -22,6 +22,9 @@ ColorCell::ColorCell(QColor color, int width, int height, bool isSelect, int id,
     isSelect(isSelect),
     id(id)
 {
+#ifndef ENABLE_SHAKE
+    Q_UNUSED(shake)
+#endif
     if (isSelect)
         this->margin = SELECTED_STATE;
     else

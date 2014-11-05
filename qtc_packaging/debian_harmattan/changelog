@@ -1,3 +1,9 @@
+sketchit (1.3.10) unstable; urgency=low
+  * Maintenance release.
+  * Many fixes.
+
+ -- Tomasz Pieniążek <t.pieniazek@gazeta.pl>  Wed, 06 Nov 2014 22:32:16 +0200
+
 sketchit (1.3.9) unstable; urgency=low
   * New: improved infoBanner behaviour.
   * New: improved line width handling.

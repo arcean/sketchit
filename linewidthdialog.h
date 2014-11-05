@@ -19,9 +19,6 @@ private slots:
 
 signals:
     void lineWidthChanged(int size);
-
-private:
-    MList *list;
 };
 
 #endif // LINEWIDTHDIALOG_H

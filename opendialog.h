@@ -19,6 +19,7 @@ class OpenDialog : public MDialog
     Q_OBJECT
 public:
     explicit OpenDialog(QGraphicsWidget *parent = 0, const QString &currentFileName = "");
+    ~OpenDialog();
 
     QSizeF itemSize() const
     {
@@ -49,8 +50,6 @@ private:
 
     MSlider* m_columnsLandscapeSlider;
     MSlider* m_columnsPortraitSlider;
-
-    MSheet* configurationSheet;
 };
 
 #endif // OPENDIALOG_H

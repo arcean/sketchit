@@ -67,6 +67,15 @@ QSizeF ContentItemCreator::cellSize() const
     return m_gridPage->itemSize();
 }
 
+OpenDialog::~OpenDialog()
+{
+    delete list;
+    delete model;
+
+    delete m_columnsLandscapeSlider;
+    delete m_columnsPortraitSlider;
+}
+
 OpenDialog::OpenDialog(QGraphicsWidget*, const QString &currentFileName)
 {
     MWidget *centralWidget = new MWidget;

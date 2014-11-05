@@ -11,7 +11,9 @@
 #include "savedialog.h"
 #include "mainpage.h"
 
-SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
+SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent):
+    m_exitApp(exitApp),
+    m_saveAs(saveAs)
 {
     Q_UNUSED(parent);
 
@@ -50,16 +52,13 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
     landscapePolicy->setSpacing(8);
     portraitPolicy->setSpacing(8);
 
-    this->exitApp = exitApp;
-    this->saveAs = saveAs;
-
     MLabel *label;
-    if(saveAs)
+    if(m_saveAs)
         label = new MLabel("Save as:");
     else
         label = new MLabel("Do you want to save changes?");
 
-    if(saveAs) {
+    if(m_saveAs) {
         textEdit = new MTextEdit(MTextEditModel::SingleLine,
                                                  QString());
         textEdit->setObjectName("TextEditInverted");
@@ -75,7 +74,7 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
 
     landscapePolicy->addItem(label);
     portraitPolicy->addItem(label);
-    if(saveAs) {
+    if(m_saveAs) {
         landscapePolicy->addItem(separator);
         portraitPolicy->addItem(separator);
         landscapePolicy->addItem(textEdit);
@@ -90,11 +89,17 @@ SaveDialog::SaveDialog(bool exitApp, bool saveAs, QGraphicsWidget *parent)
 
     centralWidget->setLayout(layout);
     this->setCentralWidget(centralWidget);
+    connect(this, SIGNAL(appeared()), this, SLOT(onAppeared()));
+}
+
+void SaveDialog::onAppeared()
+{
+    textEdit->setFocus();
 }
 
 void SaveDialog::processDialogResult()
 {
-    if(saveAs) {
+    if(m_saveAs) {
         QString filename = textEdit->text();
         filename.append(".png");
 
@@ -118,7 +123,7 @@ QString SaveDialog::getNewFileName()
 {
     QDir appDir(APP_CATALOG);
     bool ready = false;
-    int counter = 0;
+    unsigned int counter = 0;
     QString baseName = "sketchit";
 
     if(!appDir.exists()) {

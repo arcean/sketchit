@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+QMAKE_CXXFLAGS += -Wall -Werror -O2
+
 TARGET = sketchit
 TEMPLATE = app
 

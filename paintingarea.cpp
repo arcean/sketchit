@@ -618,7 +618,7 @@ bool PaintingArea::event(QEvent *event)
                        highPoint = touchPoints[0].lastPos();
                        damageCount = 0;
                        if(backup_image)
-                            backup_image->~QPixmap();
+                            delete backup_image;
                        backup_image = new QPixmap(*image);
                        //setIsImageModified(true);
                     }
@@ -778,7 +778,7 @@ bool PaintingArea::event(QEvent *event)
                     this->setTransform(QTransform().scale(factor, factor));
 
 
-                    //Let's see if we can still zoom in
+                    // Let's see if we can still zoom in
                     if((width * factor < windowWidth)
                             && (height * factor < windowHeight)) {
                         blockZoomingIn = true;
@@ -943,15 +943,11 @@ void PaintingArea::createNewImage()
         sWidth = 900;
         sHeight = 900;
     }
-    //qDebug() << "Creating a new image...";
-    //qDebug() << "Image is NULL:" << image->isNull();
 
-    if(!image->isNull()) {
-      //  qDebug() << "Deleting the image...";
+    if(!image->isNull())
         delete image;
-    }
     image = new QPixmap(sWidth, sHeight);
-   // qDebug() << "New image created.";
+
 
     QPainter painter(image);
     painter.fillRect(image->rect(), QBrush("white"));

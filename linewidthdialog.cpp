@@ -51,7 +51,7 @@ LineWidthDialog::LineWidthDialog(int lineWidth, QGraphicsWidget *parent)
     centralWidget->setLayout(layout);
     this->setModal(true);
 
-    list = new MList(this);
+    MList *list = new MList(this);
     MContentItemCreator * cellCreator = new MContentItemCreator;
     list->setCellCreator(cellCreator);
     LineWidthModel * model = new LineWidthModel;

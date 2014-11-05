@@ -17,12 +17,13 @@ public:
 private:
     QString getNewFileName();
     MTextEdit *textEdit;
-    bool exitApp;
-    bool saveAs;
+    bool m_exitApp;
+    bool m_saveAs;
 
 private slots:
     void processDialogResult();
     void processDialogRejected();
+    void onAppeared();
 
 signals:
     void savedWithName(QString filename);
